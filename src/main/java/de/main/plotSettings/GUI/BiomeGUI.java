@@ -16,11 +16,13 @@ import org.bukkit.persistence.PersistentDataType;
 import javax.naming.Name;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class BiomeGUI {
 
-    public static final Map<BiomeType,Double> biomeListe = new HashMap<>();
+    // LinkedHashMap garantiert reinfolge
+    public static final Map<BiomeType,Double> biomeListe = new LinkedHashMap<>();
             static
             {
                 biomeListe.put(BiomeTypes.BADLANDS,500.0);
@@ -68,7 +70,7 @@ public class BiomeGUI {
             // Lore erstellen
             ArrayList biomeItemLore = new ArrayList<>();
             biomeItemLore.add("");
-            biomeItemLore.add("§7Biome: ".toUpperCase() + "§b" + biomeName);
+            biomeItemLore.add("§7Biome: §b" + biomeName);
             biomeItemLore.add("");
             biomeItemLore.add("§9§l-INFO-");
             biomeItemLore.add("");
