@@ -1,0 +1,100 @@
+settingsGUI:
+  borderGUI:
+    material: EMERALD_BLOCK
+    slot: 21
+    name: §eRand
+    lore:
+      - ''
+      - '§7Gestalte den Rand deines Plots.'
+      - '§6§l➤ Klicke zum Öffnen!'
+      - ''
+    action: open_borderGUI
+
+  biomeGUI:
+    material: PODZOL
+    slot: 14
+    name: §aBiome
+    lore:
+      - ''
+      - '§7Verändere das Biom deines Plots.'
+      - '§6§l➤ Klicke zum Öffnen!'
+      - ''
+    action: open_biomeGUI
+
+  musicGUI:
+    material: JUKEBOX
+    slot: 23
+    name: §dMusic
+    lore:
+      - ''
+      - '§7Spiele deine Lieblingsmusik auf dem Plot.'
+      - '§6§l➤ Klicke zum Öffnen!'
+      - ''
+    action: open_musicGUI
+
+  wallGUI:
+    material: STONE_BRICKS
+    slot: 12
+    name: §9Wand
+    lore:
+      - ''
+      - '§7Passe die Wände deines Plots an.'
+      - '§6§l➤ Klicke zum Öffnen!'
+      - ''
+    action: open_wallGUI
+
+  wetterGUI:
+    material: BLUE_ICE
+    slot: 30
+    name: §9Wetter
+    lore:
+      - ''
+      - '§7Bestimme das Wetter auf deinem Plot.'
+      - '§6§l➤ Klicke zum Öffnen!'
+      - ''
+    action: open_WeatherGUI
+
+  uhrzeitGUI:
+    material: CLOCK
+    slot: 32
+    name: §cUhrzeit
+    lore:
+      - ''
+      - '§7Bestimme die Uhrzeit auf deinem Plot.'
+      - '§6§l➤ Klicke zum Öffnen!'
+      - ''
+    action: open_TimeGUI
+
+mainGUI:
+  settingsGUI:
+    material: COMMAND_BLOCK
+    slot: 31
+    name: §9Einstellungen
+    lore:
+      - ''
+      - '§7Verwalte und passe dein Plot an.'
+      - '§6§l➤ Klicke zum Öffnen!'
+    action: open_settingsGUI
+
+  achievementsGUI:
+    material: BOOK
+    slot: 32
+    name: §9Achievements
+    lore:
+      - ''
+      - '§7Schalte besondere Erfolge frei.'
+      - '§6§l➤ Klicke zum Öffnen!'
+    action: open_achievementGUI
+
+profileGUI:
+  ratingGUI:
+    material: RED_DYE
+    slot: 27
+    name: §9Bewertung
+    lore:
+      - ''
+      - §7Richte dein Plot ein
+    action: open_settingsGUI
+
+# open_mainGUI
+# open_borderGUI

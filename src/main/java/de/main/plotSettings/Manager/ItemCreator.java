@@ -1,25 +1,19 @@
-package de.main.jobsystem.manager;
+package de.main.plotSettings.Manager;
 
 
-import com.plotsquared.core.plot.Plot;
-import de.main.jobsystem.Jobsystem;
 import de.main.plotSettings.PlotSettings;
-import org.bukkit.Bukkit;
+
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.Sound;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
+
 
 public class ItemCreator {
 

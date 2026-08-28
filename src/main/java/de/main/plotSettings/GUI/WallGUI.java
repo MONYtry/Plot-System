@@ -1,19 +1,15 @@
 package de.main.plotSettings.GUI;
 
-import com.plotsquared.core.plot.Plot;
-import com.plotsquared.core.plot.PlotManager;
-import com.plotsquared.core.util.PatternUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 
-public class BorderGUI {
+public class WallGUI {
 
     // Verfügbare Blöcke
     private static final Material[] BORDER_BLOCKS = new Material[]
@@ -44,7 +40,7 @@ public class BorderGUI {
 
     public static void open(Player p)
     {
-        Inventory borderGUI = Bukkit.createInventory(null,45,"Ränder");
+        Inventory borderGUI = Bukkit.createInventory(null,45,"Wall");
         int currentSlot = 0;
 
         // Nimmt sich alle Blocke

@@ -1,11 +1,13 @@
-package de.main.plotSettings.Listener;
+package de.main.plotSettings.Listener.GUI;
 
 import com.plotsquared.core.PlotSquared;
 import com.plotsquared.core.player.PlotPlayer;
 import com.plotsquared.core.plot.Plot;
 import com.sk89q.worldedit.world.biome.BiomeType;
 import com.sk89q.worldedit.world.biome.BiomeTypes;
+import de.main.plotSettings.GUI.BiomeGUI;
 import de.main.plotSettings.PlotSettings;
+import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -16,77 +18,115 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
-public class BiomeGUIListener implements Listener
-{
+public class BiomeGUIListener implements Listener {
+
     @EventHandler
-    public void OnInventoryClick(InventoryClickEvent e)
-    {
-        if (!e.getView().getTitle().equalsIgnoreCase("§eBiome")) return;
+    public void OnInventoryClick(InventoryClickEvent e) {
+
+        // Prüfen, ob es das Biome-GUI ist
+        if (!e.getView().getTitle().equalsIgnoreCase("§eBiome")) {
+            return;
+        }
+
         e.setCancelled(true);
 
-        if (e.getCurrentItem() == null) return;
+        // Nur Spieler
+        if (!(e.getWhoClicked() instanceof Player p)) {
+            return;
+        }
 
-        Player p = ((Player) e.getWhoClicked());
-
-
-        // Variable für den Block der Getroffen wurde!
+        // Item prüfen
         ItemStack item = e.getCurrentItem();
 
-        // Nullpointer verhindern
-        if (item == null) return;
-        if (!item.hasItemMeta()) return;
+        if (item == null || !item.hasItemMeta()) {
+            return;
+        }
 
         ItemMeta itemMeta = item.getItemMeta();
 
-        // Key erstellen
+        // Action-Key holen
+        NamespacedKey key = new NamespacedKey(
+                PlotSettings.getInstance(),
+                "action"
+        );
+
         String action = itemMeta.getPersistentDataContainer().get(
-                new NamespacedKey(PlotSettings.getInstance(), "action"),
+                key,
                 PersistentDataType.STRING
         );
 
+        if (action == null) {
+            return;
+        }
 
-        if (action == null) return;
-
-        if (action.startsWith("set_biome_"))
-        {
-            String[] data = action.split("_");
-            setBiome(p,data);
+        // Prüfen, ob es eine Biome-Action ist
+        if (action.startsWith("set_biome_")) {
+            setBiome(p, action);
         }
     }
 
 
+    private void setBiome(Player p, String action) {
 
-    private void setBiome(Player p,String[] data)
-    {
-        // Holt sich die UUID des Spieler der auf dem Plot steht
+        // PlotPlayer holen
         PlotPlayer<?> plotPlayer = PlotSquared.platform().playerManager().getPlayer(p.getUniqueId());
 
-        // Wenn es keine UUID gibt abbruch
-        if (plotPlayer == null) return;
+        if (plotPlayer == null) {
+            return;
+        }
 
         // Aktuelles Plot holen
         Plot plot = plotPlayer.getCurrentPlot();
 
-        // Holt sich den Namen von Data
-        String biomeName = data[2].toLowerCase();
-
-        // Versucht nun das Biome zu finden
-        BiomeType biome = BiomeTypes.get(biomeName);
-
-        if (data.length > 3)
-        {
-            String lastBiomeName = data[3].toLowerCase();
-
-            // Versucht nun das Biome zu finden
-            biome = BiomeTypes.get(biomeName + "_" + lastBiomeName);
+        if (plot == null) {
+            p.sendMessage("§cDu stehst auf keinem Plot!");
+            return;
         }
 
-        // Es wird das biome gechanged
-        // Nach ausführen wird eine Nachricht ausgegeben
-        plot.getPlotModificationManager().setBiome(biome, () ->
-        {
-            p.sendMessage("§ePlot Biom §7wurde erfolgreich geändert!");
-            p.playSound(p.getLocation(),Sound.ITEM_GOAT_HORN_SOUND_0,1,1);
-        });
+        String biomeName = action.substring("set_biome_".length()).toLowerCase();
+
+        // Biome suchen
+        BiomeType biome = BiomeTypes.get(biomeName);
+
+        if (biome == null) {
+            p.sendMessage("§cDieses Biom existiert nicht!");
+            return;
+        }
+
+        // Preis des Biomes holen
+        Double price = BiomeGUI.biomeListe.get(biome);
+
+        if (price == null) {
+            p.sendMessage("§cFür dieses Biom wurde kein Preis festgelegt!");
+            return;
+        }
+
+        // Permission erstellen
+        String permission = "plotsettings.biome." + biomeName;
+
+        // Prüfen, ob Spieler das Biom bereits besitzt
+        if (!p.hasPermission(permission)) {
+
+            double currentCash = PlotSettings.getEconomy().getBalance(p);
+
+            // Nicht genug Geld
+            if (currentCash < price) {
+                p.sendMessage("§cDu hast nicht genug Geld!");
+                return;
+            }
+
+            // Geld abziehen
+            PlotSettings.getEconomy().withdrawPlayer(p, price);
+
+            // Permission über LuckPerms setzen
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + p.getName() + " permission set " + permission + " true");
+        }
+
+        // Biome auf dem Plot setzen
+        plot.getPlotModificationManager().setBiome(biome, () -> {
+                    p.sendMessage("§ePlot-Biom §7wurde erfolgreich geändert!");
+                    p.playSound(p.getLocation(), Sound.ITEM_GOAT_HORN_SOUND_0, 1, 1);
+                }
+        );
     }
 }

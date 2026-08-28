@@ -2,4 +2,198 @@ name: PlotSettings
 version: '1.0-SNAPSHOT'
 main: de.main.plotSettings.PlotSettings
 api-version: '1.21'
-depend 
+depend: [PlotSquared]
+author: "[ M O N Y STUDIO]"
+commands:
+  Plotsettings:
+    usage: Plotsettings
+    description: "LoL"
+
+permissions:
+  plotsettings.*:
+    description: Zugriff auf alles im Plugin
+    default: op
+
+  plotsettings.use:
+    description: Standart Zugriff
+    default: true
+
+  plotsettings.hopper-admin:
+    description: Erlaubt überall Hopper zu platzieren
+    default: op
+
+  plotsettings.border.*:
+    description: Zugriff auf alle Randbl
+    default: op
+    children:
+      plotsettings.border.amethyst_block: true
+      plotsettings.border.diamond_block: true
+      plotsettings.border.gold_block: true
+      plotsettings.border.iron_block: true
+      plotsettings.border.emerald_block: true
+      plotsettings.border.netherite_block: true
+      plotsettings.border.obsidian: true
+      plotsettings.border.prismarine_bricks: true
+      plotsettings.border.quartz_block: true
+      plotsettings.border.redstone_block: true
+      plotsettings.border.lapis_block: true
+      plotsettings.border.beacon: true
+      plotsettings.border.blue_concrete: true
+      plotsettings.border.oak_log: true
+      plotsettings.border.prismarine: true
+
+  plotsettings.border.diamond_block:
+    description: Darf Diamantrand setzen
+    default: op
+
+  plotsettings.border.gold_block:
+    description: Darf Goldrand setzen
+    default: op
+
+  plotsettings.border.iron_block:
+    description: Darf Eisenrand setzen
+    default: op
+
+  plotsettings.border.emerald_block:
+    description: Darf Smaragdrand setzen
+    default: op
+
+  plotsettings.border.netherite_block:
+      description: Darf Netheriterand setzen
+      default: op
+
+  plotsettings.border.obsidian:
+    description: Darf Obsidianrand setzen
+    default: op
+
+  plotsettings.border.prismarine_bricks:
+    description: Darf Prismarinerand setzen
+    default: op
+
+  plotsettings.border.quartz_block:
+    description: Darf Quartzrand setzen
+    default: op
+
+  plotsettings.border.redstone_block:
+    description: Darf Redstonerand setzen
+    default: op
+
+  plotsettings.border.lapis_block:
+    description: Darf Lapisrand setzen
+    default: op
+
+  plotsettings.border.beacon:
+    description: Darf Beacon setzen
+    default: op
+
+  plotsettings.border.light_blue_concrete:
+    description: Darf Beton setzen
+    default: op
+
+  plotsettings.border.oak_log:
+    description: Darf holz setzen
+    default: op
+
+  plotsettings.border.prismarine:
+    description: Darf PRISMARINE setzen
+    default: op
+
+  plotsettings.biome.*:
+    description: Zugriff auf alle Biome
+    default: op
+    children:
+      plotsettings.biome.badlands: true
+      plotsettings.biome.basalt_deltas: true
+      plotsettings.biome.plains: true
+      plotsettings.biome.jungle: true
+      plotsettings.biome.savanna: true
+      plotsettings.biome.snowy_taiga: true
+
+    plotsettings.biome.badlands:
+      description: Darf Badlands als Biom setzen
+      default: op
+
+    plotsettings.biome.basalt_deltas:
+      description: Darf Basalt Deltas als Biom setzen
+      default: op
+
+    plotsettings.biome.plains:
+      description: Darf Plains als Biom setzen
+      default: op
+
+    plotsettings.biome.jungle:
+      description: Darf Jungle als Biom setzen
+      default: op
+
+    plotsettings.biome.savanna:
+      description: Darf Savanna als Biom setzen
+      default: op
+
+    plotsettings.biome.snowy_taiga:
+      description: Darf Snowy Taiga als Biom setzen
+      default: op
+
+  plotsettings.music.*:
+    description: Zugriff auf alle Musikstücke
+    default: op
+    children:
+      plotsettings.music.music_disc_lava_chicken: true
+      plotsettings.music.music_disc_pigstep: true
+      plotsettings.music.music_disc_cat: true
+      plotsettings.music.music_disc_tears: true
+      plotsettings.music.music_disc_creator: true
+      plotsettings.music.music_disc_11: true
+      plotsettings.music.music_disc_5: true
+      plotsettings.music.music_disc_strad: true
+      plotsettings.music.music_disc_far: true
+      plotsettings.music.music_disc_blocks: true
+      plotsettings.music.music_disc_wait: true
+      plotsettings.music.music_disc_precipice: true
+
+  plotsettings.music.music_disc_lava_chicken:
+    description: Darf Lava Chicken Musik benutzen
+    default: op
+
+  plotsettings.music.music_disc_pigstep:
+    description: Darf Pigstep Musik benutzen
+    default: op
+
+  plotsettings.music.music_disc_cat:
+    description: Darf Cat Musik benutzen
+    default: op
+
+  plotsettings.music.music_disc_tears:
+    description: Darf Tears Musik benutzen
+    default: op
+
+  plotsettings.music.music_disc_creator:
+    description: Darf Creator Musik benutzen
+    default: op
+
+  plotsettings.music.music_disc_11:
+    description: Darf 11 Musik benutzen
+    default: op
+
+  plotsettings.music.music_disc_5:
+    description: Darf 5 Musik benutzen
+    default: op
+
+  plotsettings.music.music_disc_strad:
+    description: Darf Strad Musik benutzen
+    default: op
+
+  plotsettings.music.music_disc_far:
+    description: Darf Far Musik benutzen
+    default: op
+
+  plotsettings.music.music_disc_blocks:
+    description: Darf Blocks Musik benutzen
+    default: op
+
+  plotsettings.music.music_disc_wait:
+    description: Darf Wait Musik benutzen
+    default: op
+
+  plotsettings.music.music_disc_precipice:
+    description: Darf Precipice Musik benutzen
+    default: op

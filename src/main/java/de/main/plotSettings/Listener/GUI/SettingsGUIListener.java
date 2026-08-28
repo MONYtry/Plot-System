@@ -3,9 +3,9 @@ package de.main.plotSettings.Listener.GUI;
 import com.plotsquared.core.PlotSquared;
 import com.plotsquared.core.player.PlotPlayer;
 import com.plotsquared.core.plot.Plot;
-import de.main.plotSettings.GUI.BiomeGUI;
-import de.main.plotSettings.GUI.BorderGUI;
-import de.main.plotSettings.GUI.WallGUI;
+import com.plotsquared.core.plot.flag.implementations.MusicFlag;
+import com.sk89q.worldedit.world.item.ItemTypes;
+import de.main.plotSettings.GUI.*;
 import de.main.plotSettings.PlotSettings;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
@@ -17,17 +17,14 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
-public class MainGUIListener implements Listener {
+public class SettingsGUIListener implements Listener {
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e) {
-        if (!e.getView().getTitle().equalsIgnoreCase("§eWetter") &&
-                e.getView().getTitle().equalsIgnoreCase("Ränder") &&
-                e.getView().getTitle().equalsIgnoreCase("§eBiome") &&
-                e.getView().getTitle().equalsIgnoreCase("&7» §ePloteinstellungen")
-        ) return;
+        if (!e.getView().getTitle().equalsIgnoreCase("§7» §ePloteinstellungen")) return;
 
         if (e.getView().getTitle() == null) return;
+        e.setCancelled(true);
 
         Player player = (Player) e.getWhoClicked();
 
@@ -36,6 +33,8 @@ public class MainGUIListener implements Listener {
 
         Plot plot = plotPlayer.getCurrentPlot();
         if (plot == null) return;
+
+        //plot.setFlag(MusicFlag.class, "minecraft:music_disc_cat");
 
         // Variable für den Block der Getroffen wurde!
         ItemStack item = e.getCurrentItem();
@@ -53,14 +52,7 @@ public class MainGUIListener implements Listener {
         );
 
         Player p = ((Player) e.getWhoClicked());
-        if (e.getView().getTitle().equalsIgnoreCase("Ränder"))
-        {
-            BorderGUIListener.setBorder(e,plot);
-        }
-        if (e.getView().getTitle().equalsIgnoreCase("Wall"))
-        {
-            WallGUIListener.setWall(e,plot);
-        }
+
         if (action == null) return;
         switch (action) {
 
@@ -80,6 +72,12 @@ public class MainGUIListener implements Listener {
                 p.getInventory().close();
                 p.playSound(e.getWhoClicked().getLocation(), Sound.BLOCK_ENDER_CHEST_CLOSE, 1f, 1f);
                 BorderGUI.createBorderGUI(p);
+                break;
+
+            case ("open_musicGUI"):
+                p.getInventory().close();
+                p.playSound(p.getLocation(),Sound.BLOCK_ENDER_CHEST_OPEN,1,1);
+                MusicGUI.createMusicGUI(p);
                 break;
         }
     }

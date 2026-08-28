@@ -3,10 +3,17 @@ package de.main.plotSettings.Listener.GUI;
 import com.plotsquared.core.PlotSquared;
 import com.plotsquared.core.player.PlotPlayer;
 import com.plotsquared.core.plot.Plot;
+import com.plotsquared.core.plot.PlotManager;
 import com.plotsquared.core.plot.flag.implementations.MusicFlag;
+import com.plotsquared.core.plot.flag.implementations.TimeFlag;
+import com.plotsquared.core.plot.flag.implementations.WeatherFlag;
+import com.plotsquared.core.util.PatternUtil;
 import de.main.plotSettings.GUI.MusicGUI;
+import de.main.plotSettings.GUI.TimeGUI;
+import de.main.plotSettings.GUI.WeatherGUI;
 import de.main.plotSettings.PlotSettings;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -19,12 +26,12 @@ import org.bukkit.persistence.PersistentDataType;
 
 import java.util.Map;
 
-public class MusicGUIListener implements Listener {
+public class TimeGUIListener implements Listener {
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e)
     {
-        if (!e.getView().getTitle().equalsIgnoreCase("§cMusic")) return;
+        if (!e.getView().getTitle().equalsIgnoreCase("§eUhrzeit")) return;
 
         if (e.getView().getTitle() == null) return;
         e.setCancelled(true);
@@ -57,37 +64,28 @@ public class MusicGUIListener implements Listener {
         String action = itemMeta.getPersistentDataContainer().get(new NamespacedKey(PlotSettings.getInstance(), "action"), PersistentDataType.STRING);
 
 
-        if (action.startsWith("set_music_"))
+        if (action.startsWith("set_time_"))
         {
-            String music = action.substring("set_music_".length());
+            String uhrzeitName = action.substring("set_time_".length());
 
-            Double price = null;
-
-            // Preis für die Musik suchen
-            for (Map.Entry<ItemType, Double> entry : MusicGUI.musicDiscs.entrySet())
-            {
-                if (entry.getKey().getKey().getKey().equalsIgnoreCase(music))
-                {
-                    price = entry.getValue();
-                    break;
-                }
-            }
+            int price = TimeGUI.timeListe.get(uhrzeitName);
 
             // Keine Musik/kein Preis gefunden
-            if (price == null)
+            if (price == 0)
             {
-                player.sendMessage("§cFür diese Musik wurde kein Preis festgelegt!");
+                player.sendMessage("§cFür dieses Wetter wurde kein Preis festgelegt!");
                 return;
             }
 
-            setMusic(plot, music, player,price);
+            setTime(plot, uhrzeitName, player,price);
         }
     }
 
-    private void setMusic(Plot plot,String music, Player p,double price)
+    private void setTime(Plot plot,String uhrzeitName, Player p,double price)
     {
 
-        String permission = "plotsettings.music." + music;
+        String permission = "plotsettings.time." + uhrzeitName;
+        int time = 0;
         double currentCash = PlotSettings.getEconomy().getBalance(p);
 
         if (!p.hasPermission(permission))
@@ -104,14 +102,35 @@ public class MusicGUIListener implements Listener {
             p.sendMessage("§7Du hast §c-" + price + "$ §7bezahlt!");
 
         }
-        if (music.equalsIgnoreCase("BARRIER"))
+
+        switch (uhrzeitName)
         {
-            plot.removeFlag(MusicFlag.MUSIC_FLAG_NONE);
-            p.sendMessage("§eMusik wurde §cdeaktivert");
-            return;
+            case ("Mittags"):
+                time = 2000;
+                break;
+
+            case ("Nachts"):
+                time = 14000;
+                break;
+
+            case ("Frühs"):
+                time =  23000;
+                break;
+
+            case ("remove"):
+                plot.removeFlag(TimeFlag.class);
+                p.resetPlayerTime();
+
+                p.sendMessage("§cZeit-Feature wurde entfernt!");
+                p.closeInventory();
+                return;
+
         }
-        plot.setFlag(MusicFlag.class,music);
-        p.sendMessage("§aMusik wurde erfolgreich geändert!");
+
+        String newTime = String.valueOf(time);
+
+        plot.setFlag(TimeFlag.class,newTime);
+        p.sendMessage("§cZeit wurde erfolgreich geändert!");
         p.closeInventory();
     }
 }

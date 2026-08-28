@@ -1,14 +1,35 @@
-package de.main.plotSettings.Listener;
+package de.main.plotSettings.Listener.GUI;
 
+import com.plotsquared.core.PlotSquared;
+import com.plotsquared.core.player.PlotPlayer;
 import com.plotsquared.core.plot.Plot;
 import com.plotsquared.core.plot.PlotManager;
 import com.plotsquared.core.util.PatternUtil;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
-public class WallGUIListener {
+public class WallGUIListener implements Listener {
+
+    @EventHandler
+    public void onInventoryClick(InventoryClickEvent e) {
+        if (!e.getView().getTitle().equalsIgnoreCase("Wall")) return;
+
+        if (e.getView().getTitle() == null) return;
+        e.setCancelled(true);
+
+        Player player = (Player) e.getWhoClicked();
+
+        PlotPlayer<?> plotPlayer = PlotSquared.platform().playerManager().getPlayer(player.getUniqueId());
+        if (plotPlayer == null) return;
+
+        Plot plot = plotPlayer.getCurrentPlot();
+        if (plot == null) return;
+
+        setWall(e,plot);
+    }
 
     public static void setWall(InventoryClickEvent e, Plot plot)
     {
@@ -45,9 +66,8 @@ public class WallGUIListener {
         }
 
         p.sendMessage("§aRand wurde erfolgreich auf: "  + displayItem + " gesetzt");
-
         p.closeInventory();
-
         e.setCancelled(true);
+
     }
 }
