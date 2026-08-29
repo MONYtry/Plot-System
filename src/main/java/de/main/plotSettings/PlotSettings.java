@@ -6,6 +6,7 @@ import de.main.plotSettings.Achviment.AchivmentManager;
 import de.main.plotSettings.Commands.PlotSettingsCommand;
 import de.main.plotSettings.Listener.GUI.*;
 import de.main.plotSettings.Listener.HopperlimitListener;
+import de.main.plotSettings.Listener.PlotCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -67,6 +68,7 @@ public final class PlotSettings extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new AchivmentListener(),this);
         Bukkit.getPluginManager().registerEvents(new WeatherGUIListener(),this);
         Bukkit.getPluginManager().registerEvents(new TimeGUIListener(),this);
+        Bukkit.getPluginManager().registerEvents(new PlotCommand(),this);
 
         // Command
         getCommand("Plotsettings").setExecutor(new PlotSettingsCommand());

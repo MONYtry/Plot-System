@@ -37,7 +37,7 @@ public class PlotSettingsCommand implements CommandExecutor {
             // Spieler ist nicht Owner des Grundstücks
             if (!plot.isOwner(p.getUniqueId()) && p.hasPermission("plotsettings.*"))
             {
-                p.sendMessage("Dieser Plot gehört Dir nicht!");
+                p.sendMessage("§cDieses Grundstück gehört dir nicht!");
                 return true;
             }
 

@@ -11,6 +11,7 @@ commands:
     usage: Plotsettings
     description: "LoL"
 
+
 permissions:
   plotsettings.*:
     description: Zugriff auf alles im Plugin
