@@ -1,7 +1,7 @@
 rewardGUI:
   reward1:
     level: 1
-    slot: 1
+    slot: 0
     material: IRON_INGOT
     name: §f16x Eisen
     amount: 10
@@ -10,3 +10,26 @@ rewardGUI:
       - §7Belohnung für Level 1
       - ''
     action: claim_reward_1
+    command: "eco give %player% 500"
+  reward2:
+    level: 2
+    slot: 1
+    material: DIAMOND
+    name: §f3x Diamanten
+    amount: 10
+    lore:
+      - ''
+      - §7Belohnung für Level 2
+      - ''
+    action: claim_reward_3
+  reward3:
+    level: 5
+    slot: 2
+    material: DIAMOND
+    name: §f3x Diamanten
+    amount: 3
+    lore:
+      - ''
+      - §7Belohnung für Level 5
+      - ''
+    action: claim_reward_5

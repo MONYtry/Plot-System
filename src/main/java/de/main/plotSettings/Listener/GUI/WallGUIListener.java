@@ -53,7 +53,7 @@ public class WallGUIListener implements Listener {
             return;
         }
 
-        // Plot getten und Change von Border
+        // Plot holen und Change von Border
         PlotManager manager = plot.getArea().getPlotManager();
         for (Plot merged : plot.getConnectedPlots()) {
             manager.setComponent(

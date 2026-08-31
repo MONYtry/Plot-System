@@ -10,18 +10,22 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class rewardGUI {
 
-    public static void createRewardGUI(Player p) {
-
+    public static void createRewardGUI(Player p)
+    {
         FileConfiguration cfg = PlotSettings.getInstance().rewards;
         FileConfiguration cfgPlayerData = PlotSettings.getInstance().playerData;
 
         Inventory inventory = Bukkit.createInventory(null, 36, "§aBelohnungen");
+
+        createDisplayItems(inventory,Material.RED_STAINED_GLASS_PANE,27,36,p);
+
 
         ConfigurationSection rewards = cfg.getConfigurationSection("rewardGUI");
 
@@ -110,5 +114,24 @@ public class rewardGUI {
         p.playSound(p.getLocation(), Sound.BLOCK_ENDER_CHEST_OPEN, 1f, 1f);
 
         p.openInventory(inventory);
+    }
+
+
+    private static void createDisplayItems(Inventory inventory, Material material, int startSlot, int endSlot,Player p)
+    {
+        for (int i = startSlot; i < endSlot; i++)
+        {
+            if (inventory.getItem(i) == null)
+            {
+                ItemStack displayItem = new ItemStack(material);
+                inventory.setItem(i,displayItem);
+            }
+            else
+            {
+                String occupiedMessagePrefix = "§7Slot §e[" + startSlot + "]";
+                p.sendMessage(occupiedMessagePrefix + "ist bereits besetzt!");
+                p.sendMessage(occupiedMessagePrefix + "§7besetzt von §c" + inventory.getItem(startSlot));
+            }
+        }
     }
 }

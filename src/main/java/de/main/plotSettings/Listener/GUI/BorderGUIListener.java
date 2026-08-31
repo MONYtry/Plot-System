@@ -48,8 +48,6 @@ public class BorderGUIListener implements Listener {
                 PersistentDataType.STRING
         );
 
-        Player p = ((Player) e.getWhoClicked());
-
         BorderGUIListener.setBorder(e,plot);
 
     }
