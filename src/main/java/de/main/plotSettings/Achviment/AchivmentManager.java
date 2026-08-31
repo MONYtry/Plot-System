@@ -1,5 +1,6 @@
 package de.main.plotSettings.Achviment;
 
+import de.main.plotSettings.Level.PlotLevelManager;
 import de.main.plotSettings.PlotSettings;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -113,10 +114,10 @@ public class AchivmentManager {
             if (achivment.getMaterial() != material) {
                 continue;
             }
-
+            // Holt sich die Path`s
             String playerPath = "players." + p.getUniqueId();
             String basePath = playerPath + ".achievements." + achivment.getId();
-
+            // Holt sich die Daten basierend auf dem Path
             int brokenBlocks = playerData.getInt(playerPath + ".blocks.destoryed." + material.name());
             int currentLevel = playerData.getInt(basePath + ".level");
             int newLevel = currentLevel;
@@ -152,5 +153,6 @@ public class AchivmentManager {
         p.sendMessage("§7Stufe: §e" + newLevel);
         p.sendTitle("§6§lERFOLG FREIGESCHALTET!","§f" + achivment.getTitle() +" "+ newLevel);
         p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_IRON_XYLOPHONE,1,1);
+        PlotLevelManager.addLevel(p);
     }
 }

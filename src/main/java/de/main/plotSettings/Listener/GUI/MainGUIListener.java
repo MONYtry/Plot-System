@@ -5,6 +5,7 @@ import com.plotsquared.core.player.PlotPlayer;
 import com.plotsquared.core.plot.Plot;
 import de.main.plotSettings.GUI.*;
 import de.main.plotSettings.PlotSettings;
+import de.main.plotSettings.Rewards.rewardGUI;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
@@ -81,6 +82,11 @@ public class MainGUIListener implements Listener {
                 TimeGUI.createTimeGUI(p);
                 break;
 
+            case ("open_rewardGUI"):
+                p.getInventory().close();
+                p.playSound(p.getLocation(),Sound.BLOCK_ENDER_CHEST_CLOSE,1,1);
+                rewardGUI.createRewardGUI(p);
+                break;
             default:
                 if (action.startsWith("open_plot_"))
                 {

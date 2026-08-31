@@ -26,6 +26,8 @@ public final class PlotSettings extends JavaPlugin {
     public FileConfiguration achivment;
     public FileConfiguration messages;
     public FileConfiguration playerData;
+    public FileConfiguration rewards;
+
 
     private File playerDataFile;
     private File plotFile;
@@ -69,6 +71,7 @@ public final class PlotSettings extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new WeatherGUIListener(),this);
         Bukkit.getPluginManager().registerEvents(new TimeGUIListener(),this);
         Bukkit.getPluginManager().registerEvents(new PlotCommand(),this);
+        Bukkit.getPluginManager().registerEvents(new RewardsGUIListener(),this);
 
         // Command
         getCommand("Plotsettings").setExecutor(new PlotSettingsCommand());
@@ -82,12 +85,15 @@ public final class PlotSettings extends JavaPlugin {
         saveResource("Achivments.yml",false);
         saveResource("messages.yml",false);
         saveResource("playerData.yml",false);
+        saveResource("rewards.yml",false);
 
         gui = YamlConfiguration.loadConfiguration(new File(getDataFolder(),"gui.yml"));
         messages = YamlConfiguration.loadConfiguration(new File(getDataFolder(),"messages.yml"));
         plot = YamlConfiguration.loadConfiguration(new File(getDataFolder(), "plot.yml"));
         achivment = YamlConfiguration.loadConfiguration(new File(getDataFolder(), "Achivments.yml"));
         playerData = YamlConfiguration.loadConfiguration(new File(getDataFolder(),"playerData.yml"));
+        rewards = YamlConfiguration.loadConfiguration(new File(getDataFolder(), "rewards.yml"));
+
 
         plotFile = new File(getDataFolder(), "plot.yml");
         playerDataFile = new File(getDataFolder(),"playerData.yml");

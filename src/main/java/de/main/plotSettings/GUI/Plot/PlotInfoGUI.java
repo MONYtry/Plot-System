@@ -3,18 +3,22 @@ package de.main.plotSettings.GUI.Plot;
 import com.plotsquared.core.PlotSquared;
 import com.plotsquared.core.player.PlotPlayer;
 import com.plotsquared.core.plot.Plot;
+import com.plotsquared.core.plot.Rating;
 import de.main.plotSettings.Level.PlotLevelManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.eclipse.aether.transfer.RepositoryOfflineException;
 
-import java.lang.reflect.Array;
-import java.text.SimpleDateFormat;
+
 import java.util.*;
+
+import static de.main.plotSettings.Manager.PlotInfoHelper.*;
 
 public class PlotInfoGUI {
 
@@ -22,80 +26,39 @@ public class PlotInfoGUI {
     {
         Inventory infoGUI = Bukkit.createInventory(null,36,"§eInfo");
 
-        createRatings(infoGUI,p);
-        createInfo(infoGUI,p);
-        createPlotMemberBlock(infoGUI,p);
-        createPlotTrustedBlock(infoGUI,p);
+        createRatingsBlock(infoGUI,p,32);
+        createInfoBlock(infoGUI,p,30);
+        createPlotMemberBlock(infoGUI,p,0);
+        createPlotTrustedBlock(infoGUI,p,9);
+        createDenyBlock(infoGUI,p,18);
+
+        ArrayList<String> lore = new ArrayList<>();
+        lore.add("");
+        lore.add("§7Weitere §eFeatures §7sind in §ePlanung!");
+        lore.add("§7Falls du eine §eIdee §7hast, lass es uns §eWissen!");
+        lore.add("§7Vielen Dank für euer §eVerständnis §c<3");
+        createUpdateItem(infoGUI,13,Material.COMMAND_BLOCK_MINECART,lore);
 
         p.openInventory(infoGUI);
     }
 
-    private static String getPlotOwner(Player p,Plot plot)
+    public static void createUpdateItem(Inventory inventory , int Slot, Material material, ArrayList<String> lore)
     {
-        // Spieler ist nicht auf einem Grundstück!
-        if (plot == null)
-        {
-            p.sendMessage("§7Kein Grundstück gefunden!");
-            return "§cUnbekannt!";
-        }
-        UUID plot_owner_uuid = plot.getOwner();
-        Player plot_owner = Bukkit.getPlayer(plot_owner_uuid);
-        return plot_owner.getName();
+        ItemStack updateItem = new ItemStack(material);
+        ItemMeta updateItemMeta = updateItem.getItemMeta();
+
+        // IDEE
+        // Jedes mal Random Farbe Nehmen!
+        // 31.08.2026 17:09 Uhr
+        // IDEE
+
+        updateItemMeta.setDisplayName("§d§ke§r§e§ke§r §cUpdate-Info §a§ke§r§9§ke§r");
+        updateItemMeta.setLore(lore);
+
+        updateItem.setItemMeta(updateItemMeta);
+        inventory.setItem(Slot,updateItem);
     }
-
-    private static String getPlotDate(Player p, Plot plot)
-    {
-        long time = plot.getTimestamp();
-        if (time <= 0)
-        {
-            return "Unbekannt!";
-        }
-
-        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm");
-        return format.format(new Date(time));
-    }
-    private static ArrayList<String> getPlotMembers(Plot plot,Player p)
-    {
-        HashSet<UUID> raw_members = plot.getMembers();
-        ArrayList<String> memberLore = new ArrayList<>();
-        memberLore.add("Mitglieder: ");
-
-        int count = 0;
-        for (UUID test : raw_members)
-        {
-            OfflinePlayer player = Bukkit.getOfflinePlayer(test);
-            memberLore.add("§7[#" + count + "] §e" + player.getName());
-            count++;
-        }
-
-        int members = raw_members.size();
-        memberLore.add("§7Insgesamt: §c" + members);
-
-        return memberLore;
-    }
-
-    private static ArrayList<String> getPlotTrusted(Plot plot,Player p)
-    {
-        HashSet<UUID> raw_trusted = plot.getTrusted();
-
-        ArrayList<String> trustedLore = new ArrayList<>();
-        trustedLore.add("Vertraut: ");
-
-        int count = 0;
-        for (UUID trusted : raw_trusted)
-        {
-            OfflinePlayer player = Bukkit.getOfflinePlayer(trusted);
-            trustedLore.add("§7[#" + count + "] §e" + player.getName());
-            count++;
-        }
-
-
-        int members = trustedLore.size();
-        trustedLore.add("§7Insgesamt: §c" + members);
-
-        return trustedLore;
-    }
-    private static void createPlotMemberBlock(Inventory inventory, Player p)
+    private static void createPlotMemberBlock(Inventory inventory, Player p,int Slot)
     {
         // Holt sich die UUID des Spieler der auf dem Plot steht
         PlotPlayer<?> plotPlayer = PlotSquared.platform().playerManager().getPlayer(p.getUniqueId());
@@ -115,12 +78,12 @@ public class PlotInfoGUI {
         }
 
         // Item erstellen
-        displayMaterial = Material.GREEN_DYE;
+        displayMaterial = Material.YELLOW_STAINED_GLASS_PANE;
 
         ItemStack memberItem = new ItemStack(displayMaterial);
         ItemMeta memberItemMeta = memberItem.getItemMeta();
 
-        memberItemMeta.setDisplayName("§6Plot-Infomationen");
+        memberItemMeta.setDisplayName("§eMitglieder: ");
 
         Set<Plot> mergedPlots = plot.getConnectedPlots();
         mergedPlots.size();
@@ -130,10 +93,10 @@ public class PlotInfoGUI {
         memberItemMeta.setLore(memberLore);
 
         memberItem.setItemMeta(memberItemMeta);
-        inventory.setItem(20,memberItem);
+        inventory.setItem(Slot,memberItem);
     }
 
-    private static void createPlotTrustedBlock(Inventory inventory, Player p)
+    private static void createDenyBlock(Inventory inventory, Player p,int Slot)
     {
         // Holt sich die UUID des Spieler der auf dem Plot steht
         PlotPlayer<?> plotPlayer = PlotSquared.platform().playerManager().getPlayer(p.getUniqueId());
@@ -153,22 +116,60 @@ public class PlotInfoGUI {
         }
 
         // Item erstellen
-        displayMaterial = Material.RED_CONCRETE;
+        displayMaterial = Material.RED_STAINED_GLASS_PANE;
+
+        ItemStack deniedItem = new ItemStack(displayMaterial);
+        ItemMeta deniedItemMeta = deniedItem.getItemMeta();
+
+        deniedItemMeta.setDisplayName("§cGebannt:");
+
+
+        // Lore erstellen
+        ArrayList<String> deniedLore = getDeniedPlayer(plot);
+        deniedItemMeta.setLore(deniedLore);
+
+        deniedItem.setItemMeta(deniedItemMeta);
+        inventory.setItem(Slot,deniedItem);
+    }
+
+    private static void createPlotTrustedBlock(Inventory inventory, Player p,int Slot)
+    {
+        // Holt sich die UUID des Spieler der auf dem Plot steht
+        PlotPlayer<?> plotPlayer = PlotSquared.platform().playerManager().getPlayer(p.getUniqueId());
+
+        // Wenn es keine UUID gibt abbruch
+        if (plotPlayer == null) return;
+
+        // Aktuelles Plot holen
+        Plot plot = plotPlayer.getCurrentPlot();
+        Material displayMaterial = null;
+
+        // Spieler ist nicht auf einem Grundstück!
+        if (plot == null)
+        {
+            p.sendMessage("§7Kein Grundstück gefunden!");
+            displayMaterial = Material.BARRIER;
+        }
+
+        // Item erstellen
+        displayMaterial = Material.GREEN_STAINED_GLASS_PANE;
 
         ItemStack memberItem = new ItemStack(displayMaterial);
         ItemMeta memberItemMeta = memberItem.getItemMeta();
 
-        memberItemMeta.setDisplayName("§6Plot-Infomationen");
+        memberItemMeta.setDisplayName("§aVertraut:");
 
 
         // Lore erstellen
-        ArrayList<String> trustedLore = getPlotTrusted(plot,p);
+        ArrayList<String> trustedLore = getPlotTrusted(plot);
         memberItemMeta.setLore(trustedLore);
 
         memberItem.setItemMeta(memberItemMeta);
-        inventory.setItem(23,memberItem);
+        inventory.setItem(Slot,memberItem);
     }
-    private static void createInfo(Inventory inventory, Player p)
+
+
+    private static void createInfoBlock(Inventory inventory, Player p,int Slot)
     {
         // Holt sich die UUID des Spieler der auf dem Plot steht
         PlotPlayer<?> plotPlayer = PlotSquared.platform().playerManager().getPlayer(p.getUniqueId());
@@ -203,15 +204,15 @@ public class PlotInfoGUI {
         infoItemLore.add("");
 
         infoItemLore.add("§7Besitzer: §e" + getPlotOwner(p,plot));
-        infoItemLore.add("§7Erstellt am: §e" + getPlotDate(p,plot));
+        infoItemLore.add("§7Erstellt am: §e" + getPlotDate(plot));
         infoItemLore.add("§7Größe: §e" + mergedPlots.size());
         infoItemMeta.setLore(infoItemLore);
 
         infoItem.setItemMeta(infoItemMeta);
-        inventory.setItem(29,infoItem);
+        inventory.setItem(Slot,infoItem);
     }
 
-    private static void createRatings(Inventory inventory,Player p)
+    private static void createRatingsBlock(Inventory inventory,Player p,int Slot)
     {
         // Holt sich die UUID des Spieler der auf dem Plot steht
         PlotPlayer<?> plotPlayer = PlotSquared.platform().playerManager().getPlayer(p.getUniqueId());
@@ -239,16 +240,35 @@ public class PlotInfoGUI {
 
         // Rating
         double averageRating = plot.getAverageRating();
+        HashMap<UUID, Rating> allRatings = plot.getRatings();
+
+
 
         // Lore erstellen
         ArrayList biomeItemLore = new ArrayList<>();
         biomeItemLore.add("");
-        biomeItemLore.add("§7Level: §9" + PlotLevelManager.getLevel(plot));
+
+        UUID plotOwner_uuid = plot.getOwner();
+
+        if (plotOwner_uuid != null)
+        {
+            int level = PlotLevelManager.getLevel(plotOwner_uuid);
+
+            biomeItemLore.add("§7Level: §9"+ level);
+
+        }
+        else
+        {
+            biomeItemLore.add("§7Level: §cUnbekannt");
+        }
+
 
         if (!Double.isNaN(averageRating))
         {
             int new_averageRating = (int) averageRating;
+
             biomeItemLore.add("§7Bewertung: §e" + new_averageRating + "/10");
+            biomeItemLore.add("§7Bewertungen: §e" + allRatings.size());
         }
         else
         {
@@ -257,6 +277,6 @@ public class PlotInfoGUI {
         ratingsItemMeta.setLore(biomeItemLore);
 
         ratingsItem.setItemMeta(ratingsItemMeta);
-        inventory.setItem(30,ratingsItem);
+        inventory.setItem(Slot,ratingsItem);
     }
 }

@@ -1,0 +1,12 @@
+rewardGUI:
+  reward1:
+    level: 1
+    slot: 1
+    material: IRON_INGOT
+    name: §f16x Eisen
+    amount: 10
+    lore:
+      - ''
+      - §7Belohnung für Level 1
+      - ''
+    action: claim_reward_1

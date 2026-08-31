@@ -7,6 +7,7 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -93,5 +94,43 @@ public class ItemCreator {
 
             inventoryToUse.setItem(slot, item);
         }
+    }
+
+    public void createItemWith(Material newMaterial, String itemName, List<String> newLore, int slotIndex, Player p, Inventory inventoryToUse, boolean unbreakable, String action)
+    {
+        // Erstellen von Item
+        ItemStack newItem = new ItemStack(newMaterial);
+
+        // ItemMeta erstellen
+        ItemMeta newItemMeta = newItem.getItemMeta();
+
+        // Meta Data verbinden
+        newItemMeta = newItem.getItemMeta();
+
+
+
+        // Display Namen setzen
+        newItemMeta.setDisplayName(itemName);
+
+        // Lore setzen
+        newItemMeta.setLore(newLore);
+        newItemMeta.setUnbreakable(unbreakable);
+
+
+        if(action != null)
+        {
+            newItemMeta.getPersistentDataContainer().set(
+                    new NamespacedKey(PlotSettings.getInstance(), "action"),
+                    PersistentDataType.STRING,
+                    action
+            );
+        }
+
+        // Meta Data verbinden
+        newItem.setItemMeta(newItemMeta);
+
+        // Item ablegen
+        inventoryToUse.setItem(slotIndex,newItem);
+
     }
 }

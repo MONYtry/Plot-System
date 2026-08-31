@@ -33,7 +33,7 @@ public class MainGUI {
         Plot plot = plotPlayer.getCurrentPlot();
 
         // Erstellt Dinge :3
-        createRatings(plot, mainGUI);
+        createRatings(plot, mainGUI,p);
         createPlotsListGUI(p,mainGUI);
     }
 
@@ -104,7 +104,7 @@ public class MainGUI {
         p.openInventory(inventory);
     }
 
-    private static void createRatings(Plot plot, Inventory inventory)
+    private static void createRatings(Plot plot, Inventory inventory,Player p)
     {
         ItemStack ratingsItem = new ItemStack(Material.REDSTONE_TORCH);
         ItemMeta ratingsItemMeta = ratingsItem.getItemMeta();
@@ -117,7 +117,7 @@ public class MainGUI {
         // Lore erstellen
         ArrayList biomeItemLore = new ArrayList<>();
         biomeItemLore.add("");
-        biomeItemLore.add("§7Level: §9" + PlotLevelManager.getLevel(plot));
+        biomeItemLore.add("§7Level: §9" + PlotLevelManager.getLevel(p.getUniqueId()));
 
         if (!Double.isNaN(averageRating))
         {

@@ -1,30 +1,38 @@
 package de.main.plotSettings.Level;
 
-import com.plotsquared.core.plot.Plot;
 import de.main.plotSettings.PlotSettings;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
+
+import java.util.UUID;
 
 public class PlotLevelManager {
 
-    public static double getLevel(Plot plot)
-    {
-        String path = "plots." + plot.getId();
-        FileConfiguration plotCFG = PlotSettings.getInstance().plot;
+    public static int getLevel(UUID uuid) {
 
-        int currentLevel = plotCFG.getInt(path + ".level",1);
-        return currentLevel;
+        if (uuid == null)
+        {
+            return 1;
+        }
+        String path = "players." + uuid + ".plotlevel.level";
+        FileConfiguration plotCFG = PlotSettings.getInstance().playerData;
+
+        return plotCFG.getInt(path, 1);
     }
 
-    public static void addLevel(Plot plot)
-    {
-        String path = "plots." + plot.getId();
-        FileConfiguration plotCFG = PlotSettings.getInstance().plot;
-        int currentLevel = plotCFG.getInt(path + ".level",1);
+    public static void addLevel(Player p) {
+        if (p == null)
+        {
+            p.sendMessage("§7Ein §ekritischer Fehler §7ist aufgetreten!");
+            p.sendMessage("§cKontaktiere einen Admin!");
+        }
+        String path = "players." + p.getUniqueId() + ".plotlevel.level";
+        FileConfiguration plotCFG = PlotSettings.getInstance().playerData;
 
+        int currentLevel = plotCFG.getInt(path, 1);
         currentLevel++;
 
-        plotCFG.set(path + ".level",currentLevel);
-        PlotSettings.getInstance().savePlot();
-
+        plotCFG.set(path, currentLevel);
+        PlotSettings.getInstance().savePlayerData();
     }
 }

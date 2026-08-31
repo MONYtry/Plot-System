@@ -86,6 +86,16 @@ mainGUI:
       - '§6§l➤ Klicke zum Öffnen!'
     action: open_achievementGUI
 
+  rewardGUI:
+    material: COMMAND_BLOCK_MINECART
+    slot: 35
+    name: §aBelohungen
+    lore:
+      - ''
+      - '§7Schalte besondere Erfolge frei.'
+      - '§6§l➤ Klicke zum Öffnen!'
+    action: open_rewardGUI
+
 profileGUI:
   ratingGUI:
     material: RED_DYE
