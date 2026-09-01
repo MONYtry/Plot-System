@@ -2,15 +2,18 @@ rewardGUI:
   reward1:
     level: 1
     slot: 0
-    material: IRON_INGOT
-    name: §f16x Eisen
-    amount: 10
+    material: GOLD_INGOT
+    name: §e500$
+    amount: 1
     lore:
       - ''
       - §7Belohnung für Level 1
+      - §7Du erhältst §6$500
       - ''
     action: claim_reward_1
     command: "eco give %player% 500"
+    giveItem: false
+
   reward2:
     level: 2
     slot: 1
@@ -21,7 +24,8 @@ rewardGUI:
       - ''
       - §7Belohnung für Level 2
       - ''
-    action: claim_reward_3
+    action: claim_reward_2
+
   reward3:
     level: 5
     slot: 2

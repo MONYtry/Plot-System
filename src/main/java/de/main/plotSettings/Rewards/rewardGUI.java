@@ -15,69 +15,87 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
 
+import static de.main.plotSettings.Manager.GUIHelper.createPlaceholderItems;
+
 public class rewardGUI {
 
     public static void createRewardGUI(Player p)
     {
+        // Inventory
+        Inventory inventory = Bukkit.createInventory(null, 36, "§aBelohnungen");
+
+        // Läd Datein
         FileConfiguration cfg = PlotSettings.getInstance().rewards;
         FileConfiguration cfgPlayerData = PlotSettings.getInstance().playerData;
 
-        Inventory inventory = Bukkit.createInventory(null, 36, "§aBelohnungen");
+        // Baut Placeholder Items
+        // Selbst gebauter Helper
+        createPlaceholderItems(inventory,Material.RED_STAINED_GLASS_PANE,27,36,p);
+        createPlaceholderItems(inventory,Material.GRAY_STAINED_GLASS_PANE,0,27,p);
 
-        createDisplayItems(inventory,Material.RED_STAINED_GLASS_PANE,27,36,p);
-
-
+        // Section welche durchsucht wird
         ConfigurationSection rewards = cfg.getConfigurationSection("rewardGUI");
 
         // Falls keine Rewards gefunden wurden!
-        if (rewards == null) {
+        if (rewards == null)
+        {
             Bukkit.getLogger().warning("Keine Rewards für gefunden!");
             return;
         }
 
-        // Aktuelles Level des Spielers
+        // Path für das aktuelle Level des Spielers
         String playerLevelPath = "players." + p.getUniqueId() + ".plotlevel.level";
 
+        // Aktuelles Level des Spielers
         int playerLevel = cfgPlayerData.getInt(playerLevelPath, 1);
 
         ItemCreator itemCreator = new ItemCreator();
 
-
+        // Items erstellen
         for (String key : rewards.getKeys(false)) {
-
+            // Haupt-kategorie
             String path = "rewardGUI." + key;
 
+            // Benötigtes Level
             int rewardLevel = cfg.getInt(path + ".level");
-
+            //
             String rewardDataPath = "players." + p.getUniqueId()  + ".rewards." + rewardLevel;
+
+            // Verhindert ungewolltes einsammeln
             boolean alreadyClaimed = cfgPlayerData.getBoolean(rewardDataPath, false);
 
+            // Holt sich den gewünschten Slot
             int slot = cfg.getInt(path + ".slot");
 
+            // Holt sich den Material-Namen
             String materialName = cfg.getString(path + ".material", "STONE");
 
+            // Item-Name
             String name = cfg.getString(path + ".name", "§fReward");
 
+            // Nimmt sich die Lore
             List<String> lore = new ArrayList<>(cfg.getStringList(path + ".lore"));
 
+            // Holt sich die Lore
             String action = cfg.getString(path + ".action");
 
+            // Falls es bereits eingesammelt ist
             if (alreadyClaimed) {
                 lore.add("");
                 lore.add("§c✔ Bereits eingesammelt!");
-
+                // Action deaktivieren!
                 action = "null";
             }
-            // Wenn Spieler Level erreicht oder übertrifft und es noch nicht eingesammelt hat
-            if (playerLevel >= rewardLevel && !alreadyClaimed) {
 
+            // Wenn Spieler Level erreicht oder übertrifft und es noch nicht eingesammelt hat
+            if (playerLevel >= rewardLevel && !alreadyClaimed)
+            {
                 lore.add("");
                 lore.add("§eBereit zum einsammeln");
-
             }
+            // Wenn Spieler Level nicht erreicht hat und es noch nicht eingesammlt hat
             if (playerLevel < rewardLevel && !alreadyClaimed)
             {
-
                 lore.add("");
                 lore.add("§c🔒 Benötigt Level §e" + rewardLevel);
 
@@ -87,18 +105,24 @@ public class rewardGUI {
                 action = "null";
             }
 
+            // Leeres Material
             Material material;
 
-            try {
+            // Versucht dem Material ein Wert zu geben
+            // durch den oben geholten material-namen
+            try
+            {
                 material = Material.valueOf(materialName.toUpperCase());
-
-            } catch (Exception e) {
-
+            }
+            catch (Exception e)
+            {
+                // Placeholder Material
+                // Sinnvoll um verbuggte Items oder Fehler zu erstellen
                 material = Material.STONE;
-
                 Bukkit.getLogger().warning("Ungültiges Material: " + materialName);
             }
 
+            // Item erstellen
             itemCreator.createItemWith(
                     material,
                     name,
@@ -110,28 +134,7 @@ public class rewardGUI {
                     action
             );
         }
-
         p.playSound(p.getLocation(), Sound.BLOCK_ENDER_CHEST_OPEN, 1f, 1f);
-
         p.openInventory(inventory);
-    }
-
-
-    private static void createDisplayItems(Inventory inventory, Material material, int startSlot, int endSlot,Player p)
-    {
-        for (int i = startSlot; i < endSlot; i++)
-        {
-            if (inventory.getItem(i) == null)
-            {
-                ItemStack displayItem = new ItemStack(material);
-                inventory.setItem(i,displayItem);
-            }
-            else
-            {
-                String occupiedMessagePrefix = "§7Slot §e[" + startSlot + "]";
-                p.sendMessage(occupiedMessagePrefix + "ist bereits besetzt!");
-                p.sendMessage(occupiedMessagePrefix + "§7besetzt von §c" + inventory.getItem(startSlot));
-            }
-        }
     }
 }

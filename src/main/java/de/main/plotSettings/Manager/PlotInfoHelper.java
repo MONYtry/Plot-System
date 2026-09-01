@@ -13,6 +13,37 @@ import java.util.UUID;
 
 public class PlotInfoHelper {
 
+     // * WICHTIG *
+     // Dies ist eine Helfer-Klasse
+     // Hier baue ich NUR get-funktionen
+     // Sehr sinnvoll, wird noch erweitert!
+     // Datum: 01.09.2026 14:32
+     // * WICHTIG *
+
+    public static String getPlayerPowerstate(UUID uuid)
+     {
+         Player player = Bukkit.getPlayer(uuid);
+         OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(uuid);
+         String playerName = "Unbekannt!";
+
+         if (player == null)
+         {
+             playerName = offlinePlayer.getName();
+         }
+         else
+         {
+             playerName = player.getName();
+         }
+
+         if (playerName == null || playerName.equalsIgnoreCase("Unbekannt!"))
+         {
+             return "Unbekannter Fehler!";
+         }
+
+         return playerName;
+     }
+
+
     public static String getPlotOwner(Player p, Plot plot)
     {
         // Spieler ist nicht auf einem Grundstück!
@@ -21,53 +52,38 @@ public class PlotInfoHelper {
             p.sendMessage("§7Kein Grundstück gefunden!");
             return "§cUnbekannt!";
         }
+        // Variablen erstellen
         UUID plot_owner_uuid = plot.getOwner();
-        Player player = Bukkit.getPlayer(plot_owner_uuid);
-        OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(plot_owner_uuid);
-
-        if (player != null)
-        {
-            return player.getName();
-        }
-        else
-        {
-            return  offlinePlayer.getName();
-        }
-
+        return getPlayerPowerstate(plot_owner_uuid);
     }
 
     public static String getPlotDate(Plot plot)
     {
+        // Erstellt einen long
         long time = plot.getTimestamp();
+
+        // Vermeidet fehlerhafte Zeit
         if (time <= 0)
         {
             return "Unbekannt!";
         }
 
+        // Erstellt Datum + Format
         SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm");
         return format.format(new Date(time));
     }
 
     public static ArrayList<String> getPlotMembers(Plot plot, Player p)
     {
+        // Erstellt ein HashSet
+        // Inhalt Grundstück-Mitglieder
         HashSet<UUID> raw_members = plot.getMembers();
         ArrayList<String> memberLore = new ArrayList<>();
 
         int count = 0;
         for (UUID member : raw_members)
         {
-            Player player = Bukkit.getPlayer(member);
-            OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(member);
-            String playerName = "Unbekannt!";
-
-            if (player == null)
-            {
-                playerName = offlinePlayer.getName();
-            }
-            else
-            {
-                playerName = player.getName();
-            }
+            String playerName = getPlayerPowerstate(member);
 
             count++;
             memberLore.add("§7[#" + count + "] §e" + playerName);
@@ -82,24 +98,12 @@ public class PlotInfoHelper {
     public static ArrayList<String> getDeniedPlayer(Plot plot)
     {
         HashSet<UUID> raw_denied = plot.getDenied();
-
         ArrayList<String> deniedLore = new ArrayList<>();
 
         int count = 0;
         for (UUID deniedPlayer : raw_denied)
         {
-            OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(deniedPlayer);
-            Player player = Bukkit.getPlayer(deniedPlayer);
-            String playerName = "Unbekannt";
-
-            if (player == null)
-            {
-                playerName = offlinePlayer.getName();
-            }
-            else
-            {
-                playerName = player.getName();
-            }
+            String playerName = getPlayerPowerstate(deniedPlayer);
 
             count++;
             deniedLore.add("§7[#" + count + "] §e" + playerName);
@@ -117,25 +121,12 @@ public class PlotInfoHelper {
     public static ArrayList<String> getPlotTrusted(Plot plot)
     {
         HashSet<UUID> raw_trusted = plot.getTrusted();
-
         ArrayList<String> trustedLore = new ArrayList<>();
-
 
         int count = 0;
         for (UUID trusted : raw_trusted)
         {
-            OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(trusted);
-            Player player = Bukkit.getPlayer(trusted);
-            String playerName = "Unbekannt";
-
-            if (player == null)
-            {
-                playerName = offlinePlayer.getName();
-            }
-            else
-            {
-                playerName = player.getName();
-            }
+            String playerName = getPlayerPowerstate(trusted);
 
             count++;
             trustedLore.add("§7[#" + count + "] §e" + playerName);

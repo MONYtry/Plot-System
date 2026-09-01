@@ -1,6 +1,7 @@
 package de.main.plotSettings.Listener.GUI;
 
 import de.main.plotSettings.PlotSettings;
+import de.main.plotSettings.Rewards.rewardGUI;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -27,15 +28,10 @@ public class RewardsGUIListener implements Listener {
         ItemStack item = e.getCurrentItem();
 
         if (item == null || !item.hasItemMeta()) return;
-
         ItemMeta itemMeta = item.getItemMeta();
 
         NamespacedKey key = new NamespacedKey(PlotSettings.getInstance(), "action");
-        String action = itemMeta.getPersistentDataContainer().get(
-                key,
-                PersistentDataType.STRING
-        );
-
+        String action = itemMeta.getPersistentDataContainer().get(key, PersistentDataType.STRING);
         if (action == null) return;
 
         Player p = (Player) e.getWhoClicked();
@@ -52,6 +48,7 @@ public class RewardsGUIListener implements Listener {
 
     private void claimReward(Player p, String[] data)
     {
+        // Leere Vorlage
         int rewardLevel;
         try
         {
@@ -63,10 +60,11 @@ public class RewardsGUIListener implements Listener {
             p.sendMessage("§cUngültiges Reward-Level!");
             return;
         }
-
+        // Alle Datein laden
         FileConfiguration cfgRewards = PlotSettings.getInstance().rewards;
         FileConfiguration cfgPlayerData = PlotSettings.getInstance().playerData;
 
+        // Section die durchsucht wird
         ConfigurationSection rewards = cfgRewards.getConfigurationSection("rewardGUI");
 
         // Nullpointer Vermeiden
@@ -151,26 +149,51 @@ public class RewardsGUIListener implements Listener {
         // Erstellung des Itemstacks
         ItemStack rewardItem = new ItemStack(material, amount);
 
-        // Legt Item in das Inventar
-        p.getInventory().addItem(rewardItem);
-
         // Speichern
         cfgPlayerData.set(rewardDataPath, true);
         PlotSettings.getInstance().savePlayerData();
 
+        executeCommand(p,"%player%",cfgRewards,rewardPath);
+
+        giveReward(rewardItem,amount,cfgRewards,rewardPath,p);
+    }
+
+    private void giveReward(ItemStack rewardItem, int amount,FileConfiguration cfgRewards, String rewardPath,Player p)
+    {
+        // Dynamische Item vergabe via. Boolean
+        boolean giveItem = cfgRewards.getBoolean(rewardPath + ".giveItem");
+        if (giveItem)
+        {
+            // Legt Item in das Inventar
+            p.getInventory().addItem(rewardItem);
+        }
+
+        p.sendMessage("§aDu hast deine Belohnung erfolgreich eingesammelt!");
+        p.playSound(p.getLocation(), Sound.UI_TOAST_IN, 1f, 1f);
+
+        // Aktualisiert GUI
+        rewardGUI.createRewardGUI(p);
+    }
+
+    private void executeCommand(Player p, String raw,FileConfiguration cfgRewards,String rewardPath)
+    {
         // Holt sich den Command von Rewards.yml
         String command = cfgRewards.getString(rewardPath + ".command");
 
         if (command != null && !command.isEmpty())
         {
-            // Erstetzt den Placeholder mit dem Spieler-Namen
-            command = command.replace("%player%", p.getName());
+            // Aktuell nur ein Command
+            // Daher Switch-Case nicht wirklich sinnvoll, jedoch sehr gut skalierbar!
+            switch (raw)
+            {
+                case ("%player%"):
+                    // Erstetzt den Placeholder mit dem Spieler-Namen
+                    command = command.replace(raw, p.getName());
+                    break;
+            }
+
             // Führt den Command als Console aus
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(),command);
         }
-
-        p.sendMessage("§aDu hast deine Belohnung erfolgreich eingesammelt!");
-
-        p.playSound(p.getLocation(), Sound.UI_TOAST_IN, 1f, 1f);
     }
 }
