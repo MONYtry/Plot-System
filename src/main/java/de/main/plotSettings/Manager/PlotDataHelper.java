@@ -1,5 +1,7 @@
 package de.main.plotSettings.Manager;
 
+import com.plotsquared.core.PlotSquared;
+import com.plotsquared.core.player.PlotPlayer;
 import com.plotsquared.core.plot.Plot;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -11,7 +13,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.UUID;
 
-public class PlotInfoHelper {
+public class PlotDataHelper {
 
      // * WICHTIG *
      // Dies ist eine Helfer-Klasse
@@ -43,18 +45,30 @@ public class PlotInfoHelper {
          return playerName;
      }
 
+     public static Plot getPlot(Player p)
+     {
+         // Holt sich die UUID des Spieler der auf dem Plot steht
+         PlotPlayer<?> plotPlayer = PlotSquared.platform().playerManager().getPlayer(p.getUniqueId());
 
-    public static String getPlotOwner(Player p, Plot plot)
-    {
+         // Wenn es keine UUID gibt abbruch
+         if (plotPlayer == null) return null;
+
+         // Aktuelles Plot holen
+         Plot plot = plotPlayer.getCurrentPlot();
+         return plot;
+     }
+
+     public static String getPlotOwner(Player p, Plot plot)
+     {
         // Spieler ist nicht auf einem Grundstück!
-        if (plot == null)
-        {
+         if (plot == null)
+         {
             p.sendMessage("§7Kein Grundstück gefunden!");
             return "§cUnbekannt!";
-        }
-        // Variablen erstellen
-        UUID plot_owner_uuid = plot.getOwner();
-        return getPlayerPowerstate(plot_owner_uuid);
+         }
+         // Variablen erstellen
+         UUID plot_owner_uuid = plot.getOwner();
+         return getPlayerPowerstate(plot_owner_uuid);
     }
 
     public static String getPlotDate(Plot plot)
