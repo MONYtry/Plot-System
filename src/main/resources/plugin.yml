@@ -3,7 +3,7 @@ version: '1.0-SNAPSHOT'
 main: de.main.plotSettings.PlotSettings
 api-version: '1.21'
 depend: [PlotSquared]
-author: "[ M O N Y STUDIO]"
+author: "[ M O N Y STUDIOTEST]"
 
 
 commands:
