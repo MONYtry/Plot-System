@@ -20,35 +20,7 @@ import static de.main.plotSettings.Manager.PlotDataHelper.*;
 
 public class GUIHelper {
 
-    public static void createPlotMemberBlock(Inventory inventory, Player p,int Slot,Plot plot)
-    {
-        Material displayMaterial = null;
 
-        // Spieler ist nicht auf einem Grundstück!
-        if (plot == null)
-        {
-            p.sendMessage("§7Kein Grundstück gefunden!");
-            displayMaterial = Material.BARRIER;
-        }
-
-        // Item erstellen
-        displayMaterial = Material.YELLOW_STAINED_GLASS_PANE;
-
-        ItemStack memberItem = new ItemStack(displayMaterial);
-        ItemMeta memberItemMeta = memberItem.getItemMeta();
-
-        memberItemMeta.setDisplayName("§eMitglieder: ");
-
-        Set<Plot> mergedPlots = plot.getConnectedPlots();
-        mergedPlots.size();
-
-        // Lore erstellen
-        ArrayList<String> memberLore = getPlotMembers(plot,p);
-        memberItemMeta.setLore(memberLore);
-
-        memberItem.setItemMeta(memberItemMeta);
-        inventory.setItem(Slot,memberItem);
-    }
 
     public static void createPlaceholderItems(Inventory inventory, Material material, int startSlot, int endSlot,Player p)
     {
@@ -70,76 +42,20 @@ public class GUIHelper {
         }
     }
 
-    public static void createDenyBlock(Inventory inventory, Player p,int Slot)
+    public static void createUpdateItem(Inventory inventory , int Slot, Material material, ArrayList<String> lore)
     {
-        // Holt sich die UUID des Spieler der auf dem Plot steht
-        PlotPlayer<?> plotPlayer = PlotSquared.platform().playerManager().getPlayer(p.getUniqueId());
+        ItemStack updateItem = new ItemStack(material);
+        ItemMeta updateItemMeta = updateItem.getItemMeta();
 
-        // Wenn es keine UUID gibt abbruch
-        if (plotPlayer == null) return;
+        // IDEE
+        // Jedes mal Random Farbe Nehmen!
+        // 31.08.2026 17:09 Uhr
+        // IDEE
 
-        // Aktuelles Plot holen
-        Plot plot = plotPlayer.getCurrentPlot();
-        Material displayMaterial = null;
+        updateItemMeta.setDisplayName("§d§ke§r§e§ke§r §cUpdate-Info §a§ke§r§9§ke§r");
+        updateItemMeta.setLore(lore);
 
-        // Spieler ist nicht auf einem Grundstück!
-        if (plot == null)
-        {
-            p.sendMessage("§7Kein Grundstück gefunden!");
-            displayMaterial = Material.BARRIER;
-        }
-
-        // Item erstellen
-        displayMaterial = Material.RED_STAINED_GLASS_PANE;
-
-        ItemStack deniedItem = new ItemStack(displayMaterial);
-        ItemMeta deniedItemMeta = deniedItem.getItemMeta();
-
-        deniedItemMeta.setDisplayName("§cGebannt:");
-
-
-        // Lore erstellen
-        ArrayList<String> deniedLore = getDeniedPlayer(plot);
-        deniedItemMeta.setLore(deniedLore);
-
-        deniedItem.setItemMeta(deniedItemMeta);
-        inventory.setItem(Slot,deniedItem);
+        updateItem.setItemMeta(updateItemMeta);
+        inventory.setItem(Slot,updateItem);
     }
-
-    public static void createTrustedBlock(Inventory inventory, Player p,int Slot)
-    {
-        // Holt sich die UUID des Spieler der auf dem Plot steht
-        PlotPlayer<?> plotPlayer = PlotSquared.platform().playerManager().getPlayer(p.getUniqueId());
-
-        // Wenn es keine UUID gibt abbruch
-        if (plotPlayer == null) return;
-
-        // Aktuelles Plot holen
-        Plot plot = plotPlayer.getCurrentPlot();
-        Material displayMaterial = null;
-
-        // Spieler ist nicht auf einem Grundstück!
-        if (plot == null)
-        {
-            p.sendMessage("§7Kein Grundstück gefunden!");
-            displayMaterial = Material.BARRIER;
-        }
-
-        // Item erstellen
-        displayMaterial = Material.GREEN_STAINED_GLASS_PANE;
-
-        ItemStack memberItem = new ItemStack(displayMaterial);
-        ItemMeta memberItemMeta = memberItem.getItemMeta();
-
-        memberItemMeta.setDisplayName("§aVertraut:");
-
-
-        // Lore erstellen
-        ArrayList<String> trustedLore = getPlotTrusted(plot);
-        memberItemMeta.setLore(trustedLore);
-
-        memberItem.setItemMeta(memberItemMeta);
-        inventory.setItem(Slot,memberItem);
-    }
-
 }

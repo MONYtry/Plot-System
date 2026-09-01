@@ -17,8 +17,13 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.*;
 
 import static de.main.plotSettings.Manager.GUIHelper.*;
+import static de.main.plotSettings.Manager.GUIHelper.createUpdateItem;
 import static de.main.plotSettings.Manager.PlotDataHelper.*;
 import static de.main.plotSettings.Manager.PlotGUIHelper.*;
+import static de.main.plotSettings.Manager.PlotGUIHelper.createCapBlock;
+import static de.main.plotSettings.Manager.PlotGUIHelper.createDenyBlock;
+import static de.main.plotSettings.Manager.PlotGUIHelper.createPlotMemberBlock;
+import static de.main.plotSettings.Manager.PlotGUIHelper.createTrustedBlock;
 
 public class PlotInfoGUI {
 
@@ -29,10 +34,12 @@ public class PlotInfoGUI {
         Plot plot = getPlot(p);
 
         createRatingsBlock(infoGUI,p,32,plot);
-        createInfoBlock(infoGUI,p,30);
+        createInfoBlock(infoGUI,p,30,plot);
         createPlotMemberBlock(infoGUI,p,0,plot);
-        createTrustedBlock(infoGUI,p,9);
-        createDenyBlock(infoGUI,p,18);
+        createTrustedBlock(infoGUI,p,9,plot);
+        createDenyBlock(infoGUI,p,18,plot);
+        createCapBlock(infoGUI,p,20,plot);
+
 
         ArrayList<String> lore = new ArrayList<>();
         lore.add("");

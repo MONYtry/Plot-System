@@ -16,28 +16,132 @@ import org.bukkit.persistence.PersistentDataType;
 
 import java.util.*;
 
-import static de.main.plotSettings.Manager.PlotDataHelper.getPlotDate;
-import static de.main.plotSettings.Manager.PlotDataHelper.getPlotOwner;
+import static de.main.plotSettings.Manager.PlotDataHelper.*;
+import static de.main.plotSettings.Manager.PlotDataHelper.getHopperCap;
 
 public class PlotGUIHelper {
 
-
-    public static void createUpdateItem(Inventory inventory , int Slot, Material material, ArrayList<String> lore)
+    // * WICHTIG *
+    //  In dieser Klasse werden nur Plot-GUI orientierte
+    //  funktionen erstellt!
+    // * WICHTIG *
+    public static void createCapBlock(Inventory inventory, Player p,int slot, Plot plot)
     {
-        ItemStack updateItem = new ItemStack(material);
-        ItemMeta updateItemMeta = updateItem.getItemMeta();
+        Material displayMaterial = null;
 
-        // IDEE
-        // Jedes mal Random Farbe Nehmen!
-        // 31.08.2026 17:09 Uhr
-        // IDEE
+        // Spieler ist nicht auf einem Grundstück!
+        if (plot == null)
+        {
+            p.sendMessage("§7Kein Grundstück gefunden!");
+            displayMaterial = Material.BARRIER;
+        }
 
-        updateItemMeta.setDisplayName("§d§ke§r§e§ke§r §cUpdate-Info §a§ke§r§9§ke§r");
-        updateItemMeta.setLore(lore);
+        // Item erstellen
+        displayMaterial = Material.ENCHANTING_TABLE;
 
-        updateItem.setItemMeta(updateItemMeta);
-        inventory.setItem(Slot,updateItem);
+        ItemStack capInfoItem = new ItemStack(displayMaterial);
+        ItemMeta capInfoIteMeta = capInfoItem.getItemMeta();
+
+        capInfoIteMeta.setDisplayName("§eMitglieder: ");
+
+        String hopperText = getHopperCap(plot);
+
+        // Lore erstellen
+        ArrayList<String> capInfoLore = new ArrayList<>();
+        capInfoLore.add("");
+        capInfoLore.add(hopperText);
+        capInfoIteMeta.setLore(capInfoLore);
+
+        capInfoItem.setItemMeta(capInfoIteMeta);
+        inventory.setItem(slot,capInfoItem);
     }
+
+    public static void createPlotMemberBlock(Inventory inventory, Player p,int Slot,Plot plot)
+    {
+        Material displayMaterial = null;
+
+        // Spieler ist nicht auf einem Grundstück!
+        if (plot == null)
+        {
+            p.sendMessage("§7Kein Grundstück gefunden!");
+            displayMaterial = Material.BARRIER;
+        }
+
+        // Item erstellen
+        displayMaterial = Material.YELLOW_STAINED_GLASS_PANE;
+
+        ItemStack memberItem = new ItemStack(displayMaterial);
+        ItemMeta memberItemMeta = memberItem.getItemMeta();
+
+        memberItemMeta.setDisplayName("§eMitglieder: ");
+
+        Set<Plot> mergedPlots = plot.getConnectedPlots();
+        mergedPlots.size();
+
+        // Lore erstellen
+        ArrayList<String> memberLore = getPlotMembers(plot,p);
+        memberItemMeta.setLore(memberLore);
+
+        memberItem.setItemMeta(memberItemMeta);
+        inventory.setItem(Slot,memberItem);
+    }
+
+    public static void createDenyBlock(Inventory inventory, Player p,int Slot,Plot plot)
+    {
+        Material displayMaterial = null;
+
+        // Spieler ist nicht auf einem Grundstück!
+        if (plot == null)
+        {
+            p.sendMessage("§7Kein Grundstück gefunden!");
+            displayMaterial = Material.BARRIER;
+        }
+
+        // Item erstellen
+        displayMaterial = Material.RED_STAINED_GLASS_PANE;
+
+        ItemStack deniedItem = new ItemStack(displayMaterial);
+        ItemMeta deniedItemMeta = deniedItem.getItemMeta();
+
+        deniedItemMeta.setDisplayName("§cGebannt:");
+
+
+        // Lore erstellen
+        ArrayList<String> deniedLore = getDeniedPlayer(plot);
+        deniedItemMeta.setLore(deniedLore);
+
+        deniedItem.setItemMeta(deniedItemMeta);
+        inventory.setItem(Slot,deniedItem);
+    }
+
+    public static void createTrustedBlock(Inventory inventory, Player p,int Slot,Plot plot)
+    {
+        Material displayMaterial = null;
+
+        // Spieler ist nicht auf einem Grundstück!
+        if (plot == null)
+        {
+            p.sendMessage("§7Kein Grundstück gefunden!");
+            displayMaterial = Material.BARRIER;
+        }
+
+        // Item erstellen
+        displayMaterial = Material.GREEN_STAINED_GLASS_PANE;
+
+        ItemStack memberItem = new ItemStack(displayMaterial);
+        ItemMeta memberItemMeta = memberItem.getItemMeta();
+
+        memberItemMeta.setDisplayName("§aVertraut:");
+
+
+        // Lore erstellen
+        ArrayList<String> trustedLore = getPlotTrusted(plot);
+        memberItemMeta.setLore(trustedLore);
+
+        memberItem.setItemMeta(memberItemMeta);
+        inventory.setItem(Slot,memberItem);
+    }
+
     public static void createRatingsBlock(Inventory inventory, Player p, int Slot, Plot plot)
     {
         Material displayMaterial = null;
@@ -95,16 +199,11 @@ public class PlotGUIHelper {
         ratingsItem.setItemMeta(ratingsItemMeta);
         inventory.setItem(Slot,ratingsItem);
     }
-    public static void createInfoBlock(Inventory inventory, Player p, int Slot)
+
+
+    public static void createInfoBlock(Inventory inventory, Player p, int Slot,Plot plot)
     {
-        // Holt sich die UUID des Spieler der auf dem Plot steht
-        PlotPlayer<?> plotPlayer = PlotSquared.platform().playerManager().getPlayer(p.getUniqueId());
 
-        // Wenn es keine UUID gibt abbruch
-        if (plotPlayer == null) return;
-
-        // Aktuelles Plot holen
-        Plot plot = plotPlayer.getCurrentPlot();
         Material displayMaterial = null;
 
         // Spieler ist nicht auf einem Grundstück!

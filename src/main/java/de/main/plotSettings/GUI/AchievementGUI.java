@@ -20,26 +20,29 @@ public class AchievementGUI {
     {
         Inventory inventory = Bukkit.createInventory(null,36,"§eAchievements");
         FileConfiguration playerData = PlotSettings.getInstance().playerData;
-        String path = "players." + p.getUniqueId() + ".achievements";
 
         int currentSlot = 0;
 
+        // Geht durch jedes Achivment
         for (Achivment achivment : AchivmentManager.getAchivments().values())
         {
-
+            // Erstellt die Paths
             String playerPath = "players." + p.getUniqueId();
             String basePath = playerPath + ".achievements." + achivment.getId();
+
+            // Holt sich das Material vom Achivment
             Material material = achivment.getMaterial();
 
+            // Holt sich Daten
             int currentLevel = playerData.getInt(basePath + ".level",0);
             int brokenBlocks = playerData.getInt(playerPath + ".blocks.destoryed." + material.name());
             int nextLevel = currentLevel + 1;
 
+            // Erstellt das Item mit abgekürzten If-Statment
             ItemStack achivmentItem = new ItemStack(currentLevel > 0 ? material : Material.GRAY_DYE);
             ItemMeta achivementItemMeta = achivmentItem.getItemMeta();
 
             achivementItemMeta.setDisplayName("§e" + achivment.getTitle());
-
 
             List<String> achivmentLore = new ArrayList<>();
             achivmentLore.add("");
@@ -47,11 +50,15 @@ public class AchievementGUI {
 
             if (nextLevel <= achivment.getLevels().size())
             {
+                // Holt sich die gebrauchten Blöcke
                 int requiredBlocks = achivment.getLevels().get(nextLevel);
+
+                // Erstellt Progressbar
                 String progressbar = createProgressBar(brokenBlocks,requiredBlocks);
                 achivmentLore.add("§7Fortschritt: ");
                 achivmentLore.add(progressbar + " §e" + brokenBlocks + "/" + requiredBlocks);
                 achivmentLore.add("");
+
 
                 if (currentLevel > 0)
                 {
@@ -66,6 +73,7 @@ public class AchievementGUI {
                     achivmentLore.add("§7Level: §cNoch nicht erreicht!");
                 }
             }
+            // Falls Spieler das maximale Level erreicht hat
             else
             {
                 String currentName = achivment.getLevelNames().get(currentLevel);
@@ -73,6 +81,7 @@ public class AchievementGUI {
                 achivmentLore.add("§a§l✔ MAXIMALES LEVEL");
             }
 
+            // Erstellte Elemente festlegen
             achivementItemMeta.setLore(achivmentLore);
             achivmentItem.setItemMeta(achivementItemMeta);
             inventory.setItem(currentSlot,achivmentItem);
@@ -86,18 +95,24 @@ public class AchievementGUI {
 
     private static String createProgressBar(int current, int required) {
 
+        // Anzahl der Bars
         int bars = 10;
 
+        // Aktuelles Level geteilt durch benötigt, wird zu einem double
         double progress = (double) current / required;
 
         // Maximal 100%
         progress = Math.min(progress, 1.0);
 
+        // progress * bars wird abgerundet
         int filled = (int) Math.round(progress * bars);
 
+        // Eine Art String-Array
+        // StringBuilder wird in dem Fall genutzt um den String zu erweitern
         StringBuilder bar = new StringBuilder();
         bar.append("§7[");
 
+        // Geht durch jede Bar
         for (int i = 0; i < bars; i++) {
 
             if (i < filled) {
