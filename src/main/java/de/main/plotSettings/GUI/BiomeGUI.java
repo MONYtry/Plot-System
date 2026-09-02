@@ -19,6 +19,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import static de.main.plotSettings.Manager.GUIHelper.setQuitButton;
+
 public class BiomeGUI {
 
     // LinkedHashMap garantiert reinfolge
@@ -47,6 +49,9 @@ public class BiomeGUI {
     public static void createBiomeGUI(Player p) {
         Inventory biomeInventory = Bukkit.createInventory(null, 36, "§eBiome");
         int currentSlot = 0;
+
+        // Quit Button!
+        setQuitButton(biomeInventory,Material.BARRIER,35,"open.main");
 
         for (Map.Entry<BiomeType,Double> entry : biomeListe.entrySet())
         {

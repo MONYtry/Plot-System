@@ -8,6 +8,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,6 +16,13 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static de.main.plotSettings.Manager.RewardHelper.addEnchantments;
 
 public class RewardsGUIListener implements Listener {
 
@@ -148,6 +156,15 @@ public class RewardsGUIListener implements Listener {
 
         // Erstellung des Itemstacks
         ItemStack rewardItem = new ItemStack(material, amount);
+        ItemMeta rewardItemMeta = rewardItem.getItemMeta();
+
+        // Item-Name
+        String name = cfgRewards.getString(rewardPath + ".name", "§fReward");
+        rewardItemMeta.setDisplayName(name);
+
+        // Nimmt sich die Lore
+        List<String> lore = new ArrayList<>(cfgRewards.getStringList(rewardPath + ".lore"));
+        rewardItemMeta.setLore(lore);
 
         // Speichern
         cfgPlayerData.set(rewardDataPath, true);
@@ -155,13 +172,17 @@ public class RewardsGUIListener implements Listener {
 
         executeCommand(p,"%player%",cfgRewards,rewardPath);
 
-        giveReward(rewardItem,amount,cfgRewards,rewardPath,p);
+        giveReward(rewardItem, rewardItemMeta, amount,cfgRewards,rewardPath,p);
     }
 
-    private void giveReward(ItemStack rewardItem, int amount,FileConfiguration cfgRewards, String rewardPath,Player p)
+    private void giveReward(ItemStack rewardItem,ItemMeta itemMeta, int amount,FileConfiguration cfgRewards, String rewardPath,Player p)
     {
         // Dynamische Item vergabe via. Boolean
-        boolean giveItem = cfgRewards.getBoolean(rewardPath + ".giveItem");
+        boolean giveItem = cfgRewards.getBoolean(rewardPath + ".giveItem",true);
+
+        itemMeta = addEnchantments(cfgRewards,rewardPath,itemMeta);
+        rewardItem.setItemMeta(itemMeta);
+
         if (giveItem)
         {
             // Legt Item in das Inventar
@@ -174,7 +195,6 @@ public class RewardsGUIListener implements Listener {
         // Aktualisiert GUI
         rewardGUI.createRewardGUI(p);
     }
-
     private void executeCommand(Player p, String raw,FileConfiguration cfgRewards,String rewardPath)
     {
         // Holt sich den Command von Rewards.yml

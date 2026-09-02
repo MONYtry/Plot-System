@@ -145,18 +145,4 @@ public class PlotDataHelper {
 
         return trustedLore;
     }
-
-    public static String getHopperCap(Plot plot)
-    {
-        FileConfiguration plot_hopper_config = PlotSettings.getInstance().plot;
-
-        String path = "plots." + plot.getId();
-
-        int hopper_limit = plot_hopper_config.getInt(path + ".settings.hopper-limit", 20);
-        int hoppers_placed = plot_hopper_config.getInt(path + ".settings.hopper-placed");
-
-        String hopperText = hoppers_placed + "/" + hopper_limit;
-
-        return hopperText;
-    }
 }

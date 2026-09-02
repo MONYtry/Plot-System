@@ -67,8 +67,8 @@ settingsGUI:
 
 mainGUI:
   settingsGUI:
-    material: DIAMOND
-    slot: 0
+    material: COMMAND_BLOCK
+    slot: 30
     name: §9Einstellungen
     lore:
       - ''

@@ -6,6 +6,7 @@ import com.plotsquared.core.plot.Plot;
 import com.sk89q.worldedit.world.biome.BiomeType;
 import com.sk89q.worldedit.world.biome.BiomeTypes;
 import de.main.plotSettings.GUI.BiomeGUI;
+import de.main.plotSettings.GUI.MainGUI;
 import de.main.plotSettings.PlotSettings;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
@@ -57,6 +58,12 @@ public class BiomeGUIListener implements Listener {
 
         if (action == null) {
             return;
+        }
+
+        if (action.equals("open.main"))
+        {
+            MainGUI.createMainGUI(p);
+            p.playSound(p.getLocation(),Sound.BLOCK_BARREL_CLOSE,1,1);
         }
 
         // Prüfen, ob es eine Biome-Action ist

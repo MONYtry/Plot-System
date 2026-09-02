@@ -17,8 +17,8 @@ import org.bukkit.persistence.PersistentDataType;
 import java.util.*;
 
 import static de.main.plotSettings.Manager.PlotDataHelper.*;
-import static de.main.plotSettings.Manager.PlotDataHelper.getHopperCap;
 import static de.main.plotSettings.Manager.PlotFlagHelper.getEntityCap;
+import static de.main.plotSettings.Manager.PlotFlagHelper.getHopperCap;
 
 public class PlotGUIHelper {
 

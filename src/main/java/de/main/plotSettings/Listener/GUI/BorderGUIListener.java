@@ -5,9 +5,11 @@ import com.plotsquared.core.player.PlotPlayer;
 import com.plotsquared.core.plot.Plot;
 import com.plotsquared.core.plot.PlotManager;
 import com.plotsquared.core.util.PatternUtil;
+import de.main.plotSettings.GUI.MainGUI;
 import de.main.plotSettings.PlotSettings;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -47,6 +49,16 @@ public class BorderGUIListener implements Listener {
                 new NamespacedKey(PlotSettings.getInstance(), "action"),
                 PersistentDataType.STRING
         );
+
+        if (action == null) return;
+
+        Player p = ((Player) e.getWhoClicked());
+        if (action.equals("open.main"))
+        {
+            MainGUI.createMainGUI(p);
+            p.playSound(p.getLocation(), Sound.BLOCK_BARREL_CLOSE,1,1);
+            return;
+        }
 
         BorderGUIListener.setBorder(e,plot);
 

@@ -47,7 +47,7 @@ public class MainGUIListener implements Listener {
 
         ItemMeta itemMeta = item.getItemMeta();
 
-        // Key erstellen
+        // Key holen
         String action = itemMeta.getPersistentDataContainer().get(
                 new NamespacedKey(PlotSettings.getInstance(), "action"),
                 PersistentDataType.STRING

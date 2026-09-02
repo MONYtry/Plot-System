@@ -8,6 +8,7 @@ import de.main.plotSettings.Level.PlotLevelManager;
 import de.main.plotSettings.PlotSettings;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -20,7 +21,21 @@ import static de.main.plotSettings.Manager.PlotDataHelper.*;
 
 public class GUIHelper {
 
+    public static void setQuitButton(Inventory inventory_to_place,Material material, int slot,String action)
+    {
+        ItemStack itemstack = new ItemStack(material);
+        ItemMeta itemMeta = itemstack.getItemMeta();
 
+        itemMeta.getPersistentDataContainer().set(
+                new NamespacedKey(PlotSettings.getInstance(), "action"),
+                PersistentDataType.STRING,
+                action
+        );
+        itemMeta.setDisplayName("§cZurück");
+
+        itemstack.setItemMeta(itemMeta);
+        inventory_to_place.setItem(slot,itemstack);
+    }
 
     public static void createPlaceholderItems(Inventory inventory, Material material, int startSlot, int endSlot,Player p)
     {

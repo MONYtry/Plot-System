@@ -2,17 +2,23 @@ rewardGUI:
   reward1:
     level: 1
     slot: 0
-    material: GOLD_INGOT
-    name: §e500$
+    material: DIAMOND_PICKAXE
+    name: §c§lOWNER-PICKAXE
     amount: 1
-    lore:
+    lore_display:
       - ''
       - §7Belohnung für Level 1
       - §7Du erhältst §6$500
       - ''
+    lore:
+      - ''
+      - §cGeile Owna Pigge
+      - ''
     action: claim_reward_1
-    command: "eco give %player% 500"
-    giveItem: false
+    giveItem: true
+    enchantments:
+      - 'efficiency 6'
+      - 'unbreaking 7'
 
   reward2:
     level: 2
@@ -25,6 +31,8 @@ rewardGUI:
       - §7Belohnung für Level 2
       - ''
     action: claim_reward_2
+    command: "eco give %player% 500"
+    giveItem: false
 
   reward3:
     level: 5
