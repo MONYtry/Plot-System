@@ -38,7 +38,7 @@ public class PlotInfoGUI {
         createPlotMemberBlock(infoGUI,p,0,plot);
         createTrustedBlock(infoGUI,p,9,plot);
         createDenyBlock(infoGUI,p,18,plot);
-        createCapBlock(infoGUI,p,20,plot);
+        createCapBlock(infoGUI,p,15,plot);
 
 
         ArrayList<String> lore = new ArrayList<>();

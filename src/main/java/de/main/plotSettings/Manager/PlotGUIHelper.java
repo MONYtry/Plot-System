@@ -18,6 +18,7 @@ import java.util.*;
 
 import static de.main.plotSettings.Manager.PlotDataHelper.*;
 import static de.main.plotSettings.Manager.PlotDataHelper.getHopperCap;
+import static de.main.plotSettings.Manager.PlotFlagHelper.getEntityCap;
 
 public class PlotGUIHelper {
 
@@ -42,14 +43,15 @@ public class PlotGUIHelper {
         ItemStack capInfoItem = new ItemStack(displayMaterial);
         ItemMeta capInfoIteMeta = capInfoItem.getItemMeta();
 
-        capInfoIteMeta.setDisplayName("§eMitglieder: ");
+        capInfoIteMeta.setDisplayName("§ePlot-Limits");
 
         String hopperText = getHopperCap(plot);
-
+        int entityLimit = getEntityCap(plot);
         // Lore erstellen
         ArrayList<String> capInfoLore = new ArrayList<>();
-        capInfoLore.add("");
-        capInfoLore.add(hopperText);
+        capInfoLore.add("§7Hopper-Limit: §b" + hopperText);
+        capInfoLore.add("§7Entity-Limit: §b" + entityLimit);
+
         capInfoIteMeta.setLore(capInfoLore);
 
         capInfoItem.setItemMeta(capInfoIteMeta);

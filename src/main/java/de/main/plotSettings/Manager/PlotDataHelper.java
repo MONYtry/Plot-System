@@ -3,6 +3,7 @@ package de.main.plotSettings.Manager;
 import com.plotsquared.core.PlotSquared;
 import com.plotsquared.core.player.PlotPlayer;
 import com.plotsquared.core.plot.Plot;
+import com.plotsquared.core.plot.flag.implementations.MobCapFlag;
 import de.main.plotSettings.PlotSettings;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -25,21 +26,25 @@ public class PlotDataHelper {
     // * WICHTIG *
 
     public static String getPlayerPowerstate(UUID uuid) {
+        if (uuid == null)
+        {
+            return "Fehler";
+        }
         Player player = Bukkit.getPlayer(uuid);
         OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(uuid);
         String playerName = "Unbekannt!";
 
-        if (player == null) {
+        if (player == null)
+        {
             playerName = offlinePlayer.getName();
-        } else {
+            return playerName;
+        }
+        else
+        {
             playerName = player.getName();
+            return playerName;
         }
 
-        if (playerName == null || playerName.equalsIgnoreCase("Unbekannt!")) {
-            return "Unbekannter Fehler!";
-        }
-
-        return playerName;
     }
 
     public static Plot getPlot(Player p) {
@@ -53,6 +58,8 @@ public class PlotDataHelper {
         Plot plot = plotPlayer.getCurrentPlot();
         return plot;
     }
+
+
 
     public static String getPlotOwner(Player p, Plot plot) {
         // Spieler ist nicht auf einem Grundstück!

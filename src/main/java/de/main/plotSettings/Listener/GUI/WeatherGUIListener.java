@@ -4,6 +4,7 @@ import com.plotsquared.core.PlotSquared;
 import com.plotsquared.core.player.PlotPlayer;
 import com.plotsquared.core.plot.Plot;
 import com.plotsquared.core.plot.PlotManager;
+import com.plotsquared.core.plot.flag.implementations.MobCapFlag;
 import com.plotsquared.core.plot.flag.implementations.MusicFlag;
 import com.plotsquared.core.plot.flag.implementations.WeatherFlag;
 import com.plotsquared.core.util.PatternUtil;
@@ -101,6 +102,7 @@ public class WeatherGUIListener implements Listener {
         }
 
         plot.setFlag(WeatherFlag.class,weather);
+
         p.sendMessage("§aWetter wurde erfolgreich geändert!");
         p.closeInventory();
     }

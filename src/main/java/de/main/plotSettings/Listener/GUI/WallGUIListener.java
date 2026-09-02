@@ -65,7 +65,7 @@ public class WallGUIListener implements Listener {
             );
         }
 
-        p.sendMessage("§aRand wurde erfolgreich auf: "  + displayItem + " gesetzt");
+        p.sendMessage("§aWand wurde erfolgreich auf: "  + displayItem + " gesetzt");
         p.closeInventory();
         e.setCancelled(true);
 

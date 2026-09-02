@@ -13,11 +13,12 @@ import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class MusicGUI {
 
-    public static final Map<ItemType,Double> musicDiscs = new HashMap<>();
+    public static final Map<ItemType,Double> musicDiscs = new LinkedHashMap<>();
             static{
                     musicDiscs.put(ItemType.MUSIC_DISC_LAVA_CHICKEN,500.0);
                     musicDiscs.put(ItemType.MUSIC_DISC_PIGSTEP,500.0);

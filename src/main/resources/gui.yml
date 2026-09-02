@@ -67,8 +67,8 @@ settingsGUI:
 
 mainGUI:
   settingsGUI:
-    material: COMMAND_BLOCK
-    slot: 31
+    material: DIAMOND
+    slot: 0
     name: §9Einstellungen
     lore:
       - ''
@@ -96,15 +96,6 @@ mainGUI:
       - '§6§l➤ Klicke zum Öffnen!'
     action: open_rewardGUI
 
-profileGUI:
-  ratingGUI:
-    material: RED_DYE
-    slot: 27
-    name: §9Bewertung
-    lore:
-      - ''
-      - §7Richte dein Plot ein
-    action: open_settingsGUI
 
 # open_mainGUI
 # open_borderGUI
