@@ -4,10 +4,12 @@ import com.plotsquared.core.PlotSquared;
 import com.plotsquared.core.player.PlotPlayer;
 import com.plotsquared.core.plot.Plot;
 import com.plotsquared.core.plot.flag.implementations.MusicFlag;
+import de.main.plotSettings.GUI.MainGUI;
 import de.main.plotSettings.GUI.MusicGUI;
 import de.main.plotSettings.PlotSettings;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -52,10 +54,16 @@ public class MusicGUIListener implements Listener {
         if (!item.hasItemMeta()) return;
 
         ItemMeta itemMeta = item.getItemMeta();
+        Player p = ((Player) e.getWhoClicked());
 
         // Key erstellen
         String action = itemMeta.getPersistentDataContainer().get(new NamespacedKey(PlotSettings.getInstance(), "action"), PersistentDataType.STRING);
 
+        if (action.equals("open.main"))
+        {
+            MainGUI.createMainGUI(p);
+            p.playSound(p.getLocation(), Sound.BLOCK_BARREL_CLOSE,1,1);
+        }
 
         if (action.startsWith("set_music_"))
         {

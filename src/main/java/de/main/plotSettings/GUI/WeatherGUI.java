@@ -18,6 +18,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static de.main.plotSettings.Manager.GUIHelper.setQuitButton;
+
 public class WeatherGUI {
 
     public static final Map<String,Double> weather = new HashMap<>();
@@ -29,6 +31,9 @@ public class WeatherGUI {
     public static void createWeatherGUI(Player p)
     {
         Inventory weatherGUI = Bukkit.createInventory(null,45,"§9Wetter");
+
+        // Quit Button!
+        setQuitButton(weatherGUI, Material.BARRIER,35,"open.main");
 
         createSunItem(weatherGUI,p);
         createRainItem(weatherGUI,p);

@@ -9,6 +9,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 
+import static de.main.plotSettings.Manager.GUIHelper.setQuitButton;
+
 public class WallGUI {
 
     // Verfügbare Blöcke
@@ -42,6 +44,9 @@ public class WallGUI {
     {
         Inventory borderGUI = Bukkit.createInventory(null,45,"Wall");
         int currentSlot = 0;
+
+        // Quit Button!
+        setQuitButton(borderGUI,Material.BARRIER,35,"open.main");
 
         // Nimmt sich alle Blocke
         for (Material mat : BORDER_BLOCKS)

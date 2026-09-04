@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static de.main.plotSettings.Manager.GUIHelper.setQuitButton;
+
 public class TimeGUI {
 
     public static final Map<String,Integer> timeListe = new HashMap<>();
@@ -29,6 +31,9 @@ public class TimeGUI {
     public static void createTimeGUI(Player p) {
         Inventory timeInventory = Bukkit.createInventory(null, 36, "§eUhrzeit");
         int currentSlot = 0;
+
+        // Quit Button!
+        setQuitButton(timeInventory,Material.BARRIER,35,"open.main");
 
         for (Map.Entry<String,Integer> entry : timeListe.entrySet())
         {

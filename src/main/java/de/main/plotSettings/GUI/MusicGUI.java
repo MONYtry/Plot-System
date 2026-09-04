@@ -2,6 +2,7 @@ package de.main.plotSettings.GUI;
 
 import de.main.plotSettings.PlotSettings;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 
@@ -15,6 +16,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import static de.main.plotSettings.Manager.GUIHelper.setQuitButton;
 
 public class MusicGUI {
 
@@ -39,6 +42,10 @@ public class MusicGUI {
     {
         Inventory inventory = Bukkit.createInventory(null,36,"§cMusic");
         int currentSlot = 0;
+
+        // Quit Button!
+        setQuitButton(inventory, Material.BARRIER,35,"open.main");
+
 
         for (Map.Entry<ItemType, Double> entry : musicDiscs.entrySet())
         {

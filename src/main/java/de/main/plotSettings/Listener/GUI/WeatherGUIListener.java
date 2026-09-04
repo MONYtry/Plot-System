@@ -8,12 +8,14 @@ import com.plotsquared.core.plot.flag.implementations.MobCapFlag;
 import com.plotsquared.core.plot.flag.implementations.MusicFlag;
 import com.plotsquared.core.plot.flag.implementations.WeatherFlag;
 import com.plotsquared.core.util.PatternUtil;
+import de.main.plotSettings.GUI.MainGUI;
 import de.main.plotSettings.GUI.MusicGUI;
 import de.main.plotSettings.GUI.WeatherGUI;
 import de.main.plotSettings.PlotSettings;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -62,6 +64,13 @@ public class WeatherGUIListener implements Listener {
         // Key erstellen
         String action = itemMeta.getPersistentDataContainer().get(new NamespacedKey(PlotSettings.getInstance(), "action"), PersistentDataType.STRING);
 
+        Player p = ((Player) e.getWhoClicked());
+
+        if (action.equals("open.main"))
+        {
+            MainGUI.createMainGUI(p);
+            p.playSound(p.getLocation(), Sound.BLOCK_BARREL_CLOSE,1,1);
+        }
 
         if (action.startsWith("set_weather_"))
         {
