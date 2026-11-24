@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static de.main.plotSettings.Helper.RewardHelper.addEnchantments;
+import static de.main.plotSettings.Helper.messageHelper.sendPlayerMessage;
 
 public class RewardsGUIListener implements Listener {
 
@@ -62,7 +63,7 @@ public class RewardsGUIListener implements Listener {
         }
         catch (NumberFormatException ex)
         {
-            p.sendMessage("§cUngültiges Reward-Level!");
+            sendPlayerMessage(p,"§cUngültiges Reward-Level!");
             return;
         }
         // Alle Datein laden
@@ -75,7 +76,7 @@ public class RewardsGUIListener implements Listener {
         // Nullpointer Vermeiden
         if (rewards == null)
         {
-            p.sendMessage("§cEs wurden keine Rewards gefunden!");
+            sendPlayerMessage(p,"§cEs wurden keine Rewards gefunden!");
             return;
         }
 
@@ -97,7 +98,7 @@ public class RewardsGUIListener implements Listener {
 
         if (rewardPath == null)
         {
-            p.sendMessage("§cEs wurde kein Reward für Level " + rewardLevel + " gefunden!");
+            sendPlayerMessage(p,"§cEs wurde kein Reward für Level " + rewardLevel + " gefunden!");
             return;
         }
 
@@ -110,7 +111,7 @@ public class RewardsGUIListener implements Listener {
         // Wenn das Level zu niedrig ist
         if (playerLevel < rewardLevel)
         {
-            p.sendMessage("§cDu benötigst mindestens Level " + rewardLevel + "!");
+            sendPlayerMessage(p,"§cDu benötigst mindestens Level " + rewardLevel + "!");
             p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 1f, 1f);
             return;
         }
@@ -122,7 +123,7 @@ public class RewardsGUIListener implements Listener {
         // Vermeidet ungewolltest einsammeln
         if (alreadyClaimed)
         {
-            p.sendMessage("§cDu hast diese Belohnung bereits eingesammelt!");
+            sendPlayerMessage(p,"§cDu hast diese Belohnung bereits eingesammelt!");
             return;
         }
 
@@ -130,7 +131,7 @@ public class RewardsGUIListener implements Listener {
         String materialName = cfgRewards.getString(rewardPath + ".material");
         if (materialName == null)
         {
-            p.sendMessage("§cDer Reward besitzt kein Material!");
+            sendPlayerMessage(p,"§cDer Reward besitzt kein Material!");
             return;
         }
 
@@ -144,7 +145,7 @@ public class RewardsGUIListener implements Listener {
         }
         catch (IllegalArgumentException ex)
         {
-            p.sendMessage("§cUngültiges Material: " + materialName);
+            sendPlayerMessage(p,"§cUngültiges Material: " + materialName);
             return;
         }
 
@@ -186,7 +187,7 @@ public class RewardsGUIListener implements Listener {
             p.getInventory().addItem(rewardItem);
         }
 
-        p.sendMessage("§aDu hast deine Belohnung erfolgreich eingesammelt!");
+        sendPlayerMessage(p,"§aDu hast deine Belohnung erfolgreich eingesammelt!");
         p.playSound(p.getLocation(), Sound.UI_TOAST_IN, 1f, 1f);
 
         // Aktualisiert GUI

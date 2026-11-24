@@ -11,6 +11,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import static de.main.plotSettings.Helper.messageHelper.sendPlayerMessage;
+
 public class PlotSettingsCommand implements CommandExecutor {
 
     @Override
@@ -29,18 +31,16 @@ public class PlotSettingsCommand implements CommandExecutor {
             // Spieler ist nicht auf einem Grundstück!
             if (plot == null)
             {
-                p.sendMessage("§7Kein Grundstück gefunden!");
+                sendPlayerMessage(p,"§7Kein Grundstück gefunden!");
                 return true;
             }
-
 
             // Spieler ist nicht Owner des Grundstücks
             if (!plot.isOwner(p.getUniqueId()) && p.hasPermission("plotsettings.*"))
             {
-                p.sendMessage("§cDieses Grundstück gehört dir nicht!");
+                sendPlayerMessage(p,"§cDieses Grundstück gehört dir nicht!");
                 return true;
             }
-
 
             MainGUI.createMainGUI(p);
         }

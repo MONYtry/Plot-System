@@ -21,6 +21,8 @@ import org.bukkit.persistence.PersistentDataType;
 
 import java.util.Map;
 
+import static de.main.plotSettings.Helper.messageHelper.sendPlayerMessage;
+
 public class MusicGUIListener implements Listener {
 
     @EventHandler
@@ -102,24 +104,24 @@ public class MusicGUIListener implements Listener {
         {
             if (currentCash < price)
             {
-                p.sendMessage("§cDu hast nicht genug Guthaben! §7(Preis: " + price +"$)");
+                sendPlayerMessage(p,"§cDu hast nicht genug Guthaben! §7(Preis: " + price +"$)");
                 return;
             }
 
             PlotSettings.getEconomy().withdrawPlayer(p,price);
 
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(),"lp user " + p.getName() + " permission set " + permission + " true");
-            p.sendMessage("§7Du hast §c-" + price + "$ §7bezahlt!");
+            sendPlayerMessage(p,"§7Du hast §c-" + price + "$ §7bezahlt!");
 
         }
         if (music.equalsIgnoreCase("BARRIER"))
         {
             plot.removeFlag(MusicFlag.MUSIC_FLAG_NONE);
-            p.sendMessage("§eMusik wurde §cdeaktivert");
+            sendPlayerMessage(p,"§eMusik wurde §cdeaktivert");
             return;
         }
         plot.setFlag(MusicFlag.class,music);
-        p.sendMessage("§aMusik wurde erfolgreich geändert!");
+        sendPlayerMessage(p,"§aMusik wurde erfolgreich geändert!");
         p.closeInventory();
     }
 }

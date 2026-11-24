@@ -28,6 +28,9 @@ import org.bukkit.persistence.PersistentDataType;
 
 import java.util.Map;
 
+import static de.main.plotSettings.Helper.messageHelper.sendPlayerMessage;
+import static de.main.plotSettings.Helper.permissionHelper.hasPermission;
+
 public class TimeGUIListener implements Listener {
 
     @EventHandler
@@ -91,23 +94,22 @@ public class TimeGUIListener implements Listener {
 
     private void setTime(Plot plot,String uhrzeitName, Player p,double price)
     {
-
         String permission = "plotsettings.time." + uhrzeitName;
         int time = 0;
         double currentCash = PlotSettings.getEconomy().getBalance(p);
 
-        if (!p.hasPermission(permission))
+        if (!hasPermission(p,permission))
         {
             if (currentCash < price)
             {
-                p.sendMessage("§cDu hast nicht genug Guthaben! §7(Preis: " + price +"$)");
+                sendPlayerMessage(p,"§cDu hast nicht genug Guthaben! §7(Preis: " + price +"$)");
                 return;
             }
 
             PlotSettings.getEconomy().withdrawPlayer(p,price);
 
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(),"lp user " + p.getName() + " permission set " + permission + " true");
-            p.sendMessage("§7Du hast §c-" + price + "$ §7bezahlt!");
+            sendPlayerMessage(p,"§7Du hast §c-" + price + "$ §7bezahlt!");
 
         }
 
@@ -129,16 +131,15 @@ public class TimeGUIListener implements Listener {
                 plot.removeFlag(TimeFlag.class);
                 p.resetPlayerTime();
 
-                p.sendMessage("§cZeit-Feature wurde entfernt!");
+                sendPlayerMessage(p,"§cZeit-Feature wurde entfernt!");
                 p.closeInventory();
                 return;
-
         }
 
         String newTime = String.valueOf(time);
 
         plot.setFlag(TimeFlag.class,newTime);
-        p.sendMessage("§cZeit wurde erfolgreich geändert!");
+        sendPlayerMessage(p,"§cZeit wurde erfolgreich geändert!");
         p.closeInventory();
     }
 }

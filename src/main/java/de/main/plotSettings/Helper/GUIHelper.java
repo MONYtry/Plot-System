@@ -11,6 +11,8 @@ import org.bukkit.persistence.PersistentDataType;
 
 import java.util.*;
 
+import static de.main.plotSettings.Helper.messageHelper.sendPlayerMessage;
+
 public class GUIHelper {
 
     public static void setQuitButton(Inventory inventory_to_place,Material material, int slot,String action)
@@ -39,8 +41,8 @@ public class GUIHelper {
             else
             {
                 String occupiedMessagePrefix = "§7Slot §e[" + startSlot + "]";
-                p.sendMessage(occupiedMessagePrefix + "ist bereits besetzt!");
-                p.sendMessage(occupiedMessagePrefix + "§7besetzt von §c" + inventory.getItem(startSlot));
+                sendPlayerMessage(p,occupiedMessagePrefix + "ist bereits besetzt!");
+                sendPlayerMessage(p,occupiedMessagePrefix + "§7besetzt von §c" + inventory.getItem(startSlot));
             }
         }
     }

@@ -29,6 +29,7 @@ import org.bukkit.persistence.PersistentDataType;
 import java.util.Map;
 
 import static de.main.plotSettings.Helper.messageHelper.getPrefix;
+import static de.main.plotSettings.Helper.messageHelper.sendPlayerMessage;
 
 public class WeatherGUIListener implements Listener {
 
@@ -54,7 +55,7 @@ public class WeatherGUIListener implements Listener {
         // Verhindert Fremdzugriff
         if (!plot.isOwner(plotPlayer.getUUID()))
         {
-            player.sendMessage("§cNur der Besitzter des Grundstücks darf dies tun!");
+            sendPlayerMessage(player,"§cNur der Besitzter des Grundstücks darf dies tun!");
             return;
         }
 
@@ -97,7 +98,7 @@ public class WeatherGUIListener implements Listener {
         Economy economy = PlotSettings.getEconomy();
         if (economy == null)
         {
-            p.sendMessage(getPrefix() + "Leider ist das Geld-System aktuell deaktiviert!");
+            sendPlayerMessage(p,"Leider ist das Geld-System aktuell deaktiviert!");
             return;
         }
 
@@ -109,20 +110,20 @@ public class WeatherGUIListener implements Listener {
         {
             if (currentCash < price)
             {
-                p.sendMessage("§cDu hast nicht genug Guthaben! §7(Preis: " + price +"$)");
+                sendPlayerMessage(p,"§cDu hast nicht genug Guthaben! §7(Preis: " + price +"$)");
                 return;
             }
 
             PlotSettings.getEconomy().withdrawPlayer(p,price);
 
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(),"lp user " + p.getName() + " permission set " + permission + " true");
-            p.sendMessage("§7Du hast §c-" + price + "$ §7bezahlt!");
+            sendPlayerMessage(p,"§7Du hast §c-" + price + "$ §7bezahlt!");
         }
 
         String weatherValue = weather.equalsIgnoreCase("sun") ? "clear" : "rain";
         plot.setFlag(WeatherFlag.class, weatherValue);
 
-        p.sendMessage("§aWetter wurde erfolgreich geändert!");
+        sendPlayerMessage(p,"§aWetter wurde erfolgreich geändert!");
         p.closeInventory();
     }
 }

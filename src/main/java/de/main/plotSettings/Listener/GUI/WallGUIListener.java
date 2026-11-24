@@ -18,6 +18,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
+import static de.main.plotSettings.Helper.messageHelper.sendPlayerMessage;
+
 public class WallGUIListener implements Listener {
 
     @EventHandler
@@ -59,8 +61,6 @@ public class WallGUIListener implements Listener {
             p.playSound(p.getLocation(), Sound.BLOCK_BARREL_CLOSE,1,1);
             return;
         }
-
-
         setWall(e,plot);
     }
 
@@ -80,7 +80,7 @@ public class WallGUIListener implements Listener {
         // Wenn keine Rechte
         if (!p.hasPermission(perm))
         {
-            p.sendMessage("§cDu hast keine Rechte dafür!");
+            sendPlayerMessage(p,"§cDu hast keine Rechte dafür!");
             p.closeInventory();
             e.setCancelled(true);
             return;
@@ -98,7 +98,7 @@ public class WallGUIListener implements Listener {
             );
         }
 
-        p.sendMessage("§aWand wurde erfolgreich auf: "  + displayItem + " gesetzt");
+        sendPlayerMessage(p,"§aWand wurde erfolgreich auf: "  + displayItem + " gesetzt");
         p.closeInventory();
         e.setCancelled(true);
 

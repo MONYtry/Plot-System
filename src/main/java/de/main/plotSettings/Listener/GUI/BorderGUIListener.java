@@ -18,6 +18,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
+import static de.main.plotSettings.Helper.messageHelper.sendPlayerMessage;
+import static de.main.plotSettings.Helper.permissionHelper.hasPermission;
+
 public class BorderGUIListener implements Listener {
 
     @EventHandler
@@ -78,7 +81,7 @@ public class BorderGUIListener implements Listener {
         String displayItem = type.toString().replace("_", " ");
 
         // Wenn keine Rechte
-        if (!p.hasPermission(perm))
+        if (!hasPermission(p,perm))
         {
             p.sendMessage("§cDu hast keine Rechte dafür!");
             p.closeInventory();
@@ -98,7 +101,7 @@ public class BorderGUIListener implements Listener {
             );
         }
 
-        p.sendMessage("§aRand wurde erfolgreich auf: "  + displayItem + " gesetzt");
+        sendPlayerMessage(p,"§aRand wurde erfolgreich auf: "  + displayItem + " gesetzt");
 
         p.closeInventory();
 

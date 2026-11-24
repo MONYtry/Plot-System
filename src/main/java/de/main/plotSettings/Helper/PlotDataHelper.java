@@ -56,8 +56,6 @@ public class PlotDataHelper {
         return plot;
     }
 
-
-
     public static String getPlotOwner(Player p, Plot plot) {
         // Spieler ist nicht auf einem Grundstück!
         if (plot == null) {

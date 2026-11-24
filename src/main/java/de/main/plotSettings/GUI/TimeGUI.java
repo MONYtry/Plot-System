@@ -36,7 +36,6 @@ public class TimeGUI {
 
         for (Map.Entry<String,Integer> entry : timeListe.entrySet())
         {
-            String uhrzeit = entry.getKey();
             String uhrzeit_Name =  entry.getKey().toString();
             double preis = entry.getValue();
 

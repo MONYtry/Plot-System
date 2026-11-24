@@ -4,7 +4,8 @@ import de.main.plotSettings.PlotSettings;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
-import static de.main.plotSettings.Helper.chatHelper.sendPlayerMessage;
+import static de.main.plotSettings.Helper.messageHelper.sendPlayerMessage;
+
 
 public class permissionHelper {
 

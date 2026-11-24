@@ -35,6 +35,7 @@ public class PlotGUIHelper {
         {
             p.sendMessage("§7Kein Grundstück gefunden!");
             displayMaterial = Material.BARRIER;
+            return;
         }
 
         // Item erstellen

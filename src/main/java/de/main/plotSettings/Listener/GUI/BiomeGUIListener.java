@@ -19,6 +19,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
+import static de.main.plotSettings.Helper.messageHelper.sendPlayerMessage;
+
 public class BiomeGUIListener implements Listener {
 
     @EventHandler
@@ -86,7 +88,7 @@ public class BiomeGUIListener implements Listener {
         Plot plot = plotPlayer.getCurrentPlot();
 
         if (plot == null) {
-            p.sendMessage("§cDu stehst auf keinem Plot!");
+            sendPlayerMessage(p,"§cDu stehst auf keinem Plot!");
             return;
         }
 
@@ -96,7 +98,7 @@ public class BiomeGUIListener implements Listener {
         BiomeType biome = BiomeTypes.get(biomeName);
 
         if (biome == null) {
-            p.sendMessage("§cDieses Biom existiert nicht!");
+            sendPlayerMessage(p,"§cDieses Biom existiert nicht!");
             return;
         }
 
@@ -104,7 +106,7 @@ public class BiomeGUIListener implements Listener {
         Double price = BiomeGUI.biomeListe.get(biome);
 
         if (price == null) {
-            p.sendMessage("§cFür dieses Biom wurde kein Preis festgelegt!");
+            sendPlayerMessage(p,"§cFür dieses Biom wurde kein Preis festgelegt!");
             return;
         }
 
@@ -118,7 +120,7 @@ public class BiomeGUIListener implements Listener {
 
             // Nicht genug Geld
             if (currentCash < price) {
-                p.sendMessage("§cDu hast nicht genug Geld!");
+                sendPlayerMessage(p,"§cDu hast nicht genug Geld!");
                 return;
             }
 
@@ -131,7 +133,7 @@ public class BiomeGUIListener implements Listener {
 
         // Biome auf dem Plot setzen
         plot.getPlotModificationManager().setBiome(biome, () -> {
-                    p.sendMessage("§ePlot-Biom §7wurde erfolgreich geändert!");
+                    sendPlayerMessage(p,"§ePlot-Biom §7wurde erfolgreich geändert!");
                     p.playSound(p.getLocation(), Sound.ITEM_GOAT_HORN_SOUND_0, 1, 1);
                 }
         );
