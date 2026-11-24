@@ -12,6 +12,7 @@ import de.main.plotSettings.GUI.MainGUI;
 import de.main.plotSettings.GUI.MusicGUI;
 import de.main.plotSettings.GUI.WeatherGUI;
 import de.main.plotSettings.PlotSettings;
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -26,6 +27,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.Map;
+
+import static de.main.plotSettings.Helper.messageHelper.getPrefix;
 
 public class WeatherGUIListener implements Listener {
 
@@ -85,15 +88,22 @@ public class WeatherGUIListener implements Listener {
                 return;
             }
 
-            setMusic(plot, weather, player,price);
+            setWeather(plot, weather, player,price);
         }
     }
 
-    private void setMusic(Plot plot,String weather, Player p,double price)
+    private void setWeather(Plot plot,String weather, Player p,double price)
     {
+        Economy economy = PlotSettings.getEconomy();
+        if (economy == null)
+        {
+            p.sendMessage(getPrefix() + "Leider ist das Geld-System aktuell deaktiviert!");
+            return;
+        }
 
-        String permission = "plotsettings.weather." + weather;
         double currentCash = PlotSettings.getEconomy().getBalance(p);
+        String permission = "plotsettings.weather." + weather;
+
 
         if (!p.hasPermission(permission))
         {
@@ -107,10 +117,10 @@ public class WeatherGUIListener implements Listener {
 
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(),"lp user " + p.getName() + " permission set " + permission + " true");
             p.sendMessage("§7Du hast §c-" + price + "$ §7bezahlt!");
-
         }
 
-        plot.setFlag(WeatherFlag.class,weather);
+        String weatherValue = weather.equalsIgnoreCase("sun") ? "clear" : "rain";
+        plot.setFlag(WeatherFlag.class, weatherValue);
 
         p.sendMessage("§aWetter wurde erfolgreich geändert!");
         p.closeInventory();

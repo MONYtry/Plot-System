@@ -3,8 +3,6 @@ package de.main.plotSettings.Listener.GUI;
 import com.plotsquared.core.PlotSquared;
 import com.plotsquared.core.player.PlotPlayer;
 import com.plotsquared.core.plot.Plot;
-import com.plotsquared.core.plot.flag.implementations.MusicFlag;
-import com.sk89q.worldedit.world.item.ItemTypes;
 import de.main.plotSettings.GUI.*;
 import de.main.plotSettings.PlotSettings;
 import org.bukkit.NamespacedKey;
@@ -33,8 +31,6 @@ public class SettingsGUIListener implements Listener {
 
         Plot plot = plotPlayer.getCurrentPlot();
         if (plot == null) return;
-
-        //plot.setFlag(MusicFlag.class, "minecraft:music_disc_cat");
 
         // Variable für den Block der Getroffen wurde!
         ItemStack item = e.getCurrentItem();

@@ -4,7 +4,9 @@ main: de.main.plotSettings.PlotSettings
 api-version: '1.21'
 depend: [PlotSquared]
 author: "[ M O N Y STUDIOTEST]"
-
+softdepend:
+  - Vault
+  - ServerCoreX
 
 commands:
   Plotsettings:

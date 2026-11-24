@@ -35,13 +35,18 @@ public final class PlotSettings extends JavaPlugin {
             return false;
         }
 
-        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+        RegisteredServiceProvider<Economy> rsp =
+                getServer().getServicesManager()
+                        .getRegistration(Economy.class);
 
         if (rsp == null) {
+            getLogger().severe("KEIN VAULT PROVIDER GEFUNDEN!");
             return false;
         }
 
         economy = rsp.getProvider();
+
+        getLogger().info("Economy Provider: " + economy.getName());
 
         return economy != null;
     }
@@ -52,7 +57,10 @@ public final class PlotSettings extends JavaPlugin {
 
     @Override
     public void onEnable() {
-
+        if (!setupEconomy())
+        {
+            getLogger().warning("Vault/Economy wurde nicht gefunden!");
+        }
         // Listener
         Bukkit.getPluginManager().registerEvents(new SettingsGUIListener(),this);
         Bukkit.getPluginManager().registerEvents(new BiomeGUIListener(),this);
@@ -114,11 +122,6 @@ public final class PlotSettings extends JavaPlugin {
 
         // Speichern
         saveDefaultConfig();
-
-        if (!setupEconomy())
-        {
-            getLogger().warning("Vault/Economy wurde nicht gefunden!");
-        }
     }
 
     @Override
