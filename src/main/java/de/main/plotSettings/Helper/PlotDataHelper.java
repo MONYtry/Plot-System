@@ -1,13 +1,10 @@
-package de.main.plotSettings.Manager;
+package de.main.plotSettings.Helper;
 
 import com.plotsquared.core.PlotSquared;
 import com.plotsquared.core.player.PlotPlayer;
 import com.plotsquared.core.plot.Plot;
-import com.plotsquared.core.plot.flag.implementations.MobCapFlag;
-import de.main.plotSettings.PlotSettings;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import java.text.SimpleDateFormat;

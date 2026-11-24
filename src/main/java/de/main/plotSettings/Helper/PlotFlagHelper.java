@@ -1,9 +1,8 @@
-package de.main.plotSettings.Manager;
+package de.main.plotSettings.Helper;
 
 import com.plotsquared.core.plot.Plot;
 import com.plotsquared.core.plot.flag.implementations.AnimalCapFlag;
 import com.plotsquared.core.plot.flag.implementations.EntityCapFlag;
-import com.plotsquared.core.plot.flag.implementations.MobCapFlag;
 import de.main.plotSettings.PlotSettings;
 import org.bukkit.configuration.file.FileConfiguration;
 

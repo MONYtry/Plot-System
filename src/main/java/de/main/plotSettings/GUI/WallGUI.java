@@ -9,7 +9,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 
-import static de.main.plotSettings.Manager.GUIHelper.setQuitButton;
+import static de.main.plotSettings.Helper.GUIHelper.setQuitButton;
+import static de.main.plotSettings.Helper.permissionHelper.hasPermission;
 
 public class WallGUI {
 
@@ -53,35 +54,34 @@ public class WallGUI {
         {
             // Falls der Spieler rechte hat
             String perm = "plotSettings.border." + mat.name().toLowerCase();
-            if (p.hasPermission(perm))
-            {
-                // Item erstellen
-                ItemStack borderItem = new ItemStack(mat);
-                ItemMeta borderItemMeta = borderItem.getItemMeta();
-                borderItemMeta.setDisplayName("§e" + formatName(mat));
+            if (!hasPermission(p,perm))
+                continue;
 
-                // Lore erstellen
-                ArrayList borderItemLore = new ArrayList<>();
-                borderItemLore.add("");
-                borderItemLore.add("§7blocktyp: ".toUpperCase() + "§b" + formatName(mat));
-                borderItemLore.add("");
-                borderItemLore.add("§9§l-INFO-");
-                borderItemLore.add("");
-                borderItemLore.add("§7Klicke, um diesen §eBlock §7als Rand zu §esetzen!");
-                borderItemLore.add("");
-                borderItemLore.add("§9§l-INFO-");
+            // Item erstellen
+            ItemStack borderItem = new ItemStack(mat);
+            ItemMeta borderItemMeta = borderItem.getItemMeta();
+            borderItemMeta.setDisplayName("§e" + formatName(mat));
 
-                // Lore setzen
-                borderItemMeta.setLore(borderItemLore);
+            // Lore erstellen
+            ArrayList borderItemLore = new ArrayList<>();
+            borderItemLore.add("");
+            borderItemLore.add("§7blocktyp: ".toUpperCase() + "§b" + formatName(mat));
+            borderItemLore.add("");
+            borderItemLore.add("§9§l-INFO-");
+            borderItemLore.add("");
+            borderItemLore.add("§7Klicke, um diesen §eBlock §7als Rand zu §esetzen!");
+            borderItemLore.add("");
+            borderItemLore.add("§9§l-INFO-");
 
-                borderItem.setItemMeta(borderItemMeta);
+            // Lore setzen
+            borderItemMeta.setLore(borderItemLore);
+            borderItem.setItemMeta(borderItemMeta);
 
-                // Item in GUI legen
-                borderGUI.setItem(currentSlot,borderItem);
+            // Item in GUI legen
+            borderGUI.setItem(currentSlot,borderItem);
 
-                // Slot hochziehen
-                currentSlot++;
-            }
+            // Slot hochziehen
+            currentSlot++;
         }
         p.openInventory(borderGUI);
     }

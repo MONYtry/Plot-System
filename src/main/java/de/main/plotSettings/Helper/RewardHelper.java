@@ -1,4 +1,4 @@
-package de.main.plotSettings.Manager;
+package de.main.plotSettings.Helper;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;

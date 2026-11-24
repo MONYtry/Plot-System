@@ -1,4 +1,4 @@
-package de.main.plotSettings.Manager;
+package de.main.plotSettings.Helper;
 
 import com.plotsquared.core.PlotSquared;
 import com.plotsquared.core.player.PlotPlayer;
@@ -16,9 +16,9 @@ import org.bukkit.persistence.PersistentDataType;
 
 import java.util.*;
 
-import static de.main.plotSettings.Manager.PlotDataHelper.*;
-import static de.main.plotSettings.Manager.PlotFlagHelper.getEntityCap;
-import static de.main.plotSettings.Manager.PlotFlagHelper.getHopperCap;
+import static de.main.plotSettings.Helper.PlotDataHelper.*;
+import static de.main.plotSettings.Helper.PlotFlagHelper.getEntityCap;
+import static de.main.plotSettings.Helper.PlotFlagHelper.getHopperCap;
 
 public class PlotGUIHelper {
 

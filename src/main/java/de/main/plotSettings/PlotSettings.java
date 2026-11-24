@@ -1,6 +1,5 @@
 package de.main.plotSettings;
 
-import de.main.plotSettings.Achviment.Achivment;
 import de.main.plotSettings.Achviment.AchivmentListener;
 import de.main.plotSettings.Achviment.AchivmentManager;
 import de.main.plotSettings.Commands.PlotSettingsCommand;
@@ -19,7 +18,6 @@ import java.io.IOException;
 
 public final class PlotSettings extends JavaPlugin {
 
-
     private static PlotSettings instance;
     public FileConfiguration gui;
     public FileConfiguration plot;
@@ -27,8 +25,6 @@ public final class PlotSettings extends JavaPlugin {
     public FileConfiguration messages;
     public FileConfiguration playerData;
     public FileConfiguration rewards;
-
-
     private File playerDataFile;
     private File plotFile;
 
@@ -56,8 +52,6 @@ public final class PlotSettings extends JavaPlugin {
 
     @Override
     public void onEnable() {
-
-
 
         // Listener
         Bukkit.getPluginManager().registerEvents(new SettingsGUIListener(),this);
@@ -143,6 +137,10 @@ public final class PlotSettings extends JavaPlugin {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    public static FileConfiguration getYML(FileConfiguration file)
+    {
+        return file;
     }
     public void savePlayerData()
     {

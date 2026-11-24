@@ -3,24 +3,12 @@ package de.main.plotSettings.GUI;
 import com.plotsquared.core.PlotSquared;
 import com.plotsquared.core.player.PlotPlayer;
 import com.plotsquared.core.plot.Plot;
-import de.main.plotSettings.Level.PlotLevelManager;
-import de.main.plotSettings.Manager.ItemCreator;
-import de.main.plotSettings.PlotSettings;
+import de.main.plotSettings.Helper.ItemCreator;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataType;
-
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-
-import static de.main.plotSettings.Manager.PlotGUIHelper.createPlotsListGUI;
-import static de.main.plotSettings.Manager.PlotGUIHelper.createRatingsBlock;
+import static de.main.plotSettings.Helper.PlotGUIHelper.createPlotsListGUI;
+import static de.main.plotSettings.Helper.PlotGUIHelper.createRatingsBlock;
 
 
 public class MainGUI {

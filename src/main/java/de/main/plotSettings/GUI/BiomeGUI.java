@@ -9,17 +9,14 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.ItemType;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
-import javax.naming.Name;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static de.main.plotSettings.Manager.GUIHelper.setQuitButton;
+import static de.main.plotSettings.Helper.GUIHelper.setQuitButton;
 
 public class BiomeGUI {
 

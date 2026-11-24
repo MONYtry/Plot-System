@@ -45,9 +45,8 @@ public class PlotSettingsCommand implements CommandExecutor {
             MainGUI.createMainGUI(p);
         }
         else
-        {
             sender.sendMessage("Keine Erlaubnis");
-        }
+
 
         return true;
     }

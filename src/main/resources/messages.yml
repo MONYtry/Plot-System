@@ -1,2 +1,3 @@
 messages:
   prefix: "§6§lBLOCKHIVE §7» "
+  noPermission: "§cDu hast dazu keine Berechtigung"

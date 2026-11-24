@@ -1,19 +1,15 @@
 package de.main.plotSettings.GUI;
 
-import com.plotsquared.core.plot.Plot;
-import com.plotsquared.core.plot.PlotManager;
-import com.plotsquared.core.util.PatternUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 
-import static de.main.plotSettings.Manager.GUIHelper.setQuitButton;
+import static de.main.plotSettings.Helper.GUIHelper.setQuitButton;
 
 public class BorderGUI {
 

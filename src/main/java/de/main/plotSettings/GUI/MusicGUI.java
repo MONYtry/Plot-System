@@ -13,16 +13,15 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static de.main.plotSettings.Manager.GUIHelper.setQuitButton;
+import static de.main.plotSettings.Helper.GUIHelper.setQuitButton;
 
 public class MusicGUI {
 
     public static final Map<ItemType,Double> musicDiscs = new LinkedHashMap<>();
-            static{
+            static {
                     musicDiscs.put(ItemType.MUSIC_DISC_LAVA_CHICKEN,500.0);
                     musicDiscs.put(ItemType.MUSIC_DISC_PIGSTEP,500.0);
                     musicDiscs.put(ItemType.MUSIC_DISC_CAT,500.0);

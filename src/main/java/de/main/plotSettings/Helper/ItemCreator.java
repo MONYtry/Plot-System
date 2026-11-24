@@ -1,4 +1,4 @@
-package de.main.plotSettings.Manager;
+package de.main.plotSettings.Helper;
 
 
 import de.main.plotSettings.PlotSettings;
@@ -7,7 +7,6 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -23,7 +22,7 @@ public class ItemCreator {
         // selectionGUI
         FileConfiguration cfg = PlotSettings.getInstance().gui;
 
-        // Schau Config macht Sinn :)
+        // Holt sich die Section
         ConfigurationSection items = cfg.getConfigurationSection(categoryName);
 
         // Geht durch jede Kategorie
@@ -44,7 +43,8 @@ public class ItemCreator {
             // Item Lore
             List<String> lore = cfg.getStringList(path + ".lore");
 
-            if(lore == null) lore = new ArrayList<>();
+            if (lore == null)
+                lore = new ArrayList<>();
 
             // Ignorieren
             Material material;
@@ -54,7 +54,6 @@ public class ItemCreator {
             } catch (Exception e) {
                 // Falls Error
                 material = Material.STONE;
-                System.out.print("error Critical!");
             }
 
 
@@ -66,6 +65,11 @@ public class ItemCreator {
             meta.setLore(lore);
 
             String action = cfg.getString(path + ".action");
+
+            if (meta == null) {
+                System.err.println("Es wurde keine Item-Meta gefunden!");
+                continue;
+            }
             if (action != null)
             {
                 meta.getPersistentDataContainer().set(
@@ -74,63 +78,10 @@ public class ItemCreator {
                         action
                 );
             }
-            // Für Server Detection
-            String server = cfg.getString(path + ".server");
-
-            if (server != null) {
-                meta.getPersistentDataContainer().set(
-                        new NamespacedKey(PlotSettings.getInstance(), "server"),
-                        PersistentDataType.STRING,
-                        server
-                );
-            }
-
-            if (meta == null) {
-                System.out.print("error: ItemMeta is null!");
-                continue;
-            }
 
             item.setItemMeta(meta);
 
             inventoryToUse.setItem(slot, item);
         }
-    }
-
-    public void createItemWith(Material newMaterial, String itemName, List<String> newLore, int slotIndex, Player p, Inventory inventoryToUse, boolean unbreakable, String action)
-    {
-        // Erstellen von Item
-        ItemStack newItem = new ItemStack(newMaterial);
-
-        // ItemMeta erstellen
-        ItemMeta newItemMeta = newItem.getItemMeta();
-
-        // Meta Data verbinden
-        newItemMeta = newItem.getItemMeta();
-
-
-
-        // Display Namen setzen
-        newItemMeta.setDisplayName(itemName);
-
-        // Lore setzen
-        newItemMeta.setLore(newLore);
-        newItemMeta.setUnbreakable(unbreakable);
-
-
-        if(action != null)
-        {
-            newItemMeta.getPersistentDataContainer().set(
-                    new NamespacedKey(PlotSettings.getInstance(), "action"),
-                    PersistentDataType.STRING,
-                    action
-            );
-        }
-
-        // Meta Data verbinden
-        newItem.setItemMeta(newItemMeta);
-
-        // Item ablegen
-        inventoryToUse.setItem(slotIndex,newItem);
-
     }
 }

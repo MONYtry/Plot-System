@@ -1,14 +1,8 @@
-package de.main.plotSettings.Manager;
+package de.main.plotSettings.Helper;
 
-import com.plotsquared.core.PlotSquared;
-import com.plotsquared.core.player.PlotPlayer;
-import com.plotsquared.core.plot.Plot;
-import com.plotsquared.core.plot.Rating;
-import de.main.plotSettings.Level.PlotLevelManager;
 import de.main.plotSettings.PlotSettings;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -17,8 +11,6 @@ import org.bukkit.persistence.PersistentDataType;
 
 import java.util.*;
 
-import static de.main.plotSettings.Manager.PlotDataHelper.*;
-
 public class GUIHelper {
 
     public static void setQuitButton(Inventory inventory_to_place,Material material, int slot,String action)
@@ -26,11 +18,7 @@ public class GUIHelper {
         ItemStack itemstack = new ItemStack(material);
         ItemMeta itemMeta = itemstack.getItemMeta();
 
-        itemMeta.getPersistentDataContainer().set(
-                new NamespacedKey(PlotSettings.getInstance(), "action"),
-                PersistentDataType.STRING,
-                action
-        );
+        itemMeta.getPersistentDataContainer().set(new NamespacedKey(PlotSettings.getInstance(), "action"), PersistentDataType.STRING, action);
         itemMeta.setDisplayName("§cZurück");
 
         itemstack.setItemMeta(itemMeta);

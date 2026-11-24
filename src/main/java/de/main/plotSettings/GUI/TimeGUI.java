@@ -1,6 +1,5 @@
 package de.main.plotSettings.GUI;
 
-import com.sk89q.worldedit.world.biome.BiomeType;
 import de.main.plotSettings.PlotSettings;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -15,7 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import static de.main.plotSettings.Manager.GUIHelper.setQuitButton;
+import static de.main.plotSettings.Helper.GUIHelper.setQuitButton;
 
 public class TimeGUI {
 

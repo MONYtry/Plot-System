@@ -1,6 +1,6 @@
 package de.main.plotSettings.GUI;
 
-import de.main.plotSettings.Manager.ItemCreator;
+import de.main.plotSettings.Helper.ItemCreator;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;

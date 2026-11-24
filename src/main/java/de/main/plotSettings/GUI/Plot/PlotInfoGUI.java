@@ -1,29 +1,22 @@
 package de.main.plotSettings.GUI.Plot;
 
-import com.plotsquared.core.PlotSquared;
-import com.plotsquared.core.player.PlotPlayer;
 import com.plotsquared.core.plot.Plot;
-import com.plotsquared.core.plot.Rating;
-import de.main.plotSettings.Level.PlotLevelManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 
 import java.util.*;
 
-import static de.main.plotSettings.Manager.GUIHelper.*;
-import static de.main.plotSettings.Manager.GUIHelper.createUpdateItem;
-import static de.main.plotSettings.Manager.PlotDataHelper.*;
-import static de.main.plotSettings.Manager.PlotGUIHelper.*;
-import static de.main.plotSettings.Manager.PlotGUIHelper.createCapBlock;
-import static de.main.plotSettings.Manager.PlotGUIHelper.createDenyBlock;
-import static de.main.plotSettings.Manager.PlotGUIHelper.createPlotMemberBlock;
-import static de.main.plotSettings.Manager.PlotGUIHelper.createTrustedBlock;
+import static de.main.plotSettings.Helper.GUIHelper.createUpdateItem;
+import static de.main.plotSettings.Helper.PlotDataHelper.*;
+import static de.main.plotSettings.Helper.PlotGUIHelper.*;
+import static de.main.plotSettings.Helper.PlotGUIHelper.createCapBlock;
+import static de.main.plotSettings.Helper.PlotGUIHelper.createDenyBlock;
+import static de.main.plotSettings.Helper.PlotGUIHelper.createPlotMemberBlock;
+import static de.main.plotSettings.Helper.PlotGUIHelper.createTrustedBlock;
 
 public class PlotInfoGUI {
 

@@ -1,6 +1,5 @@
 package de.main.plotSettings.GUI;
 
-import de.main.plotSettings.Manager.ItemCreator;
 import de.main.plotSettings.PlotSettings;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -8,22 +7,20 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.ItemType;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
-
-import java.awt.event.ItemEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static de.main.plotSettings.Manager.GUIHelper.setQuitButton;
+import static de.main.plotSettings.Helper.GUIHelper.setQuitButton;
+import static de.main.plotSettings.Helper.permissionHelper.hasPermission;
 
 public class WeatherGUI {
 
     public static final Map<String,Double> weather = new HashMap<>();
-    static{
+    static {
         weather.put("rain",500.0);
         weather.put("clear",500.0);
     };
@@ -54,10 +51,12 @@ public class WeatherGUI {
         List<String> sunItemLore = new ArrayList<>();
         sunItemLore.add("");
 
-        if (p.hasPermission(permission))
-        {
+        if (hasPermission(p,permission))
             status = "§aIn Besitz";
-        }
+        else
+            status = "§cNicht in besitz!";
+
+
         sunItemLore.add(status);
         sunItemLore.add("§7Preis: §e" + price + "$");
 
