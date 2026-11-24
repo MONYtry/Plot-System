@@ -22,7 +22,7 @@ public class WeatherGUI {
     public static final Map<String,Double> weather = new HashMap<>();
     static {
         weather.put("rain",500.0);
-        weather.put("clear",500.0);
+        weather.put("sun",500.0);
     };
 
     public static void createWeatherGUI(Player p)
@@ -31,79 +31,47 @@ public class WeatherGUI {
 
         // Quit Button!
         setQuitButton(weatherGUI, Material.BARRIER,35,"open.main");
-
-        createSunItem(weatherGUI,p);
-        createRainItem(weatherGUI,p);
-
+        createWeatherItems(weatherGUI,p);
         p.openInventory(weatherGUI);
     }
 
-    private static void createSunItem(Inventory weatherGUI,Player p)
+    private static void createWeatherItems(Inventory weatherGUI, Player p)
     {
-        double price = weather.get("clear");
-        String permission = "plotsettings.weather.sun";
-        String status = "§cNicht in Besitz";
-
-        ItemStack sunItem = new ItemStack(Material.DEAD_BUSH);
-        ItemMeta sunItemMeta = sunItem.getItemMeta();
-        sunItemMeta.setDisplayName("§eSonne");
-
-        List<String> sunItemLore = new ArrayList<>();
-        sunItemLore.add("");
-
-        if (hasPermission(p,permission))
-            status = "§aIn Besitz";
-        else
-            status = "§cNicht in besitz!";
-
-
-        sunItemLore.add(status);
-        sunItemLore.add("§7Preis: §e" + price + "$");
-
-        sunItemMeta.setLore(sunItemLore);
-
-        sunItemMeta.getPersistentDataContainer().set(
-                new NamespacedKey(PlotSettings.getInstance(), "action"),
-                PersistentDataType.STRING,
-                "set_weather_clear"
-        );
-
-        sunItem.setItemMeta(sunItemMeta);
-        weatherGUI.setItem(0,sunItem);
-
-
-    }
-
-    private static void createRainItem(Inventory weatherGUI,Player p)
-    {
-        double price = weather.get("rain");
-        String permission = "plotsettings.weather.rain";
-        String status = "§cNicht in Besitz";
-
-        ItemStack sunItem = new ItemStack(Material.WATER_BUCKET);
-        ItemMeta sunItemMeta = sunItem.getItemMeta();
-        sunItemMeta.setDisplayName("§9Regen");
-
-        List<String> sunItemLore = new ArrayList<>();
-        sunItemLore.add("");
-
-        if (p.hasPermission(permission))
+        for (int i = 0; i < 2; i++)
         {
-            status = "§aIn Besitz";
+            String varWeather = "Null";
+            if (i == 0) varWeather = "sun";
+            else varWeather = "rain";
+
+            double price = weather.get(varWeather);
+            String permission = "plotsettings.weather." + varWeather;
+
+            boolean isSun = varWeather.contains("sun");
+
+            // Item wird erstellt
+            ItemStack weatherItem = new ItemStack((isSun) ? Material.DEAD_BUSH : Material.ICE);
+
+            // Item-Meta wird erstellt
+            ItemMeta weatherItemMeta = weatherItem.getItemMeta();
+
+            // Item-Meta Anzeigename
+            weatherItemMeta.setDisplayName((varWeather.contains("sun")) ? "§eSonne" : "§9Regen");
+
+            // Lore des Items
+            List<String> weatherItemLore = new ArrayList<>();
+
+            weatherItemLore.add("");
+            String ownedDisplay = hasPermission(p, permission) ? "§aIn besitz" : "§cNicht in besitz!";
+
+            weatherItemLore.add(ownedDisplay);
+            weatherItemLore.add("§7Preis: §e" + price + "$");
+
+            weatherItemMeta.setLore(weatherItemLore);
+
+            weatherItemMeta.getPersistentDataContainer().set(new NamespacedKey(PlotSettings.getInstance(), "action"), PersistentDataType.STRING, "set_weather_" + varWeather);
+
+            weatherItem.setItemMeta(weatherItemMeta);
+            weatherGUI.setItem(i,weatherItem);
         }
-        sunItemLore.add(status);
-        sunItemLore.add("§7Preis: §e" + price + "$");
-
-        sunItemMeta.setLore(sunItemLore);
-
-
-        sunItemMeta.getPersistentDataContainer().set(
-                new NamespacedKey(PlotSettings.getInstance(), "action"),
-                PersistentDataType.STRING,
-                "set_weather_rain"
-        );
-
-        sunItem.setItemMeta(sunItemMeta);
-        weatherGUI.setItem(1,sunItem);
     }
 }
