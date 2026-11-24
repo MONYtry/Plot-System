@@ -1,3 +1,4 @@
 messages:
   prefix: "§6§lBLOCKHIVE §7» "
   noPermission: "§cDu hast dazu keine Berechtigung"
+  Music: "§eMusik §7wurde %get_music_state%"

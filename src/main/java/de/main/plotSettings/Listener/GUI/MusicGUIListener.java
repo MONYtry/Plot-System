@@ -22,6 +22,8 @@ import org.bukkit.persistence.PersistentDataType;
 import java.util.Map;
 
 import static de.main.plotSettings.Helper.messageHelper.sendPlayerMessage;
+import static de.main.plotSettings.Helper.placeholder.replacePlaceholder;
+import static de.main.plotSettings.Helper.placeholder.replacePlaceholderChat;
 
 public class MusicGUIListener implements Listener {
 
@@ -116,12 +118,14 @@ public class MusicGUIListener implements Listener {
         }
         if (music.equalsIgnoreCase("BARRIER"))
         {
-            plot.removeFlag(MusicFlag.MUSIC_FLAG_NONE);
-            sendPlayerMessage(p,"§eMusik wurde §cdeaktivert");
+            plot.removeFlag(MusicFlag.class);
+            sendPlayerMessage(p,replacePlaceholderChat("§aDie Music wurde %get_music_state%",p));
             return;
         }
         plot.setFlag(MusicFlag.class,music);
-        sendPlayerMessage(p,"§aMusik wurde erfolgreich geändert!");
+
+        sendPlayerMessage(p,replacePlaceholderChat("§aDie Music wurde %get_music_state%",p));
+
         p.closeInventory();
     }
 }
