@@ -29,6 +29,7 @@ import org.bukkit.persistence.PersistentDataType;
 import java.util.Map;
 
 import static de.main.plotSettings.Helper.GUIHelper.checkQuitButton;
+import static de.main.plotSettings.Helper.GUIHelper.getPlayerFromClick;
 import static de.main.plotSettings.Helper.messageHelper.sendPlayerMessage;
 import static de.main.plotSettings.Helper.permissionHelper.hasPermission;
 
@@ -37,14 +38,11 @@ public class TimeGUIListener implements Listener {
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e)
     {
-        if (!e.getView().getTitle().equalsIgnoreCase("§eUhrzeit")) return;
+        Player p = getPlayerFromClick(e,"§eUhrzeit");
+        if (p == null)
+            return;
 
-        if (e.getView().getTitle() == null) return;
-        e.setCancelled(true);
-
-        Player player = (Player) e.getWhoClicked();
-
-        PlotPlayer<?> plotPlayer = PlotSquared.platform().playerManager().getPlayer(player.getUniqueId());
+        PlotPlayer<?> plotPlayer = PlotSquared.platform().playerManager().getPlayer(p.getUniqueId());
         if (plotPlayer == null) return;
 
         Plot plot = plotPlayer.getCurrentPlot();
@@ -56,7 +54,7 @@ public class TimeGUIListener implements Listener {
         // Verhindert Fremdzugriff
         if (!plot.isOwner(plotPlayer.getUUID()))
         {
-            player.sendMessage("§cNur der Besitzter des Grundstücks darf dies tun!");
+            p.sendMessage("§cNur der Besitzter des Grundstücks darf dies tun!");
             return;
         }
 
@@ -68,8 +66,6 @@ public class TimeGUIListener implements Listener {
 
         // Key erstellen
         String action = itemMeta.getPersistentDataContainer().get(new NamespacedKey(PlotSettings.getInstance(), "action"), PersistentDataType.STRING);
-
-        Player p = ((Player) e.getWhoClicked());
 
         if (checkQuitButton(item,p))
             return;
@@ -83,11 +79,11 @@ public class TimeGUIListener implements Listener {
             // Keine Musik/kein Preis gefunden
             if (price == 0)
             {
-                player.sendMessage("§cFür dieses Wetter wurde kein Preis festgelegt!");
+                p.sendMessage("§cFür dieses Wetter wurde kein Preis festgelegt!");
                 return;
             }
 
-            setTime(plot, uhrzeitName, player,price);
+            setTime(plot, uhrzeitName, p,price);
         }
     }
 

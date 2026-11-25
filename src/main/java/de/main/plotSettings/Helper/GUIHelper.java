@@ -6,6 +6,7 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -28,6 +29,7 @@ public class GUIHelper {
         itemstack.setItemMeta(itemMeta);
         inventory_to_place.setItem(slot,itemstack);
     }
+
     public static boolean checkQuitButton(ItemStack itemStack,Player p)
     {
         ItemMeta itemMeta = itemStack.getItemMeta();
@@ -83,5 +85,17 @@ public class GUIHelper {
 
         updateItem.setItemMeta(updateItemMeta);
         inventory.setItem(Slot,updateItem);
+    }
+
+    public static Player getPlayerFromClick(InventoryClickEvent e, String title) {
+        // Prüfen, ob es das Biome-GUI ist
+        if (!e.getView().getTitle().equalsIgnoreCase(title))
+            return null;
+
+        e.setCancelled(true);
+
+        if (!(e.getWhoClicked() instanceof Player p))
+            return null;
+        return p;
     }
 }

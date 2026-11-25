@@ -5,32 +5,23 @@ import com.plotsquared.core.player.PlotPlayer;
 import com.plotsquared.core.plot.Plot;
 import com.plotsquared.core.plot.PlotManager;
 import com.plotsquared.core.util.PatternUtil;
-import de.main.plotSettings.GUI.MainGUI;
-import de.main.plotSettings.PlotSettings;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataType;
-
 import static de.main.plotSettings.Helper.GUIHelper.checkQuitButton;
+import static de.main.plotSettings.Helper.GUIHelper.getPlayerFromClick;
 import static de.main.plotSettings.Helper.messageHelper.sendPlayerMessage;
 
 public class WallGUIListener implements Listener {
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e) {
-        if (!e.getView().getTitle().equalsIgnoreCase("Wall")) return;
-
-        if (e.getView().getTitle() == null) return;
-        e.setCancelled(true);
-
-        Player p = (Player) e.getWhoClicked();
+        Player p = getPlayerFromClick(e,"Wall");
+        if (p == null)
+            return;
 
         PlotPlayer<?> plotPlayer = PlotSquared.platform().playerManager().getPlayer(p.getUniqueId());
         if (plotPlayer == null) return;

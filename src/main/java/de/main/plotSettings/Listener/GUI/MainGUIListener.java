@@ -18,6 +18,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
+import static de.main.plotSettings.Helper.GUIHelper.getPlayerFromClick;
+
 
 public class MainGUIListener implements Listener {
 
@@ -26,12 +28,9 @@ public class MainGUIListener implements Listener {
         FileConfiguration file = PlotSettings.getInstance().getConfig();
         String title = file.getString("guiName.main","Hauptmenü");
 
-        if (!e.getView().getTitle().equalsIgnoreCase(title))
+        Player p = getPlayerFromClick(e,title);
+        if (p == null)
             return;
-
-        e.setCancelled(true);
-
-        Player p = (Player) e.getWhoClicked();
 
         PlotPlayer<?> plotPlayer = PlotSquared.platform().playerManager().getPlayer(p.getUniqueId());
         if (plotPlayer == null)

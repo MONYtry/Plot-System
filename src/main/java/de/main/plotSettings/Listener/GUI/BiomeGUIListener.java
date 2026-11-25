@@ -19,7 +19,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
-import static de.main.plotSettings.Helper.GUIHelper.checkQuitButton;
+import static de.main.plotSettings.Helper.GUIHelper.*;
 import static de.main.plotSettings.Helper.messageHelper.sendPlayerMessage;
 
 public class BiomeGUIListener implements Listener {
@@ -27,20 +27,16 @@ public class BiomeGUIListener implements Listener {
     @EventHandler
     public void OnInventoryClick(InventoryClickEvent e) {
 
-        // Prüfen, ob es das Biome-GUI ist
-        if (!e.getView().getTitle().equalsIgnoreCase("§eBiome"))
-            return;
-        e.setCancelled(true);
-
-        if (!(e.getWhoClicked() instanceof Player p))
+        Player p = getPlayerFromClick(e,"§eBiome");
+        if (p == null)
             return;
 
         // Item prüfen
         ItemStack item = e.getCurrentItem();
 
-        if (item == null || !item.hasItemMeta()) {
+        if (item == null || !item.hasItemMeta())
             return;
-        }
+
 
         ItemMeta itemMeta = item.getItemMeta();
 

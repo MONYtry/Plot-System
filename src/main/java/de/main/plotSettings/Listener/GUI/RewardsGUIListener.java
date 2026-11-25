@@ -19,6 +19,7 @@ import org.bukkit.persistence.PersistentDataType;
 import java.util.ArrayList;
 import java.util.List;
 
+import static de.main.plotSettings.Helper.GUIHelper.getPlayerFromClick;
 import static de.main.plotSettings.Helper.RewardHelper.addEnchantments;
 import static de.main.plotSettings.Helper.messageHelper.sendPlayerMessage;
 
@@ -27,27 +28,30 @@ public class RewardsGUIListener implements Listener {
     @EventHandler
     public void OnInventoryClick(InventoryClickEvent e) {
 
-        if (!e.getView().getTitle().equals("§aBelohnungen")) return;
+        Player p = getPlayerFromClick(e,"§aBelohnungen");
+        if (p == null)
+            return;
 
-        e.setCancelled(true);
 
         ItemStack item = e.getCurrentItem();
 
-        if (item == null || !item.hasItemMeta()) return;
+        if (item == null || !item.hasItemMeta())
+            return;
+
         ItemMeta itemMeta = item.getItemMeta();
 
         NamespacedKey key = new NamespacedKey(PlotSettings.getInstance(), "action");
         String action = itemMeta.getPersistentDataContainer().get(key, PersistentDataType.STRING);
-        if (action == null) return;
+        if (action == null)
+            return;
 
-        Player p = (Player) e.getWhoClicked();
 
         if (action.startsWith("claim_reward_"))
         {
             String[] data = action.split("_");
-            // claim_reward_1
-            if (data.length < 3) return;
 
+            if (data.length < 3)
+                return;
             claimReward(p, data);
         }
     }

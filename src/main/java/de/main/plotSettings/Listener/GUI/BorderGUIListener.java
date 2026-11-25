@@ -5,20 +5,14 @@ import com.plotsquared.core.player.PlotPlayer;
 import com.plotsquared.core.plot.Plot;
 import com.plotsquared.core.plot.PlotManager;
 import com.plotsquared.core.util.PatternUtil;
-import de.main.plotSettings.GUI.MainGUI;
-import de.main.plotSettings.PlotSettings;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataType;
-
 import static de.main.plotSettings.Helper.GUIHelper.checkQuitButton;
+import static de.main.plotSettings.Helper.GUIHelper.getPlayerFromClick;
 import static de.main.plotSettings.Helper.messageHelper.sendPlayerMessage;
 import static de.main.plotSettings.Helper.permissionHelper.hasPermission;
 
@@ -26,12 +20,10 @@ public class BorderGUIListener implements Listener {
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e) {
-        if (!e.getView().getTitle().equalsIgnoreCase("Ränder"))
+
+        Player p = getPlayerFromClick(e,"Ränder");
+        if (p == null)
             return;
-
-        e.setCancelled(true);
-
-        Player p = (Player) e.getWhoClicked();
 
         PlotPlayer<?> plotPlayer = PlotSquared.platform().playerManager().getPlayer(p.getUniqueId());
         if (plotPlayer == null)

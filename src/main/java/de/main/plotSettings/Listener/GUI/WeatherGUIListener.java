@@ -3,33 +3,21 @@ package de.main.plotSettings.Listener.GUI;
 import com.plotsquared.core.PlotSquared;
 import com.plotsquared.core.player.PlotPlayer;
 import com.plotsquared.core.plot.Plot;
-import com.plotsquared.core.plot.PlotManager;
-import com.plotsquared.core.plot.flag.implementations.MobCapFlag;
-import com.plotsquared.core.plot.flag.implementations.MusicFlag;
 import com.plotsquared.core.plot.flag.implementations.WeatherFlag;
-import com.plotsquared.core.util.PatternUtil;
-import de.main.plotSettings.GUI.MainGUI;
-import de.main.plotSettings.GUI.MusicGUI;
 import de.main.plotSettings.GUI.WeatherGUI;
 import de.main.plotSettings.PlotSettings;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.ItemType;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
-
-import java.util.Map;
-
 import static de.main.plotSettings.Helper.GUIHelper.checkQuitButton;
-import static de.main.plotSettings.Helper.messageHelper.getPrefix;
+import static de.main.plotSettings.Helper.GUIHelper.getPlayerFromClick;
 import static de.main.plotSettings.Helper.messageHelper.sendPlayerMessage;
 
 public class WeatherGUIListener implements Listener {
@@ -37,12 +25,9 @@ public class WeatherGUIListener implements Listener {
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e)
     {
-        if (!e.getView().getTitle().equalsIgnoreCase("§9Wetter")) return;
-
-        if (e.getView().getTitle() == null) return;
-        e.setCancelled(true);
-
-        Player p = (Player) e.getWhoClicked();
+        Player p = getPlayerFromClick(e,"§9Wetter");
+        if (p == null)
+            return;
 
         PlotPlayer<?> plotPlayer = PlotSquared.platform().playerManager().getPlayer(p.getUniqueId());
         if (plotPlayer == null) return;

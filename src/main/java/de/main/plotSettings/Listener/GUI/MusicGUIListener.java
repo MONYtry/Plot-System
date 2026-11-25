@@ -4,12 +4,10 @@ import com.plotsquared.core.PlotSquared;
 import com.plotsquared.core.player.PlotPlayer;
 import com.plotsquared.core.plot.Plot;
 import com.plotsquared.core.plot.flag.implementations.MusicFlag;
-import de.main.plotSettings.GUI.MainGUI;
 import de.main.plotSettings.GUI.MusicGUI;
 import de.main.plotSettings.PlotSettings;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -18,13 +16,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ItemType;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
-
 import java.util.Map;
-
 import static de.main.plotSettings.Helper.GUIHelper.checkQuitButton;
+import static de.main.plotSettings.Helper.GUIHelper.getPlayerFromClick;
 import static de.main.plotSettings.Helper.messageHelper.sendPlayerMessage;
 import static de.main.plotSettings.Helper.permissionHelper.hasPermission;
-import static de.main.plotSettings.Helper.placeholder.replacePlaceholder;
 import static de.main.plotSettings.Helper.placeholder.replacePlaceholderChat;
 
 public class MusicGUIListener implements Listener {
@@ -32,12 +28,9 @@ public class MusicGUIListener implements Listener {
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e)
     {
-        if (!e.getView().getTitle().equalsIgnoreCase("§cMusic"))
+        Player p = getPlayerFromClick(e,"§cMusic");
+        if (p == null)
             return;
-
-        e.setCancelled(true);
-
-        Player p = (Player) e.getWhoClicked();
 
         PlotPlayer<?> plotPlayer = PlotSquared.platform().playerManager().getPlayer(p.getUniqueId());
         if (plotPlayer == null)
