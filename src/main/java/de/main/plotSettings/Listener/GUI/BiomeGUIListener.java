@@ -19,6 +19,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
+import static de.main.plotSettings.Helper.GUIHelper.checkQuitButton;
 import static de.main.plotSettings.Helper.messageHelper.sendPlayerMessage;
 
 public class BiomeGUIListener implements Listener {
@@ -50,12 +51,8 @@ public class BiomeGUIListener implements Listener {
         if (action == null)
             return;
 
-
-        if (!action.equals("open.main"))
+        if (checkQuitButton(item,p))
             return;
-        MainGUI.createMainGUI(p);
-        p.playSound(p.getLocation(),Sound.BLOCK_BARREL_CLOSE,1,1);
-
 
         // Prüfen, ob es eine Biome-Action ist
         if (action.startsWith("set_biome_")) {

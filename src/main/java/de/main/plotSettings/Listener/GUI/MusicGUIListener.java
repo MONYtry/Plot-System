@@ -21,6 +21,7 @@ import org.bukkit.persistence.PersistentDataType;
 
 import java.util.Map;
 
+import static de.main.plotSettings.Helper.GUIHelper.checkQuitButton;
 import static de.main.plotSettings.Helper.messageHelper.sendPlayerMessage;
 import static de.main.plotSettings.Helper.permissionHelper.hasPermission;
 import static de.main.plotSettings.Helper.placeholder.replacePlaceholder;
@@ -62,14 +63,10 @@ public class MusicGUIListener implements Listener {
 
         // Key erstellen
         String action = itemMeta.getPersistentDataContainer().get(new NamespacedKey(PlotSettings.getInstance(), "action"), PersistentDataType.STRING);
-
-        if (!action.equals("open.main"))
+        if (!action.startsWith("set_music_"))
             return;
 
-        MainGUI.createMainGUI(p);
-        p.playSound(p.getLocation(), Sound.BLOCK_BARREL_CLOSE,1,1);
-
-        if (!action.startsWith("set_music_"))
+        if (checkQuitButton(item,p))
             return;
 
         String music = action.substring("set_music_".length());

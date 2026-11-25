@@ -28,6 +28,7 @@ import org.bukkit.persistence.PersistentDataType;
 
 import java.util.Map;
 
+import static de.main.plotSettings.Helper.GUIHelper.checkQuitButton;
 import static de.main.plotSettings.Helper.messageHelper.getPrefix;
 import static de.main.plotSettings.Helper.messageHelper.sendPlayerMessage;
 
@@ -41,9 +42,9 @@ public class WeatherGUIListener implements Listener {
         if (e.getView().getTitle() == null) return;
         e.setCancelled(true);
 
-        Player player = (Player) e.getWhoClicked();
+        Player p = (Player) e.getWhoClicked();
 
-        PlotPlayer<?> plotPlayer = PlotSquared.platform().playerManager().getPlayer(player.getUniqueId());
+        PlotPlayer<?> plotPlayer = PlotSquared.platform().playerManager().getPlayer(p.getUniqueId());
         if (plotPlayer == null) return;
 
         Plot plot = plotPlayer.getCurrentPlot();
@@ -55,26 +56,20 @@ public class WeatherGUIListener implements Listener {
         // Verhindert Fremdzugriff
         if (!plot.isOwner(plotPlayer.getUUID()))
         {
-            sendPlayerMessage(player,"§cNur der Besitzter des Grundstücks darf dies tun!");
+            sendPlayerMessage(p,"§cNur der Besitzter des Grundstücks darf dies tun!");
             return;
         }
 
         // Nullpointer verhindern
-        if (item == null) return;
-        if (!item.hasItemMeta()) return;
+        if (item == null || !item.hasItemMeta())
+            return;
 
         ItemMeta itemMeta = item.getItemMeta();
 
         // Key erstellen
         String action = itemMeta.getPersistentDataContainer().get(new NamespacedKey(PlotSettings.getInstance(), "action"), PersistentDataType.STRING);
 
-        Player p = ((Player) e.getWhoClicked());
-
-        if (action.equals("open.main"))
-        {
-            MainGUI.createMainGUI(p);
-            p.playSound(p.getLocation(), Sound.BLOCK_BARREL_CLOSE,1,1);
-        }
+        checkQuitButton(item,p);
 
         if (action.startsWith("set_weather_"))
         {
@@ -85,11 +80,11 @@ public class WeatherGUIListener implements Listener {
             // Keine Musik/kein Preis gefunden
             if (price == null)
             {
-                player.sendMessage("§cFür dieses Wetter wurde kein Preis festgelegt!");
+                p.sendMessage("§cFür dieses Wetter wurde kein Preis festgelegt!");
                 return;
             }
 
-            setWeather(plot, weather, player,price);
+            setWeather(plot, weather, p,price);
         }
     }
 

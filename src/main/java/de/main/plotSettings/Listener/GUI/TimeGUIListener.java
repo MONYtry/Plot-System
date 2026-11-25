@@ -28,6 +28,7 @@ import org.bukkit.persistence.PersistentDataType;
 
 import java.util.Map;
 
+import static de.main.plotSettings.Helper.GUIHelper.checkQuitButton;
 import static de.main.plotSettings.Helper.messageHelper.sendPlayerMessage;
 import static de.main.plotSettings.Helper.permissionHelper.hasPermission;
 
@@ -70,11 +71,9 @@ public class TimeGUIListener implements Listener {
 
         Player p = ((Player) e.getWhoClicked());
 
-        if (action.equals("open.main"))
-        {
-            MainGUI.createMainGUI(p);
-            p.playSound(p.getLocation(), Sound.BLOCK_BARREL_CLOSE,1,1);
-        }
+        if (checkQuitButton(item,p))
+            return;
+
         if (action.startsWith("set_time_"))
         {
             String uhrzeitName = action.substring("set_time_".length());

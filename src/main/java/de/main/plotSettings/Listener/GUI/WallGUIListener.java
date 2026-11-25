@@ -18,6 +18,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
+import static de.main.plotSettings.Helper.GUIHelper.checkQuitButton;
 import static de.main.plotSettings.Helper.messageHelper.sendPlayerMessage;
 
 public class WallGUIListener implements Listener {
@@ -29,9 +30,9 @@ public class WallGUIListener implements Listener {
         if (e.getView().getTitle() == null) return;
         e.setCancelled(true);
 
-        Player player = (Player) e.getWhoClicked();
+        Player p = (Player) e.getWhoClicked();
 
-        PlotPlayer<?> plotPlayer = PlotSquared.platform().playerManager().getPlayer(player.getUniqueId());
+        PlotPlayer<?> plotPlayer = PlotSquared.platform().playerManager().getPlayer(p.getUniqueId());
         if (plotPlayer == null) return;
 
         Plot plot = plotPlayer.getCurrentPlot();
@@ -41,26 +42,10 @@ public class WallGUIListener implements Listener {
         ItemStack item = e.getCurrentItem();
 
         // Nullpointer verhindern
-        if (item == null) return;
-        if (!item.hasItemMeta()) return;
+        if (item == null || !item.hasItemMeta()) return;
 
-        ItemMeta itemMeta = item.getItemMeta();
-
-        // Key erstellen
-        String action = itemMeta.getPersistentDataContainer().get(
-                new NamespacedKey(PlotSettings.getInstance(), "action"),
-                PersistentDataType.STRING
-        );
-
-        if (action == null) return;
-
-        Player p = ((Player) e.getWhoClicked());
-        if (action.equals("open.main"))
-        {
-            MainGUI.createMainGUI(p);
-            p.playSound(p.getLocation(), Sound.BLOCK_BARREL_CLOSE,1,1);
+        if (checkQuitButton(item,p))
             return;
-        }
         setWall(e,plot);
     }
 

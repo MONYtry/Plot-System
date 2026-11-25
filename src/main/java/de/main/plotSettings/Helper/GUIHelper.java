@@ -1,8 +1,10 @@
 package de.main.plotSettings.Helper;
 
+import de.main.plotSettings.GUI.MainGUI;
 import de.main.plotSettings.PlotSettings;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -25,6 +27,25 @@ public class GUIHelper {
 
         itemstack.setItemMeta(itemMeta);
         inventory_to_place.setItem(slot,itemstack);
+    }
+    public static boolean checkQuitButton(ItemStack itemStack,Player p)
+    {
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        if (itemMeta == null)
+            return false;
+
+        // Key holen
+        String action = itemMeta.getPersistentDataContainer().get(new NamespacedKey(PlotSettings.getInstance(), "action"), PersistentDataType.STRING);
+        if (action == null)
+            return false;
+
+        if (action.equals("quitButton"))
+        {
+            MainGUI.createMainGUI(p);
+            p.playSound(p.getLocation(), Sound.BLOCK_BARREL_CLOSE,1,1);
+            return true;
+        }
+        return false;
     }
 
     public static void createPlaceholderItems(Inventory inventory, Material material, int startSlot, int endSlot,Player p)

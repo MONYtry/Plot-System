@@ -9,6 +9,7 @@ import de.main.plotSettings.Rewards.rewardGUI;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -22,8 +23,10 @@ public class MainGUIListener implements Listener {
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e) {
-        if (!e.getView().getTitle().equalsIgnoreCase("Hautpmenü") &&
-                !e.getView().getTitle().equalsIgnoreCase("§7» §ePloteinstellungen"))
+        FileConfiguration file = PlotSettings.getInstance().getConfig();
+        String title = file.getString("guiName.main","Hauptmenü");
+
+        if (!e.getView().getTitle().equalsIgnoreCase(title))
             return;
 
         e.setCancelled(true);
@@ -48,16 +51,12 @@ public class MainGUIListener implements Listener {
         ItemMeta itemMeta = item.getItemMeta();
 
         // Key holen
-        String action = itemMeta.getPersistentDataContainer().get(
-                new NamespacedKey(PlotSettings.getInstance(), "action"),
-                PersistentDataType.STRING
-        );
-
-        Location pLoc = p.getLocation();
-
+        String action = itemMeta.getPersistentDataContainer().get(new NamespacedKey(PlotSettings.getInstance(), "action"), PersistentDataType.STRING);
         if (action == null)
             return;
 
+
+        Location pLoc = p.getLocation();
         p.playSound(pLoc, Sound.BLOCK_ENDER_CHEST_CLOSE, 1f, 1f);
 
         switch (action) {

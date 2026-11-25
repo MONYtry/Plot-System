@@ -48,7 +48,7 @@ public class BiomeGUI {
         int currentSlot = 0;
 
         // Quit Button!
-        setQuitButton(biomeInventory,Material.BARRIER,35,"open.main");
+        setQuitButton(biomeInventory,Material.BARRIER,35,"quitButton");
 
         for (Map.Entry<BiomeType,Double> entry : biomeListe.entrySet())
         {

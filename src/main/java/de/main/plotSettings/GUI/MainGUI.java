@@ -4,7 +4,9 @@ import com.plotsquared.core.PlotSquared;
 import com.plotsquared.core.player.PlotPlayer;
 import com.plotsquared.core.plot.Plot;
 import de.main.plotSettings.Helper.ItemCreator;
+import de.main.plotSettings.PlotSettings;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import static de.main.plotSettings.Helper.PlotGUIHelper.createPlotsListGUI;
@@ -15,7 +17,10 @@ public class MainGUI {
 
     public static void createMainGUI(Player p)
     {
-        Inventory mainGUI = Bukkit.createInventory(null,36,"Hautpmenü");
+        FileConfiguration file = PlotSettings.getInstance().getConfig();
+        String title = file.getString("guiName.main","Hauptmenü");
+
+        Inventory mainGUI = Bukkit.createInventory(null,36,title);
 
         ItemCreator itemCreator = new ItemCreator();
         // Erstellt Items aus der Liste

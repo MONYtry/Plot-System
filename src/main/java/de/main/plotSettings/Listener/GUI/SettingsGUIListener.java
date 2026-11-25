@@ -8,6 +8,7 @@ import de.main.plotSettings.PlotSettings;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -16,11 +17,15 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
+import static de.main.plotSettings.Helper.messageHelper.sendPlayerMessage;
+
 public class SettingsGUIListener implements Listener {
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e) {
-        if (!e.getView().getTitle().equalsIgnoreCase("§7» §ePloteinstellungen")) return;
+        FileConfiguration file = PlotSettings.getInstance().getConfig();
+        String title = file.getString("guiName.settings","§7» §ePloteinstellungen");
+        if (!e.getView().getTitle().equalsIgnoreCase(title)) return;
 
         e.setCancelled(true);
 
@@ -49,6 +54,7 @@ public class SettingsGUIListener implements Listener {
 
         p.getInventory().close();
         Location pLoc = p.getLocation();
+        p.playSound(pLoc, Sound.BLOCK_ENDER_CHEST_CLOSE, 1f, 1f);
 
         switch (action) {
 
@@ -74,6 +80,10 @@ public class SettingsGUIListener implements Listener {
 
             case ("open_WeatherGUI"):
                 WeatherGUI.createWeatherGUI(p);
+                break;
+
+            default:
+                sendPlayerMessage(p,"Hey es ist ein Fehler aufgetreten bitte konaktiere einen Administrator!");
                 break;
         }
     }

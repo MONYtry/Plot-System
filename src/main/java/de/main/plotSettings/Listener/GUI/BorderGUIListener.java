@@ -18,6 +18,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
+import static de.main.plotSettings.Helper.GUIHelper.checkQuitButton;
 import static de.main.plotSettings.Helper.messageHelper.sendPlayerMessage;
 import static de.main.plotSettings.Helper.permissionHelper.hasPermission;
 
@@ -47,11 +48,11 @@ public class BorderGUIListener implements Listener {
         if (item == null || !item.hasItemMeta())
             return;
 
-        ItemMeta itemMeta = item.getItemMeta();
 
 
-        MainGUI.createMainGUI(p);
-        p.playSound(p.getLocation(), Sound.BLOCK_BARREL_CLOSE,1,1);
+        if (checkQuitButton(item,p))
+            return;
+
         setBorder(e,plot);
     }
 
@@ -89,6 +90,5 @@ public class BorderGUIListener implements Listener {
         String displayItem = type.toString().replace("_", " ");
         sendPlayerMessage(p,"§aRand wurde erfolgreich auf: "  + displayItem + " gesetzt");
         p.closeInventory();
-
     }
 }
