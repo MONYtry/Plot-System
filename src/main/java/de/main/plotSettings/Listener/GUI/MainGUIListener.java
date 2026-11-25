@@ -19,6 +19,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
 import static de.main.plotSettings.Helper.GUIHelper.getPlayerFromClick;
+import static de.main.plotSettings.Helper.placeholder.replacePlaceholderChat;
 
 
 public class MainGUIListener implements Listener {
@@ -27,6 +28,7 @@ public class MainGUIListener implements Listener {
     public void onInventoryClick(InventoryClickEvent e) {
         FileConfiguration file = PlotSettings.getInstance().getConfig();
         String title = file.getString("guiName.main","Hauptmenü");
+        title = replacePlaceholderChat(title,(Player) e.getWhoClicked());
 
         Player p = getPlayerFromClick(e,title);
         if (p == null)

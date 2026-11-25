@@ -15,9 +15,6 @@ public class placeholder {
     static {
         placeholders.add("%get_music_state%");
         placeholders.add("%get_prefix%");
-        placeholders.add("%get_settings_prefix%");
-        placeholders.add("%get_settings_scoreboard%");
-        placeholders.add("%get_settings_tablist%");
     }
     public static String replacePlaceholderChat(String message, Player p)
     {
@@ -33,11 +30,13 @@ public class placeholder {
         }
         return message;
     }
+
     public static void replacePlaceholder(ArrayList<String> list, Player p)
     {
         List<String> stringsToCheck = placeholders;
         PlotPlayer<?> plotPlayer = PlotSquared.platform().playerManager().getPlayer(p.getUniqueId());
         Plot plot = plotPlayer.getCurrentPlot();
+
         for (int i = 0; i < list.size(); i++)
         {
             String line = list.get(i);

@@ -22,6 +22,7 @@ import org.bukkit.persistence.PersistentDataType;
 
 import static de.main.plotSettings.Helper.GUIHelper.*;
 import static de.main.plotSettings.Helper.messageHelper.sendPlayerMessage;
+import static de.main.plotSettings.Helper.placeholder.replacePlaceholderChat;
 
 public class BiomeGUIListener implements Listener {
 
@@ -30,6 +31,7 @@ public class BiomeGUIListener implements Listener {
     {
         FileConfiguration file = PlotSettings.getInstance().getConfig();
         String title = file.getString("guiName.biome","§eBiome");
+        title = replacePlaceholderChat(title,(Player) e.getWhoClicked());
 
         Player p = getPlayerFromClick(e,title);
         if (p == null)

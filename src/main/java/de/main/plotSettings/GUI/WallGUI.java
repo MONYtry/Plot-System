@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import static de.main.plotSettings.Helper.GUIHelper.setQuitButton;
 import static de.main.plotSettings.Helper.permissionHelper.hasPermission;
+import static de.main.plotSettings.Helper.placeholder.replacePlaceholderChat;
 
 public class WallGUI {
 
@@ -47,6 +48,7 @@ public class WallGUI {
     {
         FileConfiguration file = PlotSettings.getInstance().getConfig();
         String title = file.getString("guiName.wall","Wall");
+        title = replacePlaceholderChat(title,p);
 
         Inventory borderGUI = Bukkit.createInventory(null,45,title);
 

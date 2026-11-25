@@ -31,6 +31,7 @@ public class MusicGUIListener implements Listener {
     {
         FileConfiguration file = PlotSettings.getInstance().getConfig();
         String title = file.getString("guiName.music","§cMusic");
+        title = replacePlaceholderChat(title,(Player) e.getWhoClicked());
 
         Player p = getPlayerFromClick(e,title);
         if (p == null)

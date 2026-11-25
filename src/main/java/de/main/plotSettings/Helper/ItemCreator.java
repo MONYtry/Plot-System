@@ -70,6 +70,7 @@ public class ItemCreator {
                 System.err.println("Es wurde keine Item-Meta gefunden!");
                 continue;
             }
+
             if (action != null)
             {
                 meta.getPersistentDataContainer().set(

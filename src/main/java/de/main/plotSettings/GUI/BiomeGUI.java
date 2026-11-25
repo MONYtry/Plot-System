@@ -18,6 +18,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static de.main.plotSettings.Helper.GUIHelper.setQuitButton;
+import static de.main.plotSettings.Helper.placeholder.replacePlaceholderChat;
 
 public class BiomeGUI {
 
@@ -46,7 +47,8 @@ public class BiomeGUI {
 
     public static void createBiomeGUI(Player p) {
         FileConfiguration file = PlotSettings.getInstance().getConfig();
-        String title = file.getString("guiName.biome","§7» §ePloteinstellungen");
+        String title = file.getString("guiName.biome","§ePloteinstellungen");
+        title = replacePlaceholderChat(title,p);
 
         Inventory biomeInventory = Bukkit.createInventory(null, 36, title);
 

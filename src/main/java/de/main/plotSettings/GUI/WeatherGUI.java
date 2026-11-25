@@ -17,6 +17,7 @@ import java.util.Map;
 
 import static de.main.plotSettings.Helper.GUIHelper.setQuitButton;
 import static de.main.plotSettings.Helper.permissionHelper.hasPermission;
+import static de.main.plotSettings.Helper.placeholder.replacePlaceholderChat;
 
 public class WeatherGUI {
 
@@ -30,6 +31,7 @@ public class WeatherGUI {
     {
         FileConfiguration file = PlotSettings.getInstance().getConfig();
         String title = file.getString("guiName.weather","§9Wetter");
+        title = replacePlaceholderChat(title,p);
 
         Inventory weatherGUI = Bukkit.createInventory(null,45,title);
 

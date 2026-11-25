@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import static de.main.plotSettings.Helper.PlotGUIHelper.createPlotsListGUI;
 import static de.main.plotSettings.Helper.PlotGUIHelper.createRatingsBlock;
+import static de.main.plotSettings.Helper.placeholder.replacePlaceholderChat;
 
 
 public class MainGUI {
@@ -19,6 +20,7 @@ public class MainGUI {
     {
         FileConfiguration file = PlotSettings.getInstance().getConfig();
         String title = file.getString("guiName.main","Hauptmenü");
+        title = replacePlaceholderChat(title,p);
 
         Inventory mainGUI = Bukkit.createInventory(null,36,title);
 

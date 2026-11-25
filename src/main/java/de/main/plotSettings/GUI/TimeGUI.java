@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static de.main.plotSettings.Helper.GUIHelper.setQuitButton;
+import static de.main.plotSettings.Helper.placeholder.replacePlaceholderChat;
 
 public class TimeGUI {
 
@@ -32,7 +33,10 @@ public class TimeGUI {
     {
         FileConfiguration file = PlotSettings.getInstance().getConfig();
         String title = file.getString("guiName.time","§7» §eUhrzeit");
+        title = replacePlaceholderChat(title,p);
+
         Inventory timeInventory = Bukkit.createInventory(null, 36, title);
+
         int currentSlot = 0;
 
         // Quit Button!

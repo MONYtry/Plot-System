@@ -18,6 +18,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static de.main.plotSettings.Helper.GUIHelper.setQuitButton;
+import static de.main.plotSettings.Helper.placeholder.replacePlaceholderChat;
 
 public class MusicGUI {
 
@@ -42,6 +43,7 @@ public class MusicGUI {
     {
         FileConfiguration file = PlotSettings.getInstance().getConfig();
         String title = file.getString("guiName.music","§cMusic");
+        title = replacePlaceholderChat(title,p);
 
         Inventory inventory = Bukkit.createInventory(null,36,title);
         int currentSlot = 0;

@@ -17,6 +17,7 @@ import static de.main.plotSettings.Helper.GUIHelper.checkQuitButton;
 import static de.main.plotSettings.Helper.GUIHelper.getPlayerFromClick;
 import static de.main.plotSettings.Helper.messageHelper.sendPlayerMessage;
 import static de.main.plotSettings.Helper.permissionHelper.hasPermission;
+import static de.main.plotSettings.Helper.placeholder.replacePlaceholderChat;
 
 public class BorderGUIListener implements Listener {
 
@@ -25,6 +26,7 @@ public class BorderGUIListener implements Listener {
     {
         FileConfiguration file = PlotSettings.getInstance().getConfig();
         String title = file.getString("guiName.border","Ränder");
+        title = replacePlaceholderChat(title,(Player) e.getWhoClicked());
 
         Player p = getPlayerFromClick(e,title);
         if (p == null)

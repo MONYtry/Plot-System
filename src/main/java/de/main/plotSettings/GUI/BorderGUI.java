@@ -12,6 +12,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 
 import static de.main.plotSettings.Helper.GUIHelper.setQuitButton;
+import static de.main.plotSettings.Helper.placeholder.replacePlaceholderChat;
 
 public class BorderGUI {
 
@@ -49,6 +50,7 @@ public class BorderGUI {
     {
         FileConfiguration file = PlotSettings.getInstance().getConfig();
         String title = file.getString("guiName.border","Ränder");
+        title = replacePlaceholderChat(title,p);
 
         Inventory borderGUI = Bukkit.createInventory(null,45,title);
 
