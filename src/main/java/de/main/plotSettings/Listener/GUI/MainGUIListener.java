@@ -6,6 +6,7 @@ import com.plotsquared.core.plot.Plot;
 import de.main.plotSettings.GUI.*;
 import de.main.plotSettings.PlotSettings;
 import de.main.plotSettings.Rewards.rewardGUI;
+import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -22,25 +23,27 @@ public class MainGUIListener implements Listener {
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e) {
         if (!e.getView().getTitle().equalsIgnoreCase("Hautpmenü") &&
-                !e.getView().getTitle().equalsIgnoreCase("§7» §ePloteinstellungen")) return;
+                !e.getView().getTitle().equalsIgnoreCase("§7» §ePloteinstellungen"))
+            return;
 
-        if (e.getView().getTitle() == null) return;
         e.setCancelled(true);
 
-        Player player = (Player) e.getWhoClicked();
+        Player p = (Player) e.getWhoClicked();
 
-        PlotPlayer<?> plotPlayer = PlotSquared.platform().playerManager().getPlayer(player.getUniqueId());
-        if (plotPlayer == null) return;
+        PlotPlayer<?> plotPlayer = PlotSquared.platform().playerManager().getPlayer(p.getUniqueId());
+        if (plotPlayer == null)
+            return;
 
         Plot plot = plotPlayer.getCurrentPlot();
-        if (plot == null) return;
+        if (plot == null)
+            return;
 
         // Variable für den Block der Getroffen wurde!
         ItemStack item = e.getCurrentItem();
 
         // Nullpointer verhindern
-        if (item == null) return;
-        if (!item.hasItemMeta()) return;
+        if (item == null || !item.hasItemMeta())
+            return;
 
         ItemMeta itemMeta = item.getItemMeta();
 
@@ -50,38 +53,24 @@ public class MainGUIListener implements Listener {
                 PersistentDataType.STRING
         );
 
-        Player p = ((Player) e.getWhoClicked());
+        Location pLoc = p.getLocation();
 
-        if (action == null) return;
+        if (action == null)
+            return;
+
+        p.playSound(pLoc, Sound.BLOCK_ENDER_CHEST_CLOSE, 1f, 1f);
+
         switch (action) {
 
             case ("open_settingsGUI"):
-                p.getInventory().close();
-                p.playSound(e.getWhoClicked().getLocation(), Sound.BLOCK_ENDER_CHEST_CLOSE, 1f, 1f);
                 SettingsGUI.createMainGUI(p);
                 break;
 
             case ("open_achievementGUI"):
-                p.getInventory().close();
-                p.playSound(e.getWhoClicked().getLocation(), Sound.BLOCK_ENDER_CHEST_CLOSE, 1f, 1f);
                 AchievementGUI.createAchievementGUI(p);
                 break;
 
-            case ("open_WeatherGUI"):
-                p.getInventory().close();
-                p.playSound(p.getLocation(),Sound.BLOCK_ENDER_CHEST_CLOSE,1,1);
-                WeatherGUI.createWeatherGUI(p);
-                break;
-
-            case ("open_TimeGUI"):
-                p.getInventory().close();
-                p.playSound(p.getLocation(),Sound.BLOCK_ENDER_CHEST_CLOSE,1,1);
-                TimeGUI.createTimeGUI(p);
-                break;
-
             case ("open_rewardGUI"):
-                p.getInventory().close();
-                p.playSound(p.getLocation(),Sound.BLOCK_ENDER_CHEST_CLOSE,1,1);
                 rewardGUI.createRewardGUI(p);
                 break;
             default:

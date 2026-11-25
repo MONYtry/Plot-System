@@ -25,67 +25,52 @@ public class BorderGUIListener implements Listener {
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e) {
-        if (!e.getView().getTitle().equalsIgnoreCase("Ränder")) return;
+        if (!e.getView().getTitle().equalsIgnoreCase("Ränder"))
+            return;
 
-        if (e.getView().getTitle() == null) return;
         e.setCancelled(true);
 
-        Player player = (Player) e.getWhoClicked();
+        Player p = (Player) e.getWhoClicked();
 
-        PlotPlayer<?> plotPlayer = PlotSquared.platform().playerManager().getPlayer(player.getUniqueId());
-        if (plotPlayer == null) return;
+        PlotPlayer<?> plotPlayer = PlotSquared.platform().playerManager().getPlayer(p.getUniqueId());
+        if (plotPlayer == null)
+            return;
 
         Plot plot = plotPlayer.getCurrentPlot();
-        if (plot == null) return;
+        if (plot == null)
+            return;
 
         // Variable für den Block der Getroffen wurde!
         ItemStack item = e.getCurrentItem();
 
         // Nullpointer verhindern
-        if (item == null) return;
-        if (!item.hasItemMeta()) return;
+        if (item == null || !item.hasItemMeta())
+            return;
 
         ItemMeta itemMeta = item.getItemMeta();
 
-        // Key erstellen
-        String action = itemMeta.getPersistentDataContainer().get(
-                new NamespacedKey(PlotSettings.getInstance(), "action"),
-                PersistentDataType.STRING
-        );
 
-        if (action == null) return;
-
-        Player p = ((Player) e.getWhoClicked());
-        if (action.equals("open.main"))
-        {
-            MainGUI.createMainGUI(p);
-            p.playSound(p.getLocation(), Sound.BLOCK_BARREL_CLOSE,1,1);
-            return;
-        }
-
-        BorderGUIListener.setBorder(e,plot);
-
+        MainGUI.createMainGUI(p);
+        p.playSound(p.getLocation(), Sound.BLOCK_BARREL_CLOSE,1,1);
+        setBorder(e,plot);
     }
 
     public static void setBorder(InventoryClickEvent e, Plot plot)
     {
         // Nullpointer vermeiden
-        if (e.getCurrentItem() == null) return;
+        if (e.getCurrentItem() == null)
+            return;
 
         // Variablen erstellen
         Material type = e.getCurrentItem().getType();
         Player p = (Player) e.getWhoClicked();
 
-        // Permission variable
         String perm = "plotsettings.border." + type.name().toLowerCase();
-        String displayItem = type.toString().replace("_", " ");
 
         // Wenn keine Rechte
         if (!hasPermission(p,perm))
         {
-            p.sendMessage("§cDu hast keine Rechte dafür!");
-            p.closeInventory();
-            e.setCancelled(true);
+            sendPlayerMessage(p,"§cKeine Rechte?");
             return;
         }
 
@@ -101,10 +86,9 @@ public class BorderGUIListener implements Listener {
             );
         }
 
+        String displayItem = type.toString().replace("_", " ");
         sendPlayerMessage(p,"§aRand wurde erfolgreich auf: "  + displayItem + " gesetzt");
-
         p.closeInventory();
 
-        e.setCancelled(true);
     }
 }

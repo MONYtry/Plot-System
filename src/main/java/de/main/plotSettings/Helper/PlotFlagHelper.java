@@ -28,11 +28,10 @@ public class PlotFlagHelper {
 
         return hopperText;
     }
-    public static boolean getMusic(Plot plot) {
+
+    public static boolean getMusic(Plot plot)
+    {
         ItemType music = plot.getFlag(MusicFlag.class);
-
-        Bukkit.getLogger().info("Music Flag: " + music);
-
         return music != null && !music.equals(ItemTypes.AIR);
     }
     public static int getEntityCap(Plot plot)

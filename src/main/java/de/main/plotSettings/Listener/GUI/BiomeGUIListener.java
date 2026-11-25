@@ -27,16 +27,12 @@ public class BiomeGUIListener implements Listener {
     public void OnInventoryClick(InventoryClickEvent e) {
 
         // Prüfen, ob es das Biome-GUI ist
-        if (!e.getView().getTitle().equalsIgnoreCase("§eBiome")) {
+        if (!e.getView().getTitle().equalsIgnoreCase("§eBiome"))
             return;
-        }
-
         e.setCancelled(true);
 
-        // Nur Spieler
-        if (!(e.getWhoClicked() instanceof Player p)) {
+        if (!(e.getWhoClicked() instanceof Player p))
             return;
-        }
 
         // Item prüfen
         ItemStack item = e.getCurrentItem();
@@ -48,25 +44,18 @@ public class BiomeGUIListener implements Listener {
         ItemMeta itemMeta = item.getItemMeta();
 
         // Action-Key holen
-        NamespacedKey key = new NamespacedKey(
-                PlotSettings.getInstance(),
-                "action"
-        );
+        NamespacedKey key = new NamespacedKey(PlotSettings.getInstance(), "action");
+        String action = itemMeta.getPersistentDataContainer().get(key, PersistentDataType.STRING);
 
-        String action = itemMeta.getPersistentDataContainer().get(
-                key,
-                PersistentDataType.STRING
-        );
-
-        if (action == null) {
+        if (action == null)
             return;
-        }
 
-        if (action.equals("open.main"))
-        {
-            MainGUI.createMainGUI(p);
-            p.playSound(p.getLocation(),Sound.BLOCK_BARREL_CLOSE,1,1);
-        }
+
+        if (!action.equals("open.main"))
+            return;
+        MainGUI.createMainGUI(p);
+        p.playSound(p.getLocation(),Sound.BLOCK_BARREL_CLOSE,1,1);
+
 
         // Prüfen, ob es eine Biome-Action ist
         if (action.startsWith("set_biome_")) {

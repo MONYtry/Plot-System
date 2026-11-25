@@ -5,6 +5,7 @@ import com.plotsquared.core.player.PlotPlayer;
 import com.plotsquared.core.plot.Plot;
 import de.main.plotSettings.GUI.*;
 import de.main.plotSettings.PlotSettings;
+import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -21,59 +22,58 @@ public class SettingsGUIListener implements Listener {
     public void onInventoryClick(InventoryClickEvent e) {
         if (!e.getView().getTitle().equalsIgnoreCase("§7» §ePloteinstellungen")) return;
 
-        if (e.getView().getTitle() == null) return;
         e.setCancelled(true);
 
-        Player player = (Player) e.getWhoClicked();
+        Player p = (Player) e.getWhoClicked();
 
-        PlotPlayer<?> plotPlayer = PlotSquared.platform().playerManager().getPlayer(player.getUniqueId());
-        if (plotPlayer == null) return;
+        PlotPlayer<?> plotPlayer = PlotSquared.platform().playerManager().getPlayer(p.getUniqueId());
+        if (plotPlayer == null)
+            return;
 
         Plot plot = plotPlayer.getCurrentPlot();
-        if (plot == null) return;
+        if (plot == null)
+            return;
 
         // Variable für den Block der Getroffen wurde!
         ItemStack item = e.getCurrentItem();
 
         // Nullpointer verhindern
-        if (item == null) return;
-        if (!item.hasItemMeta()) return;
+        if (item == null || !item.hasItemMeta()) return;
 
         ItemMeta itemMeta = item.getItemMeta();
 
         // Key erstellen
-        String action = itemMeta.getPersistentDataContainer().get(
-                new NamespacedKey(PlotSettings.getInstance(), "action"),
-                PersistentDataType.STRING
-        );
+        String action = itemMeta.getPersistentDataContainer().get(new NamespacedKey(PlotSettings.getInstance(), "action"), PersistentDataType.STRING);
+        if (action == null)
+            return;
 
-        Player p = ((Player) e.getWhoClicked());
+        p.getInventory().close();
+        Location pLoc = p.getLocation();
 
-        if (action == null) return;
         switch (action) {
 
             case ("open_wallGUI"):
-                p.getInventory().close();
-                p.playSound(e.getWhoClicked().getLocation(), Sound.BLOCK_ENDER_CHEST_CLOSE, 1f, 1f);
                 WallGUI.open(p);
                 break;
 
             case ("open_biomeGUI"):
-                p.getInventory().close();
-                p.playSound(e.getWhoClicked().getLocation(), Sound.BLOCK_ENDER_CHEST_CLOSE, 1f, 1f);
                 BiomeGUI.createBiomeGUI(p);
                 break;
 
             case ("open_borderGUI"):
-                p.getInventory().close();
-                p.playSound(e.getWhoClicked().getLocation(), Sound.BLOCK_ENDER_CHEST_CLOSE, 1f, 1f);
                 BorderGUI.createBorderGUI(p);
                 break;
 
             case ("open_musicGUI"):
-                p.getInventory().close();
-                p.playSound(p.getLocation(),Sound.BLOCK_ENDER_CHEST_OPEN,1,1);
                 MusicGUI.createMusicGUI(p);
+                break;
+
+            case ("open_TimeGUI"):
+                TimeGUI.createTimeGUI(p);
+                break;
+
+            case ("open_WeatherGUI"):
+                WeatherGUI.createWeatherGUI(p);
                 break;
         }
     }

@@ -15,6 +15,7 @@ public class permissionHelper {
         {
             FileConfiguration file = PlotSettings.getYML(PlotSettings.getInstance().messages);
             sendPlayerMessage(p,file.getString("messages.noPermission"));
+            p.closeInventory();
             return false;
         }
         return true;

@@ -22,6 +22,7 @@ import org.bukkit.persistence.PersistentDataType;
 import java.util.Map;
 
 import static de.main.plotSettings.Helper.messageHelper.sendPlayerMessage;
+import static de.main.plotSettings.Helper.permissionHelper.hasPermission;
 import static de.main.plotSettings.Helper.placeholder.replacePlaceholder;
 import static de.main.plotSettings.Helper.placeholder.replacePlaceholderChat;
 
@@ -30,70 +31,69 @@ public class MusicGUIListener implements Listener {
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e)
     {
-        if (!e.getView().getTitle().equalsIgnoreCase("§cMusic")) return;
+        if (!e.getView().getTitle().equalsIgnoreCase("§cMusic"))
+            return;
 
-        if (e.getView().getTitle() == null) return;
         e.setCancelled(true);
 
-        Player player = (Player) e.getWhoClicked();
+        Player p = (Player) e.getWhoClicked();
 
-        PlotPlayer<?> plotPlayer = PlotSquared.platform().playerManager().getPlayer(player.getUniqueId());
-        if (plotPlayer == null) return;
+        PlotPlayer<?> plotPlayer = PlotSquared.platform().playerManager().getPlayer(p.getUniqueId());
+        if (plotPlayer == null)
+            return;
 
         Plot plot = plotPlayer.getCurrentPlot();
-        if (plot == null) return;
-
-        // Variable für den Block der Getroffen wurde!
-        ItemStack item = e.getCurrentItem();
+        if (plot == null)
+            return;
 
         // Verhindert Fremdzugriff
         if (!plot.isOwner(plotPlayer.getUUID()))
         {
-            player.sendMessage("§cNur der Besitzter des Grundstücks darf dies tun!");
+            p.sendMessage("§cNur der Besitzter des Grundstücks darf dies tun!");
             return;
         }
 
-        // Nullpointer verhindern
-        if (item == null) return;
-        if (!item.hasItemMeta()) return;
+        // Variable für den Block der Getroffen wurde!
+        ItemStack item = e.getCurrentItem();
+        if (item == null ||!item.hasItemMeta())
+            return;
 
         ItemMeta itemMeta = item.getItemMeta();
-        Player p = ((Player) e.getWhoClicked());
 
         // Key erstellen
         String action = itemMeta.getPersistentDataContainer().get(new NamespacedKey(PlotSettings.getInstance(), "action"), PersistentDataType.STRING);
 
-        if (action.equals("open.main"))
+        if (!action.equals("open.main"))
+            return;
+
+        MainGUI.createMainGUI(p);
+        p.playSound(p.getLocation(), Sound.BLOCK_BARREL_CLOSE,1,1);
+
+        if (!action.startsWith("set_music_"))
+            return;
+
+        String music = action.substring("set_music_".length());
+
+        Double price = null;
+
+        // Preis für die Musik suchen
+        for (Map.Entry<ItemType, Double> entry : MusicGUI.musicDiscs.entrySet())
         {
-            MainGUI.createMainGUI(p);
-            p.playSound(p.getLocation(), Sound.BLOCK_BARREL_CLOSE,1,1);
+            if (entry.getKey().getKey().getKey().equalsIgnoreCase(music))
+            {
+                price = entry.getValue();
+                break;
+            }
         }
 
-        if (action.startsWith("set_music_"))
+        // Keine Musik/kein Preis gefunden
+        if (price == null)
         {
-            String music = action.substring("set_music_".length());
-
-            Double price = null;
-
-            // Preis für die Musik suchen
-            for (Map.Entry<ItemType, Double> entry : MusicGUI.musicDiscs.entrySet())
-            {
-                if (entry.getKey().getKey().getKey().equalsIgnoreCase(music))
-                {
-                    price = entry.getValue();
-                    break;
-                }
-            }
-
-            // Keine Musik/kein Preis gefunden
-            if (price == null)
-            {
-                player.sendMessage("§cFür diese Musik wurde kein Preis festgelegt!");
-                return;
-            }
-
-            setMusic(plot, music, player,price);
+            p.sendMessage("§cFür diese Musik wurde kein Preis festgelegt!");
+            return;
         }
+
+        setMusic(plot, music, p,price);
     }
 
     private void setMusic(Plot plot,String music, Player p,double price)
@@ -102,7 +102,7 @@ public class MusicGUIListener implements Listener {
         String permission = "plotsettings.music." + music;
         double currentCash = PlotSettings.getEconomy().getBalance(p);
 
-        if (!p.hasPermission(permission))
+        if (!hasPermission(p,permission))
         {
             if (currentCash < price)
             {
@@ -114,16 +114,16 @@ public class MusicGUIListener implements Listener {
 
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(),"lp user " + p.getName() + " permission set " + permission + " true");
             sendPlayerMessage(p,"§7Du hast §c-" + price + "$ §7bezahlt!");
-
         }
+
         if (music.equalsIgnoreCase("BARRIER"))
         {
             plot.removeFlag(MusicFlag.class);
             sendPlayerMessage(p,replacePlaceholderChat("§aDie Music wurde %get_music_state%",p));
             return;
         }
-        plot.setFlag(MusicFlag.class,music);
 
+        plot.setFlag(MusicFlag.class,music);
         sendPlayerMessage(p,replacePlaceholderChat("§aDie Music wurde %get_music_state%",p));
 
         p.closeInventory();
