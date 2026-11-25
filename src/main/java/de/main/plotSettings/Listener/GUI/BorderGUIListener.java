@@ -5,7 +5,9 @@ import com.plotsquared.core.player.PlotPlayer;
 import com.plotsquared.core.plot.Plot;
 import com.plotsquared.core.plot.PlotManager;
 import com.plotsquared.core.util.PatternUtil;
+import de.main.plotSettings.PlotSettings;
 import org.bukkit.Material;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -19,9 +21,12 @@ import static de.main.plotSettings.Helper.permissionHelper.hasPermission;
 public class BorderGUIListener implements Listener {
 
     @EventHandler
-    public void onInventoryClick(InventoryClickEvent e) {
+    public void onInventoryClick(InventoryClickEvent e)
+    {
+        FileConfiguration file = PlotSettings.getInstance().getConfig();
+        String title = file.getString("guiName.border","Ränder");
 
-        Player p = getPlayerFromClick(e,"Ränder");
+        Player p = getPlayerFromClick(e,title);
         if (p == null)
             return;
 

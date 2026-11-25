@@ -1,7 +1,9 @@
 package de.main.plotSettings.GUI;
 
+import de.main.plotSettings.PlotSettings;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -43,13 +45,16 @@ public class WallGUI {
 
     public static void open(Player p)
     {
-        Inventory borderGUI = Bukkit.createInventory(null,45,"Wall");
-        int currentSlot = 0;
+        FileConfiguration file = PlotSettings.getInstance().getConfig();
+        String title = file.getString("guiName.wall","Wall");
+
+        Inventory borderGUI = Bukkit.createInventory(null,45,title);
+
 
         // Quit Button!
         setQuitButton(borderGUI,Material.BARRIER,35,"open.main");
 
-        // Nimmt sich alle Blocke
+        int currentSlot = 0;
         for (Material mat : BORDER_BLOCKS)
         {
             // Falls der Spieler rechte hat

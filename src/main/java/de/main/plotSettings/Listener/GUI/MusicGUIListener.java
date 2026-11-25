@@ -8,6 +8,7 @@ import de.main.plotSettings.GUI.MusicGUI;
 import de.main.plotSettings.PlotSettings;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -28,7 +29,10 @@ public class MusicGUIListener implements Listener {
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e)
     {
-        Player p = getPlayerFromClick(e,"§cMusic");
+        FileConfiguration file = PlotSettings.getInstance().getConfig();
+        String title = file.getString("guiName.music","§cMusic");
+
+        Player p = getPlayerFromClick(e,title);
         if (p == null)
             return;
 

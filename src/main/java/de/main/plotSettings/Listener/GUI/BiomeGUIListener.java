@@ -11,6 +11,7 @@ import de.main.plotSettings.PlotSettings;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -25,9 +26,12 @@ import static de.main.plotSettings.Helper.messageHelper.sendPlayerMessage;
 public class BiomeGUIListener implements Listener {
 
     @EventHandler
-    public void OnInventoryClick(InventoryClickEvent e) {
+    public void OnInventoryClick(InventoryClickEvent e)
+    {
+        FileConfiguration file = PlotSettings.getInstance().getConfig();
+        String title = file.getString("guiName.biome","§eBiome");
 
-        Player p = getPlayerFromClick(e,"§eBiome");
+        Player p = getPlayerFromClick(e,title);
         if (p == null)
             return;
 

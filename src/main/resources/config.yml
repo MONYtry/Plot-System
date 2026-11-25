@@ -2,4 +2,11 @@ messages:
   prefix: "§9§lPlayNetwork.net §7» "
 guiName:
   settings: "§7» §ePloteinstellungen"
-  main: ""
+  main: "Hauptmenü"
+  time: "§7» §eUhrzeit"
+  wall: "Wall"
+  music: "§cMusic"
+  weather: "§9Wetter"
+  biome: "§eBiome"
+  border: "Ränder"
+  reward: "rewards"

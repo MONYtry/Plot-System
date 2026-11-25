@@ -6,6 +6,7 @@ import de.main.plotSettings.PlotSettings;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -44,15 +45,17 @@ public class BiomeGUI {
             };
 
     public static void createBiomeGUI(Player p) {
-        Inventory biomeInventory = Bukkit.createInventory(null, 36, "§eBiome");
-        int currentSlot = 0;
+        FileConfiguration file = PlotSettings.getInstance().getConfig();
+        String title = file.getString("guiName.biome","§7» §ePloteinstellungen");
+
+        Inventory biomeInventory = Bukkit.createInventory(null, 36, title);
 
         // Quit Button!
         setQuitButton(biomeInventory,Material.BARRIER,35,"quitButton");
 
+        int currentSlot = 0;
         for (Map.Entry<BiomeType,Double> entry : biomeListe.entrySet())
         {
-            BiomeType biome = entry.getKey();
             String biomeName =  entry.getKey().toString().toLowerCase();
             double preis = entry.getValue();
 

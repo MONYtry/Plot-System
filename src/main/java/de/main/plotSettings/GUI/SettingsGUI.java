@@ -14,7 +14,6 @@ public class SettingsGUI {
         FileConfiguration file = PlotSettings.getInstance().getConfig();
         String title = file.getString("guiName.settings","§7» §ePloteinstellungen");
 
-
         Inventory plotRandGUI = Bukkit.createInventory(null,45,title);
 
         ItemCreator itemCreator = new ItemCreator();

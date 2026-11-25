@@ -4,6 +4,7 @@ import de.main.plotSettings.PlotSettings;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import org.bukkit.inventory.Inventory;
@@ -39,7 +40,10 @@ public class MusicGUI {
 
     public static void createMusicGUI(Player p)
     {
-        Inventory inventory = Bukkit.createInventory(null,36,"§cMusic");
+        FileConfiguration file = PlotSettings.getInstance().getConfig();
+        String title = file.getString("guiName.music","§cMusic");
+
+        Inventory inventory = Bukkit.createInventory(null,36,title);
         int currentSlot = 0;
 
         // Quit Button!

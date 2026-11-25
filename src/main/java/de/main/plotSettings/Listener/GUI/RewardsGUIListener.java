@@ -26,12 +26,14 @@ import static de.main.plotSettings.Helper.messageHelper.sendPlayerMessage;
 public class RewardsGUIListener implements Listener {
 
     @EventHandler
-    public void OnInventoryClick(InventoryClickEvent e) {
+    public void OnInventoryClick(InventoryClickEvent e)
+    {
+        FileConfiguration file = PlotSettings.getInstance().getConfig();
+        String title = file.getString("guiName.reward","§aBelohnungen");
 
-        Player p = getPlayerFromClick(e,"§aBelohnungen");
+        Player p = getPlayerFromClick(e,title);
         if (p == null)
             return;
-
 
         ItemStack item = e.getCurrentItem();
 

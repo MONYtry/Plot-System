@@ -4,6 +4,7 @@ import de.main.plotSettings.PlotSettings;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -27,8 +28,11 @@ public class TimeGUI {
             timeListe.put("remove",200);
         }
 
-    public static void createTimeGUI(Player p) {
-        Inventory timeInventory = Bukkit.createInventory(null, 36, "§eUhrzeit");
+    public static void createTimeGUI(Player p)
+    {
+        FileConfiguration file = PlotSettings.getInstance().getConfig();
+        String title = file.getString("guiName.time","§7» §eUhrzeit");
+        Inventory timeInventory = Bukkit.createInventory(null, 36, title);
         int currentSlot = 0;
 
         // Quit Button!

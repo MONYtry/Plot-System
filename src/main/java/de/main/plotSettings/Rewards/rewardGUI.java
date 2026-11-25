@@ -25,8 +25,11 @@ public class rewardGUI {
 
     public static void createRewardGUI(Player p)
     {
+        FileConfiguration file = PlotSettings.getInstance().getConfig();
+        String title = file.getString("guiName.reward","§aBelohnungen");
+
         // Inventory
-        Inventory inventory = Bukkit.createInventory(null, 36, "§aBelohnungen");
+        Inventory inventory = Bukkit.createInventory(null, 36, title);
 
         // Läd Datein
         FileConfiguration cfg = PlotSettings.getInstance().rewards;

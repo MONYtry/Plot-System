@@ -4,6 +4,7 @@ import de.main.plotSettings.PlotSettings;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -27,7 +28,10 @@ public class WeatherGUI {
 
     public static void createWeatherGUI(Player p)
     {
-        Inventory weatherGUI = Bukkit.createInventory(null,45,"§9Wetter");
+        FileConfiguration file = PlotSettings.getInstance().getConfig();
+        String title = file.getString("guiName.weather","§9Wetter");
+
+        Inventory weatherGUI = Bukkit.createInventory(null,45,title);
 
         // Quit Button!
         setQuitButton(weatherGUI, Material.BARRIER,35,"open.main");

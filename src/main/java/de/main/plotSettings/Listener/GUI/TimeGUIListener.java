@@ -17,6 +17,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -38,7 +39,10 @@ public class TimeGUIListener implements Listener {
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e)
     {
-        Player p = getPlayerFromClick(e,"§eUhrzeit");
+        FileConfiguration file = PlotSettings.getInstance().getConfig();
+        String title = file.getString("guiName.time","§eUhrzeit");
+
+        Player p = getPlayerFromClick(e,title);
         if (p == null)
             return;
 

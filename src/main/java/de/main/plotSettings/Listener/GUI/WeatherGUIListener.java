@@ -9,6 +9,7 @@ import de.main.plotSettings.PlotSettings;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -20,12 +21,16 @@ import static de.main.plotSettings.Helper.GUIHelper.checkQuitButton;
 import static de.main.plotSettings.Helper.GUIHelper.getPlayerFromClick;
 import static de.main.plotSettings.Helper.messageHelper.sendPlayerMessage;
 
-public class WeatherGUIListener implements Listener {
+public class WeatherGUIListener implements Listener
+{
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e)
     {
-        Player p = getPlayerFromClick(e,"§9Wetter");
+        FileConfiguration file = PlotSettings.getInstance().getConfig();
+        String title = file.getString("guiName.weather","§9Wetter");
+
+        Player p = getPlayerFromClick(e,title);
         if (p == null)
             return;
 
