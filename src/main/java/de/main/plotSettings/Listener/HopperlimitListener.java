@@ -12,6 +12,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 
+import static de.main.plotSettings.Helper.PlotHelper.getPlot;
+import static de.main.plotSettings.Helper.PlotHelper.getPlotPlayer;
 import static de.main.plotSettings.Helper.messageHelper.getPrefix;
 
 public class HopperlimitListener implements Listener {
@@ -25,14 +27,13 @@ public class HopperlimitListener implements Listener {
         // Holt sich den Spieler
         Player p = e.getPlayer();
 
-        PlotPlayer<?> plotPlayer = PlotSquared.platform().playerManager().getPlayer(p.getUniqueId());
+        PlotPlayer<?> plotPlayer = getPlotPlayer(p);
         if (plotPlayer == null)
             return;
 
-        Plot plot = plotPlayer.getCurrentPlot();
+        Plot plot = getPlot(p);
         if (plot == null)
             return;
-
 
         if (!plotPlayer.getCurrentPlot().isOwner(p.getUniqueId()) && !p.hasPermission("plotsettings.hopper-admin"))
         {
@@ -64,11 +65,7 @@ public class HopperlimitListener implements Listener {
 
         Player p = e.getPlayer();
 
-        PlotPlayer<?> plotPlayer = PlotSquared.platform().playerManager().getPlayer(p.getUniqueId());
-        if (plotPlayer == null)
-            return;
-
-        Plot plot = plotPlayer.getCurrentPlot();
+        Plot plot = getPlot(p);
         if (plot == null)
             return;
 

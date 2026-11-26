@@ -14,7 +14,6 @@ public class PlotCommand implements Listener {
         {
             e.setCancelled(true);
             PlotInfoGUI.createInfoGUI(e.getPlayer());
-
         }
     }
 }

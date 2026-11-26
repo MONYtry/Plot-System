@@ -21,6 +21,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
 import static de.main.plotSettings.Helper.GUIHelper.*;
+import static de.main.plotSettings.Helper.PlotHelper.getPlot;
 import static de.main.plotSettings.Helper.messageHelper.sendPlayerMessage;
 import static de.main.plotSettings.Helper.placeholder.replacePlaceholderChat;
 
@@ -65,21 +66,10 @@ public class BiomeGUIListener implements Listener {
 
     private void setBiome(Player p, String action) {
 
-        // PlotPlayer holen
-        PlotPlayer<?> plotPlayer = PlotSquared.platform().playerManager().getPlayer(p.getUniqueId());
-
-        if (plotPlayer == null) {
+        Plot plot = getPlot(p);
+        if (plot == null)
             return;
-        }
-
-        // Aktuelles Plot holen
-        Plot plot = plotPlayer.getCurrentPlot();
-
-        if (plot == null) {
-            sendPlayerMessage(p,"§cDu stehst auf keinem Plot!");
-            return;
-        }
-
+        
         String biomeName = action.substring("set_biome_".length()).toLowerCase();
 
         // Biome suchen

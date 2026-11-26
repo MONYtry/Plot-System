@@ -34,14 +34,6 @@ public class MainGUIListener implements Listener {
         if (p == null)
             return;
 
-        PlotPlayer<?> plotPlayer = PlotSquared.platform().playerManager().getPlayer(p.getUniqueId());
-        if (plotPlayer == null)
-            return;
-
-        Plot plot = plotPlayer.getCurrentPlot();
-        if (plot == null)
-            return;
-
         // Variable für den Block der Getroffen wurde!
         ItemStack item = e.getCurrentItem();
 

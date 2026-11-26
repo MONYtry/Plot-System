@@ -31,6 +31,8 @@ import java.util.Map;
 
 import static de.main.plotSettings.Helper.GUIHelper.checkQuitButton;
 import static de.main.plotSettings.Helper.GUIHelper.getPlayerFromClick;
+import static de.main.plotSettings.Helper.PlotHelper.getPlot;
+import static de.main.plotSettings.Helper.PlotHelper.getPlotPlayer;
 import static de.main.plotSettings.Helper.messageHelper.sendPlayerMessage;
 import static de.main.plotSettings.Helper.permissionHelper.hasPermission;
 import static de.main.plotSettings.Helper.placeholder.replacePlaceholderChat;
@@ -48,10 +50,10 @@ public class TimeGUIListener implements Listener {
         if (p == null)
             return;
 
-        PlotPlayer<?> plotPlayer = PlotSquared.platform().playerManager().getPlayer(p.getUniqueId());
+        PlotPlayer<?> plotPlayer = getPlotPlayer(p);
         if (plotPlayer == null) return;
 
-        Plot plot = plotPlayer.getCurrentPlot();
+        Plot plot = getPlot(p);
         if (plot == null) return;
 
         // Variable für den Block der Getroffen wurde!
