@@ -47,8 +47,6 @@ public class BorderGUIListener implements Listener {
         if (item == null || !item.hasItemMeta())
             return;
 
-
-
         if (checkQuitButton(item,p))
             return;
 

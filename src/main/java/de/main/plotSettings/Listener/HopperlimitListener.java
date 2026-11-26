@@ -12,6 +12,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 
+import static de.main.plotSettings.Helper.messageHelper.getPrefix;
+
 public class HopperlimitListener implements Listener {
 
     @EventHandler
@@ -24,12 +26,14 @@ public class HopperlimitListener implements Listener {
         Player p = e.getPlayer();
 
         PlotPlayer<?> plotPlayer = PlotSquared.platform().playerManager().getPlayer(p.getUniqueId());
-        if (plotPlayer == null) return;
+        if (plotPlayer == null)
+            return;
 
         Plot plot = plotPlayer.getCurrentPlot();
-        if (plot == null) return;
+        if (plot == null)
+            return;
 
-        // ################ ANTI - TRUST ################ //
+
         if (!plotPlayer.getCurrentPlot().isOwner(p.getUniqueId()) && !p.hasPermission("plotsettings.hopper-admin"))
         {
             e.setCancelled(true);
@@ -38,57 +42,66 @@ public class HopperlimitListener implements Listener {
         }
 
         FileConfiguration plot_hopper_config = PlotSettings.getInstance().plot;
-        FileConfiguration messages = PlotSettings.getInstance().messages;
+        String path = "plots." + plot.getId() + ".settings.";
 
-        String prefix = messages.getString("messages.prefix");
-        String path = "plots." + plot.getId();
+        int hopper_limit = plot_hopper_config.getInt(path + "hopper-limit",20);
+        int hoppers_placed = plot_hopper_config.getInt(path + "hopper-placed");
 
-        int hopper_limit = plot_hopper_config.getInt(path + ".settings.hopper-limit",20);
-        int hoppers_placed = plot_hopper_config.getInt(path + ".settings.hopper-placed");
-
-
-        if (hoppers_placed >= hopper_limit) {
-            e.setCancelled(true);
-            p.sendMessage(prefix + "§cDu kannst maximal §e" + hopper_limit + " §cHopper auf diesem Plot haben!");
+        if ( handleHopper(hopper_limit,hoppers_placed,false,p) == -1)
             return;
-        }
 
-        hoppers_placed++;
-        String current_state = "§e[#" + hoppers_placed + "] §7/ §e[#" + hopper_limit + "]";
-        p.sendMessage(prefix + "§7Hopper wurde erfolgreich Platziert "+ current_state);
+        hoppers_placed = handleHopper(hopper_limit,hoppers_placed,false,p);
 
-        plot_hopper_config.set(path + ".settings.hopper-placed",hoppers_placed);
+        plot_hopper_config.set(path + "hopper-placed",hoppers_placed);
         PlotSettings.getInstance().savePlot();
     }
 
     @EventHandler
     public void onHopperBreak(BlockBreakEvent e)
     {
-        if (e.getBlock().getType() != Material.HOPPER) return;
+        if (e.getBlock().getType() != Material.HOPPER)
+            return;
 
         Player p = e.getPlayer();
 
         PlotPlayer<?> plotPlayer = PlotSquared.platform().playerManager().getPlayer(p.getUniqueId());
-        if (plotPlayer == null);
+        if (plotPlayer == null)
+            return;
 
         Plot plot = plotPlayer.getCurrentPlot();
-        if (plot == null) return;
+        if (plot == null)
+            return;
 
         FileConfiguration plot_hopper_config = PlotSettings.getInstance().plot;
-        FileConfiguration messages = PlotSettings.getInstance().messages;
 
-        String prefix = messages.getString("messages.prefix");
-        String path = "plots." + plot.getId();
+        String path = "plots." + plot.getId() + ".settings.";
 
+        int hopper_limit = plot_hopper_config.getInt(path + "hopper-limit",20);
+        int hoppers_placed = plot_hopper_config.getInt(path + "hopper-placed");
 
-        int hopper_limit = plot_hopper_config.getInt(path + ".settings.hopper-limit",20);
-        int hoppers_placed = plot_hopper_config.getInt(path + ".settings.hopper-placed");
+        hoppers_placed = handleHopper(hopper_limit,hoppers_placed,true,p);
 
-        hoppers_placed--;
-        String current_state = "§e[#" + hoppers_placed + "] §7/ §e[#" + hopper_limit + "]";
-        p.sendMessage(prefix + "§7Hopper wurde erfolgreich entfernt " + current_state);
-
-        plot_hopper_config.set(path + ".settings.hopper-placed",hoppers_placed);
+        plot_hopper_config.set(path + "hopper-placed",hoppers_placed);
         PlotSettings.getInstance().savePlot();
+    }
+
+    private int handleHopper(int hopper_limit, int hoppers_placed, boolean isBlockBroken,Player p)
+    {
+        if (isBlockBroken)
+        {
+            hoppers_placed--;
+            return hoppers_placed;
+        }
+        else
+        {
+            // Falls Limit erreicht wurde, abbruch
+            if (hoppers_placed >= hopper_limit) {
+                p.sendMessage(getPrefix() + "§cDu kannst maximal §e" + hopper_limit + " §cHopper auf diesem Plot haben!");
+                return -1;
+            }
+
+            hoppers_placed++;
+            return hoppers_placed;
+        }
     }
 }
