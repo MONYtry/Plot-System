@@ -76,6 +76,9 @@ public class HopperlimitListener implements Listener {
         int hopper_limit = plot_hopper_config.getInt(path + "hopper-limit",20);
         int hoppers_placed = plot_hopper_config.getInt(path + "hopper-placed");
 
+        if ( handleHopper(hopper_limit,hoppers_placed,true,p) == -1)
+            return;
+
         hoppers_placed = handleHopper(hopper_limit,hoppers_placed,true,p);
 
         plot_hopper_config.set(path + "hopper-placed",hoppers_placed);
@@ -86,6 +89,10 @@ public class HopperlimitListener implements Listener {
     {
         if (isBlockBroken)
         {
+            if (0 >= hoppers_placed)
+            {
+                return -1;
+            }
             hoppers_placed--;
             return hoppers_placed;
         }
