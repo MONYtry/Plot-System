@@ -19,6 +19,7 @@ import java.util.*;
 import static de.main.plotSettings.Helper.PlotDataHelper.*;
 import static de.main.plotSettings.Helper.PlotFlagHelper.getEntityCap;
 import static de.main.plotSettings.Helper.PlotFlagHelper.getHopperCap;
+import static de.main.plotSettings.Helper.PlotHelper.getPlotPlayer;
 
 public class PlotGUIHelper {
 
@@ -28,13 +29,12 @@ public class PlotGUIHelper {
     // * WICHTIG *
     public static void createCapBlock(Inventory inventory, Player p,int slot, Plot plot)
     {
-        Material displayMaterial = null;
+        Material displayMaterial;
 
         // Spieler ist nicht auf einem Grundstück!
         if (plot == null)
         {
             p.sendMessage("§7Kein Grundstück gefunden!");
-            displayMaterial = Material.BARRIER;
             return;
         }
 
@@ -61,13 +61,13 @@ public class PlotGUIHelper {
 
     public static void createPlotMemberBlock(Inventory inventory, Player p,int Slot,Plot plot)
     {
-        Material displayMaterial = null;
+        Material displayMaterial;
 
         // Spieler ist nicht auf einem Grundstück!
         if (plot == null)
         {
             p.sendMessage("§7Kein Grundstück gefunden!");
-            displayMaterial = Material.BARRIER;
+            return;
         }
 
         // Item erstellen
@@ -97,7 +97,7 @@ public class PlotGUIHelper {
         if (plot == null)
         {
             p.sendMessage("§7Kein Grundstück gefunden!");
-            displayMaterial = Material.BARRIER;
+            return;
         }
 
         // Item erstellen
@@ -125,7 +125,7 @@ public class PlotGUIHelper {
         if (plot == null)
         {
             p.sendMessage("§7Kein Grundstück gefunden!");
-            displayMaterial = Material.BARRIER;
+            return;
         }
 
         // Item erstellen
@@ -153,7 +153,7 @@ public class PlotGUIHelper {
         if (plot == null)
         {
             p.sendMessage("§7Kein Grundstück gefunden!");
-            displayMaterial = Material.BARRIER;
+            return;
         }
 
         displayMaterial = Material.REDSTONE_TORCH;
@@ -162,8 +162,6 @@ public class PlotGUIHelper {
         ItemMeta ratingsItemMeta = ratingsItem.getItemMeta();
 
         ratingsItemMeta.setDisplayName("§6Plot-Bewertungen");
-
-
 
         // Lore erstellen
         ArrayList ratingsItemLore = new ArrayList<>();
@@ -176,9 +174,8 @@ public class PlotGUIHelper {
             ratingsItemLore.add("§7Level: §9"+ level);
         }
         else
-        {
             ratingsItemLore.add("§7Level: §cUnbekannt");
-        }
+
 
         // Rating
         double averageRating = plot.getAverageRating();
@@ -193,9 +190,8 @@ public class PlotGUIHelper {
             ratingsItemLore.add("§7Bewertungen: §e" + allRatings.size());
         }
         else
-        {
             ratingsItemLore.add("§7Bewertung: §cNoch keine Bewertung erhalten!");
-        }
+
 
         ratingsItemMeta.setLore(ratingsItemLore);
 
@@ -207,13 +203,13 @@ public class PlotGUIHelper {
     public static void createInfoBlock(Inventory inventory, Player p, int Slot,Plot plot)
     {
 
-        Material displayMaterial = null;
+        Material displayMaterial;
 
         // Spieler ist nicht auf einem Grundstück!
         if (plot == null)
         {
             p.sendMessage("§7Kein Grundstück gefunden!");
-            displayMaterial = Material.BARRIER;
+            return;
         }
 
         // Item erstellen
@@ -243,9 +239,10 @@ public class PlotGUIHelper {
 
     public static void createPlotsListGUI(Player p, Inventory inventory, int startSlot, int endSlot)
     {
-        PlotPlayer<?> plotPlayer = PlotSquared.platform().playerManager().getPlayer(p.getUniqueId());
+        PlotPlayer<?> plotPlayer = getPlotPlayer(p);
 
-        if (plotPlayer == null) return;
+        if (plotPlayer == null)
+            return;
 
         List<Plot> plots = new ArrayList<>(plotPlayer.getPlots());
 
